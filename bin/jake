@@ -1,0 +1,33 @@
+#!/usr/bin/env julia
+
+import Jake
+
+function target{T<:Jake.AbstractTarget}(::Type{T}, name::String, action::Function, dependencies::AbstractArray)
+    t = Jake.resolve(name)
+    if t === nothing
+        t = T(name)
+        Jake.register(t)
+    end
+    Jake.add_action(t, action)
+    for d in dependencies
+        Jake.add_dependency(t, d)
+    end
+end
+
+for (f,T) in ((:file,:FileTarget),
+              (:phony,:PhonyTarget))
+    @eval begin
+        $f(action::Function, name::String, dependencies=[]) = target(Jake.$T, name, action, dependencies)
+        $f(name::String, dependencies=[]) = target(Jake.$T, name, ()->nothing, dependencies)
+    end
+end
+
+require("Jakefile")
+
+if length(ARGS) == 0
+    Jake.invoke("default")
+else
+    for arg in ARGS
+        Jake.invoke(arg)
+    end
+end
