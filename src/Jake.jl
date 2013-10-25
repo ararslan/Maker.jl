@@ -7,7 +7,6 @@ export AbstractTarget,
        add_dependency,
        dependencies,
        execute,
-       invoke,
        isstale,
        register,
        timestamp
