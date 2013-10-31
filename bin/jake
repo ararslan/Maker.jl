@@ -25,9 +25,9 @@ end
 require("Jakefile")
 
 if length(ARGS) == 0
-    Jake.invoke("default")
+    Jake.satisfy("default")
 else
     for arg in ARGS
-        Jake.invoke(arg)
+        Jake.satisfy(arg)
     end
 end

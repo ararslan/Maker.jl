@@ -35,13 +35,13 @@ dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
 
 execute(t::AbstractTarget) = for a in t.actions; a() end
 
-function invoke(t::AbstractTarget)
+function satisfy(t::AbstractTarget)
     for d in dependencies(t)
-        invoke(d)
+        satisfy(d)
     end
     isstale(t) && execute(t)
 end
-invoke(s::String) = invoke(resolve(s))
+satisfy(s::String) = invoke(resolve(s))
 
 function isstale(t::FileTarget)
     if !isfile(t.name) return true end
