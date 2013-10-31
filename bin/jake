@@ -3,7 +3,7 @@
 import Jake
 
 function target{T<:Jake.AbstractTarget}(::Type{T}, name::String, action::Function, dependencies::AbstractArray)
-    t = Jake.resolve(name)
+    t = Jake.resolve(name, nothing)
     if t === nothing
         t = T(name)
         Jake.register(t)

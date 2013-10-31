@@ -51,7 +51,13 @@ end
 isstale(t::AbstractTarget) = true
 
 register(t::AbstractTarget) = (TARGETS[t.name] = t; nothing)
-resolve(s::String) = get(TARGETS, utf8(s), nothing)
+resolve(s::String, default) = get(TARGETS, utf8(s), default)
+function resolve(s::String)
+    t = resolve(s, nothing)
+    t === nothing && error("no rule for target '$s'")
+    t
+end
+
 
 timestamp(t::FileTarget) = mtime(t.name)
 timestamp(t::AbstractTarget) = time()
