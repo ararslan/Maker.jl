@@ -33,7 +33,7 @@ add_dependency(t::AbstractTarget, d::String) = push!(t.dependencies, utf8(d))
 
 dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
 
-execute(t::AbstractTarget) = for a in t.actions; a() end
+execute(t::AbstractTarget) = for a in t.actions; a(t) end
 
 function satisfy(t::AbstractTarget)
     for d in dependencies(t)
