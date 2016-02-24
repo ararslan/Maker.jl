@@ -9,8 +9,7 @@ abstract AbstractTarget
 
 const TARGETS = ObjectIdDict()
     
-function moduletargets()
-    m = current_module()
+function moduletargets(m::Module = current_module())
     if !haskey(TARGETS, m)
         TARGETS[m] = Dict{UTF8String,AbstractTarget}()
     end
@@ -21,7 +20,7 @@ for T in (:FileTarget, :PhonyTarget)
     @eval begin
         type $T <: AbstractTarget
             name::UTF8String
-            dependencies::Array{UTF8String,1}
+            dependencies::Array{AbstractTarget,1}
             action::Function
             funhash::UInt64
             isstale::Bool
@@ -31,7 +30,7 @@ end
 
 type VariableTarget <: AbstractTarget
     name::UTF8String
-    dependencies::Array{UTF8String,1}
+    dependencies::Array{AbstractTarget,1}
     action::Function
     funhash::UInt64
     isstale::Bool
@@ -60,7 +59,7 @@ end
 
 Return the dependencies of a target.
 """
-dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
+dependencies(t::AbstractTarget) = t.dependencies
 
 """
 `execute(t::AbstractTarget)`
@@ -83,9 +82,13 @@ function updatetimestamp!(t::VariableTarget, maxtime)
 end
 
 """
-`make(name::AbstractString = "default")`
+```julia
+make(name::AbstractString = "default")
+make(name::AbstractString, m::Module)
+make(m::Module)
+```
 
-Update target `name` after updating its dependencies. 
+Update target `name` in Module `m` after updating its dependencies. 
 """
 function make(t::AbstractTarget)
     maxtime = 0.0
@@ -98,7 +101,8 @@ function make(t::AbstractTarget)
     updatetimestamp!(t, maxtime)
     nothing
 end
-make(s::AbstractString = "default") = make(resolve(s))
+make(s::AbstractString = "default", m::Module = current_module()) = make(resolve(s, m))
+make(m::Module) = make("default", m)
 
 """
 `isstale(t::AbstractTarget)`
@@ -134,13 +138,17 @@ register(t::AbstractTarget) = (moduletargets()[t.name] = t; nothing)
 
 
 """
-`resolve(s::AbstractString)`
+```julia
+resolve(s::AbstractString)
+resolve(s::AbstractString, m::Module)
+```
 
 Return the target registered under name `s`.
 """
+resolve(s::AbstractString, m::Module, default) = get(moduletargets(m), utf8(s), default)
 resolve(s::AbstractString, default) = get(moduletargets(), utf8(s), default)
-function resolve(s::AbstractString = "default")
-    t = resolve(s, nothing)
+function resolve(s::AbstractString = "default", m::Module = current_module())
+    t = resolve(s, m, nothing)
     t === nothing && error("no rule for target '$s'")
     t
 end
@@ -164,12 +172,8 @@ Define and register a target of type `T`.
 function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
     t = resolve(name, nothing)
     fh = funhash(action)
-    if t === nothing
-        t = T(name, dependencies, action, fh, false)
-        register(t)
-    elseif fh != t.funhash 
-        t = T(name, dependencies, action, fh, false)
-        register(t)
+    if t === nothing || fh != t.funhash 
+        register(T(name, [resolve(d) for d in dependencies], action, fh, false))
     end
 end
 target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =
@@ -178,12 +182,8 @@ target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dep
 function target(::Type{VariableTarget}, name::AbstractString, action::Function, dependencies::AbstractArray)
     t = resolve(name, nothing)
     fh = funhash(action)
-    if t === nothing
-        t = VariableTarget(name, dependencies, action, fh, true, 0.0, 0)
-        register(t)
-    elseif fh != t.funhash || dependencies != t.dependencies
-        t = VariableTarget(name, dependencies, action, fh, true, 0.0, 0)
-        register(t)
+    if t === nothing || fh != t.funhash || dependencies != [x.name for x in t.dependencies]
+        register(VariableTarget(name, [resolve(d) for d in dependencies], action, fh, true, 0.0, 0))
     end
 end
 
