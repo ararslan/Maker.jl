@@ -93,19 +93,9 @@ Here are some miscellaneous questions and open issues on this approach:
   Zero arguments is easier and looks cleaner with do syntax, but it might be
   useful in some cases to have the target as an argument.
   
-- Right now, there's no way to enter "rules". Given the focus on code for data
-  analytics, I'm not sure how critical this is.
-  
 - I'm not sure what to provide for iteration over tasks and targets. This 
   might include wildcards for files. Filename extension utilities might also
   help.
-
-- It'd be nice not to have to explicitly specify files used as dependencies. 
-  Maybe if the file by that name exists and the string isn't currently a target,
-  we could auto-add it as a target.
-  
-- Right now, all targets are named with strings. It might be nice to allow
-  symbols for variable and task targets. Rake and Juke.jl do this.
 
 - Parallel operation may be tricky. One may have to be careful using 
   `@everywhere` and friends with Make.jl. Each process might try to update 
@@ -114,6 +104,19 @@ Here are some miscellaneous questions and open issues on this approach:
   they come to Julia). 
   
 - API to help with debugging might help.
-    
+
+- File targets are based on the current working directory. It might be better
+  to use `@__FILE__` to work out the path.
+  
+- Would there be a way to attach docstrings to targets? You can attach a 
+  docstring to a generic functions used as an action of a target. 
+
+- Here are additional Rake features that may be nice:
+  - Targets named with Symbols
+  - A `directory` target
+  - `FileLists`
+  - Rules
+  - Ability to pass arguments to actions (with `make("mytarget", arg1, arg2)`)
+  - `Make.clean` that generates a "clean" target
 
   
