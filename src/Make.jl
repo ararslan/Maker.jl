@@ -7,20 +7,13 @@ export make,
 
 abstract AbstractTarget
 
-const TARGETS = ObjectIdDict()
-    
-function moduletargets(m::Module = current_module())
-    if !haskey(TARGETS, m)
-        TARGETS[m] = Dict{UTF8String,AbstractTarget}()
-    end
-    TARGETS[m]
-end
+const TARGETS = Dict{UTF8String,AbstractTarget}()
     
 for T in (:FileTarget, :PhonyTarget)
     @eval begin
         type $T <: AbstractTarget
             name::UTF8String
-            dependencies::Array{AbstractTarget,1}
+            dependencies::Vector{UTF8String}
             action::Function
             funhash::UInt64
             isstale::Bool
@@ -30,12 +23,13 @@ end
 
 type VariableTarget <: AbstractTarget
     name::UTF8String
-    dependencies::Array{AbstractTarget,1}
+    dependencies::Vector{UTF8String}
     action::Function
     funhash::UInt64
     isstale::Bool
     timestamp::Float64
     varhash::UInt64
+    m::Module
 end
 
 # VariableTarget(name::AbstractString, dependencies=UTF8String[], action=()->nothing, 
@@ -48,7 +42,7 @@ end
 # Not meant to be used externally.
 function funhash(f::Function)
     if isdefined(f, :code) # handles anonymous functions
-        hash(f.code)
+        hash(string(f.code))
     else
         hash(code_lowered(f, ())) # handles generic functions
     end
@@ -59,7 +53,7 @@ end
 
 Return the dependencies of a target.
 """
-dependencies(t::AbstractTarget) = t.dependencies
+dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
 
 """
 `execute(t::AbstractTarget)`
@@ -69,7 +63,7 @@ Run the action for target `t`.
 execute(t::AbstractTarget) = t.action()
 function execute(t::VariableTarget)
     x = t.action()
-    eval(current_module(), :($(symbol(t.name)) = $x))
+    eval(t.m, :($(symbol(t.name)) = $x))
     t.varhash = hash(x)
 end
 
@@ -84,25 +78,27 @@ end
 """
 ```julia
 make(name::AbstractString = "default")
-make(name::AbstractString, m::Module)
-make(m::Module)
 ```
 
-Update target `name` in Module `m` after updating its dependencies. 
+Update target `name` after updating its dependencies. 
 """
 function make(t::AbstractTarget)
     maxtime = 0.0
+    hasrun = false
     for d in dependencies(t)
-        make(d)
+        hasrun |= make(d)
         maxtime = max(maxtime, timestamp(d))
     end
-    isstale(t) && execute(t)
-    t.isstale = false
     updatetimestamp!(t, maxtime)
-    nothing
+    if isstale(t) || hasrun
+        execute(t)
+        t.isstale = false
+        return true
+    else
+        return false
+    end
 end
-make(s::AbstractString = "default", m::Module = current_module()) = make(resolve(s, m))
-make(m::Module) = make("default", m)
+make(s::AbstractString = "default") = make(resolve(s))
 
 """
 `isstale(t::AbstractTarget)`
@@ -118,8 +114,8 @@ function isstale(t::FileTarget)
     length(ds) == 0 ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
 end
 function isstale(t::VariableTarget)
-    if !isdefined(current_module(), symbol(t.name)) || t.isstale ||
-       hash(eval(current_module(), symbol(t.name))) != t.varhash
+    if !isdefined(t.m, symbol(t.name)) || t.isstale ||
+       hash(eval(t.m, symbol(t.name))) != t.varhash
         # println("$(t.name) is stale")
         return true 
     end
@@ -134,21 +130,19 @@ isstale(t::AbstractTarget) = true
 
 Register target `t`. `make` only looks for registered targets.
 """
-register(t::AbstractTarget) = (moduletargets()[t.name] = t; nothing)
+register(t::AbstractTarget) = (TARGETS[t.name] = t; nothing)
 
 
 """
 ```julia
 resolve(s::AbstractString)
-resolve(s::AbstractString, m::Module)
 ```
 
 Return the target registered under name `s`.
 """
-resolve(s::AbstractString, m::Module, default) = get(moduletargets(m), utf8(s), default)
-resolve(s::AbstractString, default) = get(moduletargets(), utf8(s), default)
-function resolve(s::AbstractString = "default", m::Module = current_module())
-    t = resolve(s, m, nothing)
+resolve(s::AbstractString, default) = get(TARGETS, utf8(s), default)
+function resolve(s::AbstractString = "default")
+    t = resolve(s, nothing)
     t === nothing && error("no rule for target '$s'")
     t
 end
@@ -173,7 +167,7 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
     t = resolve(name, nothing)
     fh = funhash(action)
     if t === nothing || fh != t.funhash 
-        register(T(name, [resolve(d) for d in dependencies], action, fh, false))
+        register(T(name, dependencies, action, fh, false))
     end
 end
 target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =
@@ -182,8 +176,13 @@ target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dep
 function target(::Type{VariableTarget}, name::AbstractString, action::Function, dependencies::AbstractArray)
     t = resolve(name, nothing)
     fh = funhash(action)
-    if t === nothing || fh != t.funhash || dependencies != [x.name for x in t.dependencies]
-        register(VariableTarget(name, [resolve(d) for d in dependencies], action, fh, true, 0.0, 0))
+    if t === nothing || fh != t.funhash || dependencies != t.dependencies
+        println("Redefining $name.")
+        # @show dependencies
+        # @show t
+        # @show fh
+        t != nothing && @show t.funhash
+        register(VariableTarget(name, dependencies, action, fh, true, 0.0, 0, current_module()))
     end
 end
 
@@ -191,8 +190,8 @@ for (f,T) in ((:file,:FileTarget),
               (:task,:PhonyTarget),
               (:variable,:VariableTarget))
     @eval begin
-        $f(action::Function, name::AbstractString, dependencies=[]) = target($T, name, action, dependencies)
-        $f(name::AbstractString, dependencies=[]) = target($T, name, ()->nothing, dependencies)
+        $f(action::Function, name::AbstractString, dependencies=UTF8String[]) = target($T, name, action, dependencies)
+        $f(name::AbstractString, dependencies=UTF8String[]) = target($T, name, ()->nothing, dependencies)
     end
 end
 
@@ -213,7 +212,7 @@ Define and register targets for Make.jl.
   for this target before running the `action`. These are also referred
   to as prerequisites.
 
-Targets are registered by Module. 
+Targets are registered globally.
 
 `file` targets use the name of the file as the name of the target.
 File targets use timestamps to determine when targets need to be
@@ -225,10 +224,10 @@ dependencies. These are equivalent to PHONY targets in Makefiles.
 dependencies. `task` targets always update. So, if a `file` target
 depends on a `task` target, it will always update.
 
-`variable` targets define an action, and the result of the action
-will be assigned to a global variable (within the Module) named
-by the argument `name`. A `variable` task keeps a timestamp based on
-the largest timestamp of dependencies.
+`variable` targets define an action, and the result of the action will be
+assigned to a global variable (within the Module where the  definition is
+created) named by the argument `name`. A `variable` task keeps a timestamp based
+on the largest timestamp of dependencies.
 
 If the `action` or `dependencies` of a target are redefined, the
 target will be marked as stale, and the action will be updated
