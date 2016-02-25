@@ -77,28 +77,45 @@ end
 
 """
 ```julia
-make(name::AbstractString = "default")
+make(name::AbstractString = "default"; 
+     dryrun::Bool = false, verbose::Bool = false)
 ```
 
-Update target `name` after updating its dependencies. 
+Update target `name` after updating its dependencies. Returns a Bool 
+indicating if any actions were run.
+
+If keyword argument `verbose` is set, the chain of targets and dependencies
+is shown.
+
+If keyword argument `dryrun` is set, the chain of targets and actions
+is shown but not run.
 """
-function make(t::AbstractTarget)
+function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
+    if verbose
+        println(("-" ^ level) * " \"$(t.name)\"")
+    end
     maxtime = 0.0
     hasrun = false
     for d in dependencies(t)
-        hasrun |= make(d)
+        hasrun |= make(d, level + 1, dryrun, verbose)
         maxtime = max(maxtime, timestamp(d))
     end
     updatetimestamp!(t, maxtime)
     if isstale(t) || hasrun
-        execute(t)
-        t.isstale = false
+        if verbose || dryrun
+            println(("*" ^ level) * " Execute \"$(t.name)\"")
+        end
+        if !dryrun
+            execute(t)
+            t.isstale = false
+        end
         return true
     else
         return false
     end
 end
-make(s::AbstractString = "default") = make(resolve(s))
+make(s::AbstractString = "default"; dryrun = false, verbose = false) = 
+    make(resolve(s), 1, dryrun, verbose)
 
 """
 `isstale(t::AbstractTarget)`
