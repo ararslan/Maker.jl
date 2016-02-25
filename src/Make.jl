@@ -65,6 +65,7 @@ function execute(t::VariableTarget)
     x = t.action()
     eval(t.m, :($(symbol(t.name)) = $x))
     t.varhash = hash(x)
+    # t.timestamp += 1   # increment by a bit to force upstream's to recalculate
 end
 
 
@@ -194,11 +195,11 @@ function target(::Type{VariableTarget}, name::AbstractString, action::Function, 
     t = resolve(name, nothing)
     fh = funhash(action)
     if t === nothing || fh != t.funhash || dependencies != t.dependencies
-        println("Redefining $name.")
+        # println("Redefining $name.")
         # @show dependencies
         # @show t
         # @show fh
-        t != nothing && @show t.funhash
+        # t != nothing && @show t.funhash
         register(VariableTarget(name, dependencies, action, fh, true, 0.0, 0, current_module()))
     end
 end

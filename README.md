@@ -119,4 +119,4 @@ Here are some miscellaneous questions and open issues on this approach:
   - Ability to pass arguments to actions (with `make("mytarget", arg1, arg2)`)
   - `Make.clean` that generates a "clean" target
 
-  
+**Note: the dependency-resolution for `variable` targets is not working right. I think I'll need to store some information in files to remember hashes and timestamps.**  
