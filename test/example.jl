@@ -63,13 +63,13 @@ end
 
 make()
 
-println("-- Touch'ing in1.csv...")
+println("== Touch'ing in1.csv...")
 
 run(`touch in1.csv`)
 
 make()
 
-println("-- Changing df...")
+println("== Changing df...")
 
 df[1,:a] = 3
 

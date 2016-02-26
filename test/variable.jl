@@ -24,6 +24,8 @@ Make.variable("c", ["a", "b"]) do
     a * b
 end
 
+make("a")
+make("b")
 make("c")
 
 @test a ≈ pi
@@ -36,7 +38,7 @@ Make.variable("a") do
     2pi
 end
 
-make("c")
+make("c", verbose = true)
 
 @test a ≈ 2pi
 @test b ≈ x 
@@ -68,38 +70,6 @@ make("c")
 @test a ≈ pi
 @test c ≈ pi * x 
 
-module X
-
-Make.variable("x") do
-    27
-end
-
-Make.variable("y", "x") do
-    x - 2
-end
-
-function change_y()
-    Make.variable("y", "x") do
-        x + 3
-    end
-end
-
-make("y")
-
-end # module
-
-@test X.x == 27
-@test X.y == 25
-
-X.change_y()
-
-@test X.x == 27
-@test X.y == 25
-
-make("y")
-
-@test X.x == 27
-@test X.y == 30
 
 rm("b.csv")
 

@@ -1,5 +1,7 @@
 module Make
 
+using JLD
+
 export make,
        file,
        task,
@@ -7,8 +9,10 @@ export make,
 
 abstract AbstractTarget
 
-const TARGETS = Dict{UTF8String,AbstractTarget}()
-    
+const TARGETS = Dict{UTF8String, AbstractTarget}()
+const CACHEFILE = ".make-cache.jld"
+
+
 for T in (:FileTarget, :PhonyTarget)
     @eval begin
         type $T <: AbstractTarget
@@ -27,14 +31,78 @@ type VariableTarget <: AbstractTarget
     action::Function
     funhash::UInt64
     isstale::Bool
-    timestamp::Float64
+    timestamp::DateTime
     varhash::UInt64
     m::Module
 end
 
-# VariableTarget(name::AbstractString, dependencies=UTF8String[], action=()->nothing, 
-#                funhash=0, isstale=true, timestamp=Inf, varhash=0) = 
-#     VariableTarget(utf8(name), dependencies, action, funhash, isstale, timestamp, varhash)
+function gettarget(name::AbstractString, default)
+    get(TARGETS, utf8(name), default)
+    # if !isfile(CACHEFILE)    
+    #     return default
+    # end
+    # jldopen(CACHEFILE, "r") do f
+    #     if name in names(f)
+    #         return f[utf8(name)]
+    #     else
+    #         return default
+    #     end
+    # end
+end
+
+cached(t::AbstractTarget) = Dict{Symbol, Any}(:funhash => t.funhash, :isstale => t.isstale)
+cached(t::VariableTarget) = Dict{Symbol, Any}(:funhash => t.funhash, :isstale => t.isstale,
+    :timestamp => t.timestamp, :varhash => t.varhash)
+
+function updatecache!(f::JLD.JldFile, t::FileTarget)
+    if t.name in names(f)
+        if read(f[t.name])[:funhash] != t.funhash
+            # t.isstale = true
+        end
+        delete!(f, t.name)
+    end
+    write(f, t.name, cached(t))
+end
+
+function updatecache!(f::JLD.JldFile, t::VariableTarget)
+    if t.name in names(f)
+        if read(f[t.name])[:funhash] != t.funhash ||
+           read(f[t.name])[:varhash] != t.varhash || 
+           !isdefined(t.m, symbol(t.name))
+            # t.isstale = true
+        end
+        delete!(f, t.name)
+    end
+    write(f, t.name, cached(t))
+end
+
+function getjld(fun::Function)
+    if !isfile(CACHEFILE)    
+        f = jldopen(CACHEFILE, "w")
+    else
+        f = jldopen(CACHEFILE, "r+")
+    end
+    try
+        fun(f)
+    finally
+        close(f)
+    end
+end
+
+function updatecache!(f::JLD.JldFile, t::AbstractTarget)
+    if t.name in names(f)
+        delete!(f, t.name)
+    end
+    write(f, t.name, cached(t))
+end
+updatecache!(t::AbstractTarget) = getjld() do f
+    updatecache!(f, t)
+end
+
+settarget(name::AbstractString, t::AbstractTarget) = getjld() do f
+    updatecache!(f, t)
+    TARGETS[utf8(name)] = t
+end
 
 # Find the hash of an anonymous or generic function. The global
 # is to have the same hash if the function code is the same. This
@@ -60,12 +128,22 @@ dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
 
 Run the action for target `t`.
 """
-execute(t::AbstractTarget) = t.action()
+function execute(t::AbstractTarget) 
+    t.action()
+    t.isstale = false
+end
 function execute(t::VariableTarget)
     x = t.action()
     eval(t.m, :($(symbol(t.name)) = $x))
-    t.varhash = hash(x)
-    # t.timestamp += 1   # increment by a bit to force upstream's to recalculate
+    newhash = hash(x)
+    if t.varhash != newhash
+        # @show t.varhash
+        # @show newhash
+        t.timestamp = Dates.unix2datetime(time())
+        t.varhash = newhash
+    end
+    t.isstale = false
+    updatecache!(t)
 end
 
 
@@ -95,25 +173,18 @@ function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
     if verbose
         println(("-" ^ level) * " \"$(t.name)\"")
     end
-    maxtime = 0.0
-    hasrun = false
     for d in dependencies(t)
-        hasrun |= make(d, level + 1, dryrun, verbose)
-        maxtime = max(maxtime, timestamp(d))
+        make(d, level + 1, dryrun, verbose)
     end
-    updatetimestamp!(t, maxtime)
-    if isstale(t) || hasrun
+    if isstale(t)
         if verbose || dryrun
             println(("*" ^ level) * " Execute \"$(t.name)\"")
         end
         if !dryrun
             execute(t)
-            t.isstale = false
         end
-        return true
-    else
-        return false
     end
+    nothing
 end
 make(s::AbstractString = "default"; dryrun = false, verbose = false) = 
     make(resolve(s), 1, dryrun, verbose)
@@ -132,7 +203,7 @@ function isstale(t::FileTarget)
     length(ds) == 0 ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
 end
 function isstale(t::VariableTarget)
-    if !isdefined(t.m, symbol(t.name)) || t.isstale ||
+    if !isdefined(t.m, symbol(t.name)) || t.isstale || 
        hash(eval(t.m, symbol(t.name))) != t.varhash
         # println("$(t.name) is stale")
         return true 
@@ -148,7 +219,7 @@ isstale(t::AbstractTarget) = true
 
 Register target `t`. `make` only looks for registered targets.
 """
-register(t::AbstractTarget) = (TARGETS[t.name] = t; nothing)
+register(t::AbstractTarget) = settarget(t.name, t)
 
 
 """
@@ -158,7 +229,7 @@ resolve(s::AbstractString)
 
 Return the target registered under name `s`.
 """
-resolve(s::AbstractString, default) = get(TARGETS, utf8(s), default)
+resolve(s::AbstractString, default) = gettarget(s, default)
 function resolve(s::AbstractString = "default")
     t = resolve(s, nothing)
     t === nothing && error("no rule for target '$s'")
@@ -169,11 +240,11 @@ end
 """
 `timestamp(t::AbstractTarget)`
 
-Return the floating-point timestamp for a target.
+Return the DateTime timestamp for a target.
 """
-timestamp(t::FileTarget) = mtime(t.name)
+timestamp(t::FileTarget) = Dates.unix2datetime(mtime(t.name))
 timestamp(t::VariableTarget) = t.timestamp
-timestamp(t::AbstractTarget) = time()
+timestamp(t::AbstractTarget) = Dates.unix2datetime(time())
 
 
 """
@@ -194,14 +265,38 @@ target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dep
 function target(::Type{VariableTarget}, name::AbstractString, action::Function, dependencies::AbstractArray)
     t = resolve(name, nothing)
     fh = funhash(action)
-    if t === nothing || fh != t.funhash || dependencies != t.dependencies
+    # @show action.code
+    # @show string(action.code)
+    vh = 0
+    isstale = true
+    datetime = DateTime()
+    if t === nothing 
+        # check the cache
+        getjld() do f
+            if name in names(f)
+                x = read(f[utf8(name)])
+                # @show x
+                # @show fh
+                if fh == x[:funhash]
+                    datetime = x[:timestamp]
+                    vh = x[:varhash] 
+                    isstale = false
+                    # println("$datetime")
+                end
+            end
+        end      
+    elseif fh != t.funhash || dependencies != t.dependencies
+    else
+        isstale = false
+        datetime = t.timestamp
+        vh = t.varhash
         # println("Redefining $name.")
         # @show dependencies
         # @show t
         # @show fh
         # t != nothing && @show t.funhash
-        register(VariableTarget(name, dependencies, action, fh, true, 0.0, 0, current_module()))
     end
+    register(VariableTarget(name, dependencies, action, fh, isstale, datetime, vh, current_module()))
 end
 
 for (f,T) in ((:file,:FileTarget),
