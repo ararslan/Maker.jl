@@ -9,7 +9,7 @@ end
 
 function updatecache!(f::JLD.JldFile, t::FileTarget)
     if t.name in names(f)
-        if read(f[t.name])[:funhash] != t.funhash
+        if read(f[t.name]).funhash != t.funhash
             # t.isstale = true
         end
         delete!(f, t.name)

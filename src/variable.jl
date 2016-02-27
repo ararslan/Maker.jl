@@ -10,13 +10,18 @@ type VariableTarget <: AbstractTarget
     m::Module
 end
 
-cached(t::VariableTarget) = Dict{Symbol, Any}(:funhash => t.funhash, :isstale => t.isstale,
-    :timestamp => t.timestamp, :varhash => t.varhash)
+immutable CachedVariable <: AbstractCached
+    funhash::UInt64
+    timestamp::DateTime
+    varhash::UInt64
+end
+
+cached(t::VariableTarget) = CachedVariable(t.funhash, t.timestamp, t.varhash)
     
 function updatecache!(f::JLD.JldFile, t::VariableTarget)
     if t.name in names(f)
-        if read(f[t.name])[:funhash] != t.funhash ||
-           read(f[t.name])[:varhash] != t.varhash || 
+        if read(f[t.name]).funhash != t.funhash ||
+           read(f[t.name]).varhash != t.varhash || 
            !isdefined(t.m, symbol(t.name))
             # t.isstale = true
         end
@@ -70,9 +75,9 @@ function target(::Type{VariableTarget}, name::AbstractString, action::Function, 
                 x = read(f[utf8(name)])
                 # @show x
                 # @show fh
-                if fh == x[:funhash]
-                    datetime = x[:timestamp]
-                    vh = x[:varhash] 
+                if fh == x.funhash
+                    datetime = x.timestamp
+                    vh = x.varhash 
                     isstale = false
                     # println("$datetime")
                 end

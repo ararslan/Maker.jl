@@ -6,19 +6,15 @@ const CACHEFILE = ".make-cache.jld"
 
 function gettarget(name::AbstractString, default)
     get(TARGETS, utf8(name), default)
-    # if !isfile(CACHEFILE)    
-    #     return default
-    # end
-    # jldopen(CACHEFILE, "r") do f
-    #     if name in names(f)
-    #         return f[utf8(name)]
-    #     else
-    #         return default
-    #     end
-    # end
 end
 
-cached(t::AbstractTarget) = Dict{Symbol, Any}(:funhash => t.funhash, :isstale => t.isstale)
+abstract AbstractCached
+
+immutable CachedTarget <: AbstractCached
+    funhash::UInt64
+end
+
+cached(t::AbstractTarget) = CachedTarget(t.funhash)
 
 function getjld(fun::Function)
     if !isfile(CACHEFILE)    
