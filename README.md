@@ -84,6 +84,19 @@ target is a generic target that can be used for general processing and to
 connect dependencies (like the PHONY target in a Makefile). All dependencies
 (also called prerequisites) must be satisfied before running the action.
 
+## Under the hood
+
+Make.jl uses the global Dict `Make.TARGETS` to store active targets. Some state
+is also stored in a [JLD](https://github.com/JuliaLang/JLD.jl) file
+".make-cache.jld" in the active directory. This stores hashes for functions and
+variables along with timestamps. This allows Make.jl to be used between
+sessions. 
+
+Note that targets are defined globally, so they may be defined in modules or
+in the `Main` module. `make` works fine in a module for targets defined in that
+module. You cannot run all actions in `Main` that are defined in another module
+(particularly for variable targets).
+
 ## Discussions
 
 Here are some miscellaneous questions and open issues on this approach:
@@ -91,7 +104,10 @@ Here are some miscellaneous questions and open issues on this approach:
 - As implemented, each function applied to a target takes no arguments. Rake
   and Juke.jl pass the target as an argument at least for some types of targets.
   Zero arguments is easier and looks cleaner with do syntax, but it might be
-  useful in some cases to have the target as an argument.
+  useful in some cases to have the target as an argument. It also may be 
+  possible to make this optional. `Make.execute` would need to use `try`-`catch` 
+  or some means to test the number of arguments in the anonymous or generic
+  function.
   
 - I'm not sure what to provide for iteration over tasks and targets. This 
   might include wildcards for files. Filename extension utilities might also
@@ -112,11 +128,9 @@ Here are some miscellaneous questions and open issues on this approach:
   docstring to a generic functions used as an action of a target. 
 
 - Here are additional Rake features that may be nice:
-  - Targets named with Symbols
   - A `directory` target
   - `FileLists`
   - Rules
-  - Ability to pass arguments to actions (with `make("mytarget", arg1, arg2)`)
-  - `Make.clean` that generates a "clean" target
+  - Globs for file/task matching (probably using @vtnash's 
+    [Glob.jl](https://github.com/vtjnash/Glob.jl)).
 
-**Note: the dependency-resolution for `variable` targets is not working right. I think I'll need to store some information in files to remember hashes and timestamps.**  

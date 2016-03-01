@@ -4,18 +4,18 @@ abstract AbstractTarget
 const TARGETS = Dict{UTF8String, AbstractTarget}()
 const CACHEFILE = ".make-cache.jld"
 
-function gettarget(name::AbstractString, default)
-    get(TARGETS, utf8(name), default)
-end
-
 abstract AbstractCached
 
 immutable CachedTarget <: AbstractCached
     funhash::UInt64
 end
 
+# Return the data to be cached for `t`.
+# Not meant to be used externally.
 cached(t::AbstractTarget) = CachedTarget(t.funhash)
 
+# Run `fun(f)` on the CACHEFILE with `f` as the opened file.
+# Not meant to be used externally.
 function getjld(fun::Function)
     if !isfile(CACHEFILE)    
         f = jldopen(CACHEFILE, "w")
@@ -51,6 +51,8 @@ function funhash(f::Function)
         hash(code_lowered(f, ())) # handles generic functions
     end
 end
+funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{UTF8String}, x)))
+
 
 """
 `dependencies(t::AbstractTarget)`
@@ -67,12 +69,80 @@ Run the action for target `t`.
 function execute(t::AbstractTarget) 
     t.action()
     t.isstale = false
+    updatecache!(t)
 end
 
 
-# Update the timestamp for a target.
-# Not meant to be used externally.
-updatetimestamp!(t::AbstractTarget, maxtime) = nothing    
+"""
+`isstale(t::AbstractTarget)`
+
+Return `true` if target `t` is stale and should be updated.
+"""
+isstale(t::AbstractTarget) = true
+
+
+"""
+`register(t::AbstractTarget)`
+
+Register target `t`. `make` only looks for registered targets.
+"""
+function register(t::AbstractTarget)
+    TARGETS[t.name] = t
+end
+
+
+"""
+```julia
+resolve(s::AbstractString)
+```
+
+Return the target registered under name `s`.
+"""
+resolve(s::AbstractString, default) = get(TARGETS, utf8(s), default)
+function resolve(s::AbstractString = "default")
+    t = resolve(s, nothing)
+    t === nothing && error("no rule for target '$s'")
+    t
+end
+
+
+"""
+`timestamp(t::AbstractTarget)`
+
+Return the DateTime timestamp for a target.
+"""
+timestamp(t::AbstractTarget) = Dates.unix2datetime(time())
+
+
+"""
+`target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)`
+
+Define and register a target of type `T`.
+"""
+function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
+    t = resolve(name, nothing)
+    fh = funhash(action, dependencies)
+    if t === nothing 
+        isstale = true
+        # check the cache
+        getjld() do f
+            if name in names(f)
+                x = read(f[utf8(name)])
+                if fh == x.funhash
+                    isstale = false
+                end
+            end
+        end      
+    else
+        isstale = fh != t.funhash  
+    end      
+    if t === nothing || fh != t.funhash || isstale
+        register(T(name, dependencies, action, fh, isstale))
+    end
+end
+target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =
+    target(T, name, action, [dependencies])
+
 
 """
 ```julia
@@ -80,8 +150,7 @@ make(name::AbstractString = "default";
      dryrun::Bool = false, verbose::Bool = false)
 ```
 
-Update target `name` after updating its dependencies. Returns a Bool 
-indicating if any actions were run.
+Update target `name` after updating its dependencies. 
 
 If keyword argument `verbose` is set, the chain of targets and dependencies
 is shown.
@@ -109,67 +178,3 @@ end
 make(s::AbstractString = "default"; dryrun = false, verbose = false) = 
     make(resolve(s), 1, dryrun, verbose)
 
-"""
-`isstale(t::AbstractTarget)`
-
-Return `true` if target `t` is stale and should be updated.
-"""
-isstale(t::AbstractTarget) = true
-
-
-"""
-`register(t::AbstractTarget)`
-
-Register target `t`. `make` only looks for registered targets.
-"""
-register(t::AbstractTarget) = getjld() do f
-    updatecache!(f, t)
-    TARGETS[t.name] = t
-end
-
-
-"""
-```julia
-resolve(s::AbstractString)
-```
-
-Return the target registered under name `s`.
-"""
-resolve(s::AbstractString, default) = gettarget(s, default)
-function resolve(s::AbstractString = "default")
-    t = resolve(s, nothing)
-    t === nothing && error("no rule for target '$s'")
-    t
-end
-
-
-"""
-`timestamp(t::AbstractTarget)`
-
-Return the DateTime timestamp for a target.
-"""
-timestamp(t::AbstractTarget) = Dates.unix2datetime(time())
-
-
-"""
-`target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)`
-
-Define and register a target of type `T`.
-"""
-function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
-    t = resolve(name, nothing)
-    fh = funhash(action)
-    if t === nothing || fh != t.funhash 
-        register(T(name, dependencies, action, fh, false))
-    end
-end
-target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =
-    target(T, name, action, [dependencies])
-
-for (f,T) in ((:file,:FileTarget),
-              (:task,:PhonyTarget))
-    @eval begin
-        $f(action::Function, name::AbstractString, dependencies=UTF8String[]) = target($T, name, action, dependencies)
-        $f(name::AbstractString, dependencies=UTF8String[]) = target($T, name, ()->nothing, dependencies)
-    end
-end

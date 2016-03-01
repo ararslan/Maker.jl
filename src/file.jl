@@ -7,16 +7,6 @@ type FileTarget <: AbstractTarget
     isstale::Bool
 end
 
-function updatecache!(f::JLD.JldFile, t::FileTarget)
-    if t.name in names(f)
-        if read(f[t.name]).funhash != t.funhash
-            # t.isstale = true
-        end
-        delete!(f, t.name)
-    end
-    write(f, t.name, cached(t))
-end
-
 function isstale(t::FileTarget)
     if !isfile(t.name) || t.isstale  
         # println("$(t.name) is stale.")

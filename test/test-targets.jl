@@ -10,52 +10,143 @@ using Base.Test
 ##  - run make(), mimic fresh start (kill jld & TARGETS), redefine "c", run make()
 ##  - run make(), mimic fresh start (kill jld & TARGETS), redefine "e", run make()
 
-Make.file("in1.csv")
+Make.rm("c.csv")
+Make.rm("e.csv")
+Make.rm(".make-cache.jld")
 
-
-module X
+println("=== Base ===")
+module Xbase
 using Make
-include("targets.jl")
-
-println("1")
-make("e.csv")
-end # module
-
-module X
-using Make
+using Base.Test
+COUNT = 0
 empty!(Make.TARGETS)
 include("targets.jl")
-
-println("2")
 make("e.csv")
+@test COUNT == 7
 end # module
 
-# module X
-# using Make
-# empty!(Make.TARGETS)
-# include("targets.jl")
-# 
-# Make.variable("c", ["a", "b"]) do
-#     println("Calculating `c`.")
-#     -a * b
-# end
-# 
-# println("3")
-# make("e")
-# end # module
+println("=== Steps ===")
+Make.rm("c.csv")
+Make.rm("e.csv")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+make("a")
+@test COUNT == 1
+make("b")
+@test COUNT == 2
+make("c.csv")
+@test COUNT == 3
+make("c")
+@test COUNT == 4
+make("d")
+@test COUNT == 5
+make("e")
+@test COUNT == 6
+make("e.csv")
+@test COUNT == 7
+end # module
 
+println("=== Redo ===")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+make("e.csv")
+@test COUNT == 5
+end # module
 
+println("=== Remove e.csv ===")
+Make.rm("e.csv")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+make("e.csv")
+@test COUNT == 6
+end # module
 
+println("=== Redefine c.csv dependencies ===")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+# change the dependencies of one of the tasks
+Make.file("c.csv", ["a", "b", "a"]) do
+    global COUNT += 1
+    writecsv("c.csv", a * b)
+end
+make("e.csv")
+@test COUNT == 7
+end # module
 
+println("=== Redefine c.csv ===")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+# change one of the tasks
+Make.file("c.csv", ["a", "b"]) do
+    global COUNT += 1
+    a = 1
+    writecsv("c.csv", a * b)
+end
+make("e.csv")
+@test COUNT == 7
+end # module
 
+println("=== Change var ===")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+make("e.csv")
+@test COUNT == 7
+c = 27
+make("e.csv")
+@test COUNT == 8
+@test c != 27
+end # module
 
+println("=== Redefine var ===")
+module X
+using Make
+using Base.Test
+COUNT = 0
+empty!(Make.TARGETS)
+include("targets.jl")
+make("e.csv")
+COUNT = 0
+Make.variable("c", "c.csv") do # redefine action
+    global COUNT += 1
+    -readcsv("c.csv")
+end
+make("e.csv")
+@test COUNT == 3
+COUNT = 0
+Make.variable("c", ["c.csv", "a"]) do # redefine dependencies
+    global COUNT += 1
+    -readcsv("c.csv")
+end
+make("e.csv")
+@test COUNT == 3
+end # module
 
-
-
-
-
-
-
+Make.rm("c.csv")
+Make.rm("e.csv")
 
 
 

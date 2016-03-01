@@ -35,23 +35,21 @@ function execute(t::VariableTarget)
     eval(t.m, :($(symbol(t.name)) = $x))
     newhash = hash(x)
     if t.varhash != newhash
-        # @show t.varhash
-        # @show newhash
         t.timestamp = Dates.unix2datetime(time())
         t.varhash = newhash
+    else
+        ds = dependencies(t)
+        if length(ds) > 0
+            t.timestamp = max(t.timestamp, maximum([timestamp(d) for d in ds]))
+        end
     end
     t.isstale = false
     updatecache!(t)
 end
 
-function updatetimestamp!(t::VariableTarget, maxtime)
-    t.timestamp = max(maxtime, t.timestamp)
-end
-
 function isstale(t::VariableTarget)
     if !isdefined(t.m, symbol(t.name)) || t.isstale || 
        hash(eval(t.m, symbol(t.name))) != t.varhash
-        # println("$(t.name) is stale")
         return true 
     end
     ds = dependencies(t)
@@ -60,11 +58,9 @@ end
 
 timestamp(t::VariableTarget) = t.timestamp
 
-function target(::Type{VariableTarget}, name::AbstractString, action::Function, dependencies::AbstractArray)
+function variable(action::Function, name::AbstractString, dependencies::AbstractArray = UTF8String[])
     t = resolve(name, nothing)
-    fh = funhash(action)
-    # @show action.code
-    # @show string(action.code)
+    fh = funhash(action, dependencies)
     vh = 0
     isstale = true
     datetime = DateTime()
@@ -73,13 +69,10 @@ function target(::Type{VariableTarget}, name::AbstractString, action::Function, 
         getjld() do f
             if name in names(f)
                 x = read(f[utf8(name)])
-                # @show x
-                # @show fh
                 if fh == x.funhash
                     datetime = x.timestamp
                     vh = x.varhash 
                     isstale = false
-                    # println("$datetime")
                 end
             end
         end      
@@ -88,15 +81,9 @@ function target(::Type{VariableTarget}, name::AbstractString, action::Function, 
         isstale = false
         datetime = t.timestamp
         vh = t.varhash
-        # println("Redefining $name.")
-        # @show dependencies
-        # @show t
-        # @show fh
-        # t != nothing && @show t.funhash
     end
     register(VariableTarget(name, dependencies, action, fh, isstale, datetime, vh, current_module()))
 end
-
-variable(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
-    target(VariableTarget, name, action, dependencies)
-
+variable(action::Function, name::AbstractString, dependencies::AbstractString) =
+    variable(action, name, [utf8(dependencies)])
+    

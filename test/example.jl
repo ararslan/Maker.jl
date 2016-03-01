@@ -44,8 +44,8 @@ Make.task("vars", ["df", "df2"])
 
 Make.task("clean") do 
     println("Deleting generated csv files.")
-    isfile("df.csv") && rm("df.csv")
-    isfile("df2.csv") && rm("df2.csv")
+    Make.rm("df.csv")
+    Make.rm("df2.csv")
 end
 
 make()
