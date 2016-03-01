@@ -15,7 +15,7 @@ Make.rm("e.csv")
 Make.rm(".make-cache.jld")
 
 println("=== Base ===")
-module Xbase
+module X
 using Make
 using Base.Test
 COUNT = 0
