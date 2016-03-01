@@ -58,7 +58,7 @@ Make.task("default", "df.csv")
 make()  # Run the "default" target.
 ```
 
-See [here](https://github.com/tshort/Make.jl/blob/master/test/runtests.jl) for a
+See [here](https://github.com/tshort/Make.jl/blob/master/test/example.jl) for a
 longer version of this example. In the example above, do-syntax is used. These
 use anonymous functions to define actions. Normal, generic functions can also be 
 used.
@@ -136,5 +136,8 @@ Here are some miscellaneous questions and open issues on this approach:
   - `FileLists`
   - Rules
   - Globs for file/task matching (probably using @vtnash's 
-    [Glob.jl](https://github.com/vtjnash/Glob.jl)).
+    [Glob.jl](https://github.com/vtjnash/Glob.jl)). 
+    [Here](https://github.com/tshort/Make.jl/blob/master/test/glob.jl)
+    is an example of how globs can be used currently for traditional make-like 
+    file operations.
 
