@@ -97,6 +97,10 @@ in the `Main` module. `make` works fine in a module for targets defined in that
 module. You cannot run all actions in `Main` that are defined in another module
 (particularly for variable targets).
 
+The hashing for functions and variables is not likely to stay the same between
+Julia versions. It's also different for 32- and 64-bit versions. It's still up
+in the air how to deal with this.
+
 ## Discussions
 
 Here are some miscellaneous questions and open issues on this approach:
