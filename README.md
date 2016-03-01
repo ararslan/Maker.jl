@@ -43,9 +43,7 @@ Make.file("df.csv", ["in1.csv", "in2.csv"]) do
 end
 
 # This is a variable target. It creates a global variable
-# `df` based on the result of this calculation. This target
-# takes its timestamp from the timestamp of the "df.csv" 
-# dependency.
+# `df` based on the result of this calculation. 
 Make.variable("df", "df.csv") do 
     println("Reading `df`.")
     readtable("df.csv")
