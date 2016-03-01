@@ -40,7 +40,3 @@ Make.file("e.csv", "e") do
     writecsv("e.csv", e)
 end
 
-
-# writecsv("x.csv", [2.])
-# @show mtime("x.csv") 
-# @show time()
