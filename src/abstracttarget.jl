@@ -2,7 +2,7 @@
 abstract AbstractTarget
 
 const TARGETS = Dict{UTF8String, AbstractTarget}()
-const CACHEFILE = ".make-cache.jld"
+const CACHEFILE = ".maker-cache.jld"
 
 abstract AbstractCached
 

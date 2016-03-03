@@ -1,4 +1,4 @@
-module Make
+module Maker
 
 using JLD
 
@@ -23,12 +23,12 @@ file(action::Function, name::AbstractString, dependencies=[])
 task(action::Function, name::AbstractString, dependencies=[])
 variable(action::Function, name::AbstractString, dependencies=[])
 ```
-Define and register targets for Make.jl.
+Define and register targets for Maker.jl.
 
 - `action` is the function that operates when the target is
   executed. 
 
-- `name` refers to the name of the target. 
+- `name` refers to the name of the task or target. 
 
 - `dependencies` refers to names of targets that need to be satisfied
   for this target before running the `action`. These are also referred
@@ -59,10 +59,7 @@ If the `action` or `dependencies` of a target are redefined, the
 target will be marked as stale, and the action will be updated
 at the next target check.  
 """
-file
-
-@doc (@doc file) task
-@doc (@doc file) variable
+file, directory, task, variable
 
 end # module
 

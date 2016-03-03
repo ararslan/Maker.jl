@@ -1,5 +1,5 @@
 
-using Make
+using Maker
 using Base.Test
 using Glob
 
@@ -9,21 +9,21 @@ outputs = ["$(splitext(f)[1])-out.csv" for f in inputs]
 
 for i in eachindex(inputs)
     inp = inputs[i]
-    Make.file(inp)
+    Maker.file(inp)
     dest = outputs[i]
-    Make.file(dest, inp) do
+    Maker.file(dest, inp) do
         out = 2 * readcsv(inp, skipstart = 1)
         writecsv(dest, out)
     end
 end
 
-Make.task("default", outputs)
+Maker.task("default", outputs)
 
-Make.clean(outputs)
+Maker.clean(outputs)
 
-Make.task("clean2") do   # another way to clean
+Maker.task("clean2") do   # another way to clean
     for fn in glob("in*-out.csv")
-        Make.rm(fn)
+        Maker.rm(fn)
     end
 end
 

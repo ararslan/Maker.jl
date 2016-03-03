@@ -6,4 +6,4 @@ include("test-targets.jl")
 include("utils.jl")
 include("glob.jl")
 
-rm(".make-cache.jld")
+rm(".maker-cache.jld")

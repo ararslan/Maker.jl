@@ -1,4 +1,4 @@
-using Make
+using Maker
 using Base.Test
 
 x = [ 3.14159   6.28319   9.42478
@@ -7,19 +7,19 @@ x = [ 3.14159   6.28319   9.42478
 
 writecsv("b.csv", x)      
 
-Make.variable("a") do
+Maker.variable("a") do
     println("Generating `a`.")
     pi
 end
 
-Make.variable("b", "b.csv") do
+Maker.variable("b", "b.csv") do
     println("Reading `b`.")
     readcsv("b.csv")
 end
 
-Make.file("b.csv")
+Maker.file("b.csv")
 
-Make.variable("c", ["a", "b"]) do
+Maker.variable("c", ["a", "b"]) do
     println("Calculating `c`.")
     a * b
 end
@@ -33,7 +33,7 @@ make("c")
 @test c ≈ pi * x 
 
 # redefine `a`
-Make.variable("a") do
+Maker.variable("a") do
     println("Regenerating `a`.")
     2pi
 end
@@ -46,7 +46,7 @@ make("c", verbose = true)
 
 # redefine `a` again:
 
-Make.variable("a") do
+Maker.variable("a") do
     println("Generating `a`.")
     pi
 end

@@ -1,27 +1,27 @@
 
-using Make
+using Maker
 using Base.Test
 
 COUNT = 0
 
 path = "tmpdir/tmp"
 
-Make.directory(path)
+Maker.directory(path)
 
-Make.file("$path/x.csv", path) do
+Maker.file("$path/x.csv", path) do
     global COUNT += 1
     writecsv("$path/x.csv", rand(2,2))
 end
 
-Make.file("$path/y.csv", "$path/x.csv") do
+Maker.file("$path/y.csv", "$path/x.csv") do
     global COUNT += 1
     y = readcsv("$path/x.csv") 
     writecsv("$path/y.csv", 2 * y) 
 end
 
-Make.task("default", "$path/y.csv")
+Maker.task("default", "$path/y.csv")
 
-Make.task("clean") do
+Maker.task("clean") do
     rm("tmpdir", recursive = true)
 end
 

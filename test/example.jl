@@ -1,12 +1,12 @@
 
-using Make
+using Maker
 using Base.Test
 using DataFrames
 
-Make.file("in1.csv")
-Make.file("in2.csv")
+Maker.file("in1.csv")
+Maker.file("in2.csv")
 
-Make.file("df.csv", ["in1.csv", "in2.csv"]) do 
+Maker.file("df.csv", ["in1.csv", "in2.csv"]) do 
     println("Reading input data.")
     df = readtable("in1.csv")
     df = vcat(df, readtable("in2.csv"))
@@ -14,7 +14,7 @@ Make.file("df.csv", ["in1.csv", "in2.csv"]) do
     writetable("df.csv", df) 
 end
  
-Make.variable("df", "df.csv") do 
+Maker.variable("df", "df.csv") do 
     println("Reading `df`.")
     readtable("df.csv")
 end
@@ -28,31 +28,31 @@ function process_df2()
     println("Writing 'df2.csv'.")
     writetable("df2.csv", df2)
 end
-Make.file(process_df2, "df2.csv", "df")
+Maker.file(process_df2, "df2.csv", "df")
 
-Make.variable("df2", "df2.csv") do 
+Maker.variable("df2", "df2.csv") do 
     println("Reading `df2`.")
     readtable("df2.csv")
 end
 
-# Make.task("default", ["df.csv", "df2.csv"])
-Make.task("default", "df2.csv")
+# Maker.task("default", ["df.csv", "df2.csv"])
+Maker.task("default", "df2.csv")
 
-Make.task("vars", ["df", "df2"])
+Maker.task("vars", ["df", "df2"])
 
-# Make.task("default", "outputs")
+# Maker.task("default", "outputs")
 
-Make.task("clean") do 
+Maker.task("clean") do 
     println("Deleting generated csv files.")
-    Make.rm("df.csv")
-    Make.rm("df2.csv")
+    Maker.rm("df.csv")
+    Maker.rm("df2.csv")
 end
 
 make()
 
 make()
 
-Make.file("df2.csv", "df") do 
+Maker.file("df2.csv", "df") do 
     println("Processing `df` after redefining the df2.csv task.")
     df2 = copy(df)
     df2[:d] = 2 .* df[:a] + maximum(df[:b])

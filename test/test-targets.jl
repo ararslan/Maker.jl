@@ -1,5 +1,5 @@
 
-using Make
+using Maker
 using Base.Test
 
 ## Scenarios to test
@@ -10,29 +10,29 @@ using Base.Test
 ##  - run make(), mimic fresh start (kill jld & TARGETS), redefine "c", run make()
 ##  - run make(), mimic fresh start (kill jld & TARGETS), redefine "e", run make()
 
-Make.rm("c.csv")
-Make.rm("e.csv")
-Make.rm(".make-cache.jld")
+Maker.rm("c.csv")
+Maker.rm("e.csv")
+Maker.rm(".make-cache.jld")
 
 println("=== Base ===")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
 @test COUNT == 7
 end # module
 
 println("=== Steps ===")
-Make.rm("c.csv")
-Make.rm("e.csv")
+Maker.rm("c.csv")
+Maker.rm("e.csv")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 make("a")
 @test COUNT == 1
@@ -52,22 +52,22 @@ end # module
 
 println("=== Redo ===")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
 @test COUNT == 5
 end # module
 
 println("=== Remove e.csv ===")
-Make.rm("e.csv")
+Maker.rm("e.csv")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
 @test COUNT == 6
@@ -75,13 +75,13 @@ end # module
 
 println("=== Redefine c.csv dependencies ===")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 # change the dependencies of one of the tasks
-Make.file("c.csv", ["a", "b", "a"]) do
+Maker.file("c.csv", ["a", "b", "a"]) do
     global COUNT += 1
     writecsv("c.csv", a * b)
 end
@@ -91,13 +91,13 @@ end # module
 
 println("=== Redefine c.csv ===")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 # change one of the tasks
-Make.file("c.csv", ["a", "b"]) do
+Maker.file("c.csv", ["a", "b"]) do
     global COUNT += 1
     a = 1
     writecsv("c.csv", a * b)
@@ -108,10 +108,10 @@ end # module
 
 println("=== Change var ===")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
 @test COUNT == 7
@@ -123,21 +123,21 @@ end # module
 
 println("=== Redefine var ===")
 module X
-using Make
+using Maker
 using Base.Test
 COUNT = 0
-empty!(Make.TARGETS)
+empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
 COUNT = 0
-Make.variable("c", "c.csv") do # redefine action
+Maker.variable("c", "c.csv") do # redefine action
     global COUNT += 1
     -readcsv("c.csv")
 end
 make("e.csv")
 @test COUNT == 3
 COUNT = 0
-Make.variable("c", ["c.csv", "a"]) do # redefine dependencies
+Maker.variable("c", ["c.csv", "a"]) do # redefine dependencies
     global COUNT += 1
     -readcsv("c.csv")
 end
@@ -145,8 +145,8 @@ make("e.csv")
 @test COUNT == 3
 end # module
 
-Make.rm("c.csv")
-Make.rm("e.csv")
+Maker.rm("c.csv")
+Maker.rm("e.csv")
 
 
 
