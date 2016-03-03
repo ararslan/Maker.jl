@@ -18,6 +18,7 @@ include("utils.jl")
 
 """
 ```julia
+directory(name::AbstractString, dependencies=[])
 file(action::Function, name::AbstractString, dependencies=[])
 task(action::Function, name::AbstractString, dependencies=[])
 variable(action::Function, name::AbstractString, dependencies=[])
@@ -38,6 +39,10 @@ Targets are registered globally.
 `file` targets use the name of the file as the name of the target.
 File targets use timestamps to determine when targets need to be
 updated. File paths are relative to the current working directory.
+
+`directory` targets use the name of the path as the name of the target.
+No action can be specified. The path `name` is created with `mkpath` if 
+it doesn't exist. The path is relative to the current working directory.
 
 `task` targets are generic targets used to define actions and 
 dependencies. These are equivalent to PHONY targets in Makefiles.

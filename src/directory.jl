@@ -16,7 +16,7 @@ function isstale(t::DirectoryTarget)
 end
 
 function execute(t::DirectoryTarget) 
-    !isdir(t.name) && mkdir(t.name)
+    !isdir(t.name) && mkpath(t.name)
     t.isstale = false
     updatecache!(t)
 end
