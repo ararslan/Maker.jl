@@ -3,12 +3,14 @@ module Make
 using JLD
 
 export make,
+       directory,
        file,
        task,
        variable
 
 include("abstracttarget.jl")
 include("task.jl")
+include("directory.jl")
 include("file.jl")
 include("variable.jl")
 include("utils.jl")

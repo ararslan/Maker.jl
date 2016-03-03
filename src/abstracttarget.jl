@@ -29,11 +29,20 @@ function getjld(fun::Function)
     end
 end
 
-function updatecache!(f::JLD.JldFile, t::AbstractTarget)
-    if t.name in names(f)
-        delete!(f, t.name)
+function fixh5name(name)
+    if contains(name, "/")   
+        return string("M", hash(name))
+    else 
+        return name
     end
-    write(f, t.name, cached(t))
+end
+
+function updatecache!(f::JLD.JldFile, t::AbstractTarget)
+    h5name = fixh5name(t.name)
+    if h5name in names(f)
+        delete!(f, h5name)
+    end
+    write(f, h5name, cached(t))
 end
 updatecache!(t::AbstractTarget) = getjld() do f
     updatecache!(f, t)
@@ -126,8 +135,9 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
         isstale = true
         # check the cache
         getjld() do f
-            if name in names(f)
-                x = read(f[utf8(name)])
+            h5name = fixh5name(name)
+            if h5name in names(f)
+                x = read(f[h5name])
                 if fh == x.funhash
                     isstale = false
                 end
