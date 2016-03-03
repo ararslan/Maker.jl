@@ -1,25 +1,25 @@
-# Maker.jl: A tool like make for Julia
+# Maker.jl: A tool like make for data analysis in Julia
 
-This repository is an **experimental** approach to process data using
+This repository is an approach to processing data using
 dependencies in a similar fashion to
 [make](https://en.wikipedia.org/wiki/Makefile) or
-[Rake](http://docs.seattlerb.org/rake/). Like make, Maker.jl evaluates file and
+[Rake](http://docs.seattlerb.org/rake/). Like make, `Maker` evaluates file and
 code dependencies to update processing. The focus here is on data analysis, not
 build automation for code. The features to support data analysis include:
 
 - *Detection of code changes*--If part of the code changes, downstream 
   dependencies are updated during processing.
 - *Variable tasks*--Most make-like tools rely mainly on files for 
-  dependency analysis. In Maker.jl, Julia variables can also be used
+  dependency analysis. In `Maker`, Julia variables can also be used
   in this role. That allows more fine-grained control of code and dependencies. 
  
-Maker.jl was derived from [Jake.jl](https://github.com/nolta/Jake.jl) by Mike
+`Maker` was derived from [Jake.jl](https://github.com/nolta/Jake.jl) by Mike
 Nolta. [Juke.jl](https://github.com/kshramt/Juke.jl) is another Make-like tool
 written in Julia. The API here is most similar to Ruby's
 [Rake](http://docs.seattlerb.org/rake/).
 
 Most build tools like make use a Makefile or other build-instruction file. In
-Maker.jl, a separate build-script can be used, but the API right now focuses on
+`Maker`, a separate build-script can be used, but the API right now focuses on
 use within Julia script files.
 
 ## Example
@@ -82,22 +82,27 @@ target is a generic task that can be used for general processing and to
 connect dependencies (like the PHONY target in a Makefile). All dependencies
 (also called prerequisites) must be satisfied before running the action.
 
+`directory`, `file`, `task`, and `variable` are all exported, but it is best
+to fully qualify these to help task definitions stand out.
+
 ## Utilities
 
 A few utilities are provided to help with tasks:
 
-* `Maker.rm(name)` -- Equivalent to `Base.rm`, but it doesn't error if file `name` is
-  missing.
+* `Maker.rm(name)` -- Equivalent to `Base.rm`, but it doesn't error if file 
+  `name` is missing.
 
 * `Maker.clean(name, filelist)` -- Create a task `name` (defaults to "clean")
-* that will delete files given in `filelist`.
+  that will delete files given in `filelist`.
+
+None of these are exported.
 
 ## Under the hood
 
-Maker.jl uses the global Dict `Maker.TARGETS` to store active tasks. Some state
+`Maker` uses the global Dict `Maker.TARGETS` to store active tasks. Some state
 is also stored in a [JLD](https://github.com/JuliaLang/JLD.jl) file
 ".maker-cache.jld" in the active directory. This stores hashes for functions and
-variables along with timestamps. This allows Maker.jl to be used between
+variables along with timestamps. This allows `Maker` to be used between
 sessions. 
 
 Note that tasks are defined globally, so they may be defined in modules or
@@ -122,7 +127,7 @@ Here are some miscellaneous questions and open issues on this approach:
   function.
   
 - Parallel operation may be tricky. One may have to be careful using 
-  `@everywhere` and friends with Maker.jl. Each process might try to update 
+  `@everywhere` and friends with `Maker`. Each process might try to update 
   dependencies at the same time, leading to race conditions. Another topic to
   think about is how to take advantage of parallel operations (or threads when 
   they come to Julia). 
