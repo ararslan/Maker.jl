@@ -8,6 +8,7 @@ Base.keys(x::Targets) = keys(x.dict)
 Base.getindex(x::Targets, key) = getindex(x.dict, key)
 Base.get(x::Targets, key, default) = get(x.dict, key, default)
 Base.setindex!(x::Targets, key, val) = setindex!(x.dict, key, val)
+Base.empty!(x::Targets) = empty!(x.dict)
 
 const TARGETS = Targets(Dict{UTF8String, AbstractTarget}()) 
 NEXTDOC = UTF8String[""]
