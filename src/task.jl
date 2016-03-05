@@ -2,6 +2,7 @@
 type PhonyTarget <: AbstractTarget
     name::UTF8String
     dependencies::Vector{UTF8String}
+    description::UTF8String
     action::Function
     funhash::UInt64
     isstale::Bool

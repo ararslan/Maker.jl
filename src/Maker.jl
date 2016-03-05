@@ -2,12 +2,21 @@ module Maker
 
 using JLD
 
-export make,
-       directory,
+export directory,
        file,
+       make,
        task,
-       variable
+       tasks,
+       variable,
+       @desc
 
+const CACHEFILE = ".maker-cache.jld"
+
+abstract AbstractTarget
+
+abstract AbstractCached
+
+include("targets.jl")
 include("abstracttarget.jl")
 include("task.jl")
 include("directory.jl")

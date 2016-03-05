@@ -103,12 +103,13 @@ file operations.
 A few utilities are provided to help with tasks:
 
 * `Maker.rm(name)` -- Equivalent to `Base.rm`, but it doesn't error if file 
-  `name` is missing.
+  `name` is missing. Not exported.
 
 * `Maker.clean(name, filelist)` -- Create a task `name` (defaults to "clean")
-  that will delete files given in `filelist`.
+  that will delete files given in `filelist`. Not exported.
 
-None of these are exported.
+* `tasks()` or `tasks(name)` -- Return (and show) all registered tasks or 
+  task `name`. Exported.
 
 ## Under the hood
 

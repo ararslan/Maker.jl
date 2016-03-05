@@ -1,11 +1,4 @@
 
-abstract AbstractTarget
-
-const TARGETS = Dict{UTF8String, AbstractTarget}()
-const CACHEFILE = ".maker-cache.jld"
-
-abstract AbstractCached
-
 immutable CachedTarget <: AbstractCached
     funhash::UInt64
 end
@@ -96,7 +89,9 @@ isstale(t::AbstractTarget) = true
 Register target `t`. `make` only looks for registered targets.
 """
 function register(t::AbstractTarget)
-    TARGETS[t.name] = t
+    t.description = NEXTDOC[1]
+    tasks!(t.name, t)
+    NEXTDOC[1] = ""
 end
 
 
@@ -107,7 +102,7 @@ resolve(s::AbstractString)
 
 Return the target registered under name `s`.
 """
-resolve(s::AbstractString, default) = get(TARGETS, utf8(s), default)
+resolve(s::AbstractString, default) = get(tasks(), utf8(s), default)
 function resolve(s::AbstractString = "default")
     t = resolve(s, nothing)
     t === nothing && error("no rule for target '$s'")
@@ -147,7 +142,7 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
         isstale = fh != t.funhash  
     end      
     if t === nothing || fh != t.funhash || isstale
-        register(T(name, dependencies, action, fh, isstale))
+        register(T(name, dependencies, "", action, fh, isstale))
     end
 end
 target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =

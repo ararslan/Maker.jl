@@ -2,6 +2,7 @@
 type VariableTarget <: AbstractTarget
     name::UTF8String
     dependencies::Vector{UTF8String}
+    description::UTF8String
     action::Function
     funhash::UInt64
     isstale::Bool
@@ -82,7 +83,7 @@ function variable(action::Function, name::AbstractString, dependencies::Abstract
         datetime = t.timestamp
         vh = t.varhash
     end
-    register(VariableTarget(name, dependencies, action, fh, isstale, datetime, vh, current_module()))
+    register(VariableTarget(name, dependencies, "", action, fh, isstale, datetime, vh, current_module()))
 end
 variable(action::Function, name::AbstractString, dependencies::AbstractString) =
     variable(action, name, [utf8(dependencies)])
