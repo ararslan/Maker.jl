@@ -1,11 +1,18 @@
-# Maker.jl: A tool like make for data analysis in Julia
+# Maker
+#### A tool like make for data analysis in Julia
 
-This repository is an approach to processing data using
+[![Maker](http://pkg.julialang.org/badges/Maker_0.4.svg)](http://pkg.julialang.org/?pkg=Maker&ver=0.4)
+
+[![Build Status](https://travis-ci.org/tshort/Maker.jl.svg?branch=master)](https://travis-ci.org/tshort/Maker.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/otj9pnwsq32to211?svg=true)](https://ci.appveyor.com/project/tshort/maker-jl)
+[![Coverage Status](https://coveralls.io/repos/tshort/Maker.jl/badge.svg?branch=master)](https://coveralls.io/r/tshort/Maker.jl?branch=master)
+
+`Maker` is a [Julia](http://julialang.org/) package to set up tasks and 
 dependencies in a similar fashion to
 [make](https://en.wikipedia.org/wiki/Makefile) or
 [Rake](http://docs.seattlerb.org/rake/). Like make, `Maker` evaluates file and
 code dependencies to update processing. The focus here is on data analysis, not
-build automation for code. The features to support data analysis include:
+build automation for code. Key features for data analysis include:
 
 - *Detection of code changes*--If part of the code changes, downstream 
   dependencies are updated during processing.
@@ -14,13 +21,13 @@ build automation for code. The features to support data analysis include:
   in this role. That allows more fine-grained control of code and dependencies. 
  
 `Maker` was derived from [Jake.jl](https://github.com/nolta/Jake.jl) by Mike
-Nolta. [Juke.jl](https://github.com/kshramt/Juke.jl) is another Make-like tool
-written in Julia. The API here is most similar to Ruby's
-[Rake](http://docs.seattlerb.org/rake/).
+Nolta. [Juke.jl](https://github.com/kshramt/Juke.jl) is another make-like tool
+written in Julia. 
 
 Most build tools like make use a Makefile or other build-instruction file. In
-`Maker`, a separate build-script can be used, but the API right now focuses on
-use within Julia script files.
+`Maker`, a separate build-script can be used, but the API here focuses on
+use within Julia script files. The API in `Maker` is most similar to Ruby's
+[Rake](http://docs.seattlerb.org/rake/).
 
 ## Example
 
@@ -85,6 +92,12 @@ connect dependencies (like the PHONY target in a Makefile). All dependencies
 `directory`, `file`, `task`, and `variable` are all exported, but it is best
 to fully qualify these to help task definitions stand out.
 
+`Maker` works well with [Glob.jl](https://github.com/vtjnash/Glob.jl) for file
+and name wildcards. 
+[Here](https://github.com/tshort/Maker.jl/blob/master/test/glob.jl)
+is an example of how globs can be used currently for traditional make-like 
+file operations.
+
 ## Utilities
 
 A few utilities are provided to help with tasks:
@@ -114,38 +127,9 @@ The hashing for functions and variables is not likely to stay the same between
 Julia versions. It's also different for 32- and 64-bit versions. It's still up
 in the air how to deal with this.
 
-## Discussions
-
-Here are some miscellaneous questions and open issues on this approach:
-
-- As implemented, each function applied to a tasks takes no arguments. Rake
-  and Juke.jl pass the task as an argument at least for some types of tasks.
-  Zero arguments is easier and looks cleaner with do syntax, but it might be
-  useful in some cases to have the task as an argument. It also may be 
-  possible to make this optional. `Maker.execute` would need to use `try`-`catch` 
-  or some means to test the number of arguments in the anonymous or generic
-  function.
+Note that parallel operation may be tricky. One may have to be careful using 
+`@everywhere` and friends with `Maker`. Each process might try to update 
+dependencies at the same time, leading to race conditions. Another topic to
+think about is how to take advantage of parallel operations (or threads when 
+they come to Julia). 
   
-- Parallel operation may be tricky. One may have to be careful using 
-  `@everywhere` and friends with `Maker`. Each process might try to update 
-  dependencies at the same time, leading to race conditions. Another topic to
-  think about is how to take advantage of parallel operations (or threads when 
-  they come to Julia). 
-  
-- API to help with debugging might help.
-
-- File tasks are based on the current working directory. It might be better
-  to use `@__FILE__` to work out the path.
-  
-- Would there be a way to attach docstrings to tasks? You can attach a 
-  docstring to a generic function used as an action of a task. 
-
-- Here are additional Rake features that may be nice:
-  - `FileLists`
-  - Rules
-  - Globs for file/task matching (probably using @vtnash's 
-    [Glob.jl](https://github.com/vtjnash/Glob.jl)). 
-    [Here](https://github.com/tshort/Maker.jl/blob/master/test/glob.jl)
-    is an example of how globs can be used currently for traditional make-like 
-    file operations.
-
