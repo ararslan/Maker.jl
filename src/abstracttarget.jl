@@ -124,6 +124,7 @@ timestamp(t::AbstractTarget) = Dates.unix2datetime(time())
 Define and register a target of type `T`.
 """
 function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
+    dependencies = UTF8String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
     if t === nothing 

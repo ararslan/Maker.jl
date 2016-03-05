@@ -37,6 +37,10 @@ make()
 make()
 @test COUNT == 2
 
+rm("tmpdir/tmp", recursive = true)
+make()
+@test COUNT == 4
+
 make("clean")
 
 @test !isdir("tmpdir")

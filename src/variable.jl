@@ -21,11 +21,6 @@ cached(t::VariableTarget) = CachedVariable(t.funhash, t.timestamp, t.varhash)
     
 function updatecache!(f::JLD.JldFile, t::VariableTarget)
     if t.name in names(f)
-        if read(f[t.name]).funhash != t.funhash ||
-           read(f[t.name]).varhash != t.varhash || 
-           !isdefined(t.m, symbol(t.name))
-            # t.isstale = true
-        end
         delete!(f, t.name)
     end
     write(f, t.name, cached(t))
@@ -60,6 +55,7 @@ end
 timestamp(t::VariableTarget) = t.timestamp
 
 function variable(action::Function, name::AbstractString, dependencies::AbstractArray = UTF8String[])
+    dependencies = UTF8String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
     vh = 0

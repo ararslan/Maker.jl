@@ -129,6 +129,10 @@ COUNT = 0
 empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
+@test COUNT == 5
+include("targets.jl")
+make("e.csv")
+@test COUNT == 5
 COUNT = 0
 Maker.variable("c", "c.csv") do # redefine action
     global COUNT += 1
@@ -143,6 +147,13 @@ Maker.variable("c", ["c.csv", "a"]) do # redefine dependencies
 end
 make("e.csv")
 @test COUNT == 3
+# COUNT = 0
+# Maker.variable("c", ["c.csv", "a"]) do # redefine to same
+#     global COUNT += 1
+#     -readcsv("c.csv")
+# end
+# make("e.csv")
+# @test COUNT == 0
 end # module
 
 Maker.rm("c.csv")
