@@ -12,7 +12,7 @@ using Base.Test
 
 Maker.rm("c.csv")
 Maker.rm("e.csv")
-Maker.rm(".make-cache.jld")
+Maker.rm(".maker-cache.jld")
 
 println("=== Base ===")
 module X
@@ -158,6 +158,3 @@ end # module
 
 Maker.rm("c.csv")
 Maker.rm("e.csv")
-
-
-

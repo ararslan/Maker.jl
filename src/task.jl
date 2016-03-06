@@ -4,6 +4,7 @@ type PhonyTarget <: AbstractTarget
     dependencies::Vector{UTF8String}
     description::UTF8String
     action::Function
+    timestamp::DateTime
     funhash::UInt64
     isstale::Bool
 end

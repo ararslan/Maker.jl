@@ -49,7 +49,7 @@ function isstale(t::VariableTarget)
         return true 
     end
     ds = dependencies(t)
-    length(ds) == 0 ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
+    isempty(ds) ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
 end
 
 timestamp(t::VariableTarget) = t.timestamp
