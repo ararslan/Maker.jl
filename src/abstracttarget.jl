@@ -1,11 +1,12 @@
 
 immutable CachedTarget <: AbstractCached
     funhash::UInt64
+    timestamp::DateTime
 end
 
 # Return the data to be cached for `t`.
 # Not meant to be used externally.
-cached(t::AbstractTarget) = CachedTarget(t.funhash)
+cached(t::AbstractTarget) = CachedTarget(t.funhash, t.timestamp)
 
 # Run `fun(f)` on the CACHEFILE with `f` as the opened file.
 # Not meant to be used externally.
@@ -70,6 +71,7 @@ Run the action for target `t`.
 """
 function execute(t::AbstractTarget) 
     t.action()
+    t.timestamp = Dates.unix2datetime(time())
     t.isstale = false
     updatecache!(t)
 end
@@ -80,7 +82,13 @@ end
 
 Return `true` if target `t` is stale and should be updated.
 """
-isstale(t::AbstractTarget) = true
+function isstale(t::AbstractTarget)
+    if t.isstale
+        return true 
+    end
+    ds = dependencies(t)
+    isempty(ds) ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
+end
 
 
 """
@@ -115,8 +123,7 @@ end
 
 Return the DateTime timestamp for a target.
 """
-timestamp(t::AbstractTarget) = Dates.unix2datetime(time())
-
+timestamp(t::AbstractTarget) = t.timestamp
 
 """
 `target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)`
@@ -127,6 +134,7 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
     dependencies = UTF8String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
+    datetime = DateTime()
     if t === nothing 
         isstale = true
         # check the cache
@@ -135,6 +143,7 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
             if h5name in names(f)
                 x = read(f[h5name])
                 if fh == x.funhash
+                    datetime = x.timestamp
                     isstale = false
                 end
             end
@@ -143,7 +152,7 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
         isstale = fh != t.funhash  
     end      
     if t === nothing || fh != t.funhash || isstale
-        register(T(name, dependencies, "", action, fh, isstale))
+        register(T(name, dependencies, "", action, datetime, fh, isstale))
     end
 end
 target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =
@@ -183,4 +192,3 @@ function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
 end
 make(s::AbstractString = "default"; dryrun = false, verbose = false) = 
     make(resolve(s), 1, dryrun, verbose)
-
