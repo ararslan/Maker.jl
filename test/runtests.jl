@@ -1,3 +1,7 @@
+using Maker
+
+empty!(Maker.TARGETS)
+Maker.rm(".maker-cache.jld")
     
 include("example.jl")
 include("file.jl")

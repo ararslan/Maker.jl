@@ -1,5 +1,5 @@
 
-type PhonyTarget <: AbstractTarget
+type GenericTarget <: AbstractTarget
     name::UTF8String
     dependencies::Vector{UTF8String}
     description::UTF8String
@@ -10,6 +10,6 @@ type PhonyTarget <: AbstractTarget
 end
 
 task(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
-    target(PhonyTarget, name, action, dependencies)
+    target(GenericTarget, name, action, dependencies)
 task(name::AbstractString, dependencies=UTF8String[]) = 
-    target(PhonyTarget, name, ()->nothing, dependencies)
+    target(GenericTarget, name, ()->nothing, dependencies)
