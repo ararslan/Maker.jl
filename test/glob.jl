@@ -22,6 +22,7 @@ Maker.task("default", outputs)
 Maker.clean(outputs)
 
 Maker.task("clean2") do   # another way to clean
+    println("CLEAN2")
     for fn in glob("in*-out.csv")
         Maker.rm(fn)
     end

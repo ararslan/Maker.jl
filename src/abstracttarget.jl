@@ -42,6 +42,9 @@ updatecache!(t::AbstractTarget) = getjld() do f
     updatecache!(f, t)
 end
 
+remove_linenums(x) = x
+remove_linenums(x::LineNumberNode) = LineNumberNode(x.file, 0)
+remove_linenums(e::Expr) = Expr(e.head, Any[remove_linenums(a) for a in e.args])
 
 # Find the hash of an anonymous or generic function. The global
 # is to have the same hash if the function code is the same. This
@@ -49,7 +52,7 @@ end
 # Not meant to be used externally.
 function funhash(f::Function)
     if isdefined(f, :code) # handles anonymous functions
-        hash(string(f.code))
+        hash(string(remove_linenums(Base.uncompressed_ast(f.code))))
     else
         hash(code_lowered(f, ())) # handles generic functions
     end
@@ -180,7 +183,7 @@ function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
     for d in dependencies(t)
         make(d, level + 1, dryrun, verbose)
     end
-    if isstale(t)
+    if isstale(t) || level == 1
         if verbose || dryrun
             println(("*" ^ level) * " Execute \"$(t.name)\"")
         end

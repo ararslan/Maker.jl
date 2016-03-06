@@ -47,11 +47,33 @@ Add the `target` task with name `name` to the global database of targets.
 function tasks!{T <: AbstractTarget}(name, val::T)
     TARGETS[name] = val
 end
+
+function funloc(f::Function)
+    if isgeneric(f)
+        a = functionloc(f, ())
+        return string(a[1], " line ", a[2])
+    else
+        return funloc(Base.uncompressed_ast(f.code))
+    end
+end
+    
+function funloc(e::Expr)
+    for a in e.args[3].args
+         if isa(a, LineNumberNode)
+             return string(a.file, " line ", a.line)
+         end
+   end
+   return ""
+end
     
 function Base.show{T <: AbstractTarget}(io::IO, t::T)
     print(io, "\"", t.name, "\"")
     println(io, " => ", replace(string(t.dependencies), "UTF8String", ""))
-    !isempty(t.description) && println(io, "      ", t.description)
+    println(io, T)
+    !isempty(t.description) && println(io, t.description)
+    println(io, "Timestamp: ", t.timestamp, " UTC")
+    println(io, "Action defined at: ", funloc(t.action))
+    t.isstale && println(io, "STALE task")
 end
 
 function markdown(X::Targets)

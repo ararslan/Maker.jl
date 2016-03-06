@@ -3,6 +3,7 @@ using Maker
 using Base.Test
 using DataFrames
 
+
 @desc "Input file 1"
 Maker.file("in1.csv")
 
@@ -36,6 +37,8 @@ end
 
 @desc "Make df2 using second input file"
 Maker.file(process_df2, "df2.csv", "df")
+
+show(tasks("df2.csv"))
 
 @desc "Read `df2`"
 Maker.variable("df2", "df2.csv") do 
@@ -88,8 +91,9 @@ make()  # This should change `df` back to what it was.
 
 make("clean")
 
-@test length(tasks()) == 9 
+@test length(tasks()) == 9
 @test tasks("clean").name == "clean"
-@show tasks()
+show(tasks())
+show(tasks("df.csv"))
 
 println("Done.")

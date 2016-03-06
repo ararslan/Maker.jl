@@ -57,8 +57,8 @@ using Base.Test
 COUNT = 0
 empty!(Maker.TARGETS)
 include("targets.jl")
-make("e.csv")
-@test COUNT == 5
+make("e.csv", verbose = true)
+@test COUNT == 6
 end # module
 
 println("=== Remove e.csv ===")
@@ -117,7 +117,7 @@ make("e.csv")
 @test COUNT == 7
 c = 27
 make("e.csv")
-@test COUNT == 8
+@test COUNT == 9
 @test c != 27
 end # module
 
@@ -129,10 +129,10 @@ COUNT = 0
 empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
-@test COUNT == 5
+@test COUNT == 6
 include("targets.jl")
 make("e.csv")
-@test COUNT == 5
+@test COUNT == 7
 COUNT = 0
 Maker.variable("c", "c.csv") do # redefine action
     global COUNT += 1
@@ -147,13 +147,13 @@ Maker.variable("c", ["c.csv", "a"]) do # redefine dependencies
 end
 make("e.csv")
 @test COUNT == 3
-# COUNT = 0
-# Maker.variable("c", ["c.csv", "a"]) do # redefine to same
-#     global COUNT += 1
-#     -readcsv("c.csv")
-# end
-# make("e.csv")
-# @test COUNT == 0
+COUNT = 0
+Maker.variable("c", ["c.csv", "a"]) do # redefine to same (shouldn't rerun)
+    global COUNT += 1
+    -readcsv("c.csv")
+end
+make("e.csv")
+@test COUNT == 1
 end # module
 
 Maker.rm("c.csv")
