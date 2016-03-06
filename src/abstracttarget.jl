@@ -195,3 +195,10 @@ function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
 end
 make(s::AbstractString = "default"; dryrun = false, verbose = false) = 
     make(resolve(s), 1, dryrun, verbose)
+function make(x::AbstractVector; dryrun = false, verbose = false)
+    if isempty(x)
+        make(dryrun = dryrun, verbose = verbose)
+    else
+        map(s -> make(resolve(s), 1, dryrun, verbose), x)
+    end
+end
