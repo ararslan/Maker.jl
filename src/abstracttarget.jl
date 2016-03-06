@@ -166,9 +166,12 @@ target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dep
 ```julia
 make(name::AbstractString = "default"; 
      dryrun::Bool = false, verbose::Bool = false)
+make(names::AbstractVector; 
+     dryrun::Bool = false, verbose::Bool = false)
 ```
 
-Update target `name` after updating its dependencies. 
+Update target `name` after updating its dependencies. For multiple targets 
+specified in `names`, run `make` on each item sequentially.
 
 If keyword argument `verbose` is set, the chain of targets and dependencies
 is shown.
