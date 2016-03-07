@@ -8,16 +8,19 @@ path = "tmpdir/tmp"
 
 Maker.directory(path)
 
-Maker.file("$path/x.csv", path) do
+Maker.file("$path/x.csv", path) do t
     global COUNT += 1
-    writecsv("$path/x.csv", rand(2,2))
+    writecsv(t.name, rand(2,2))
 end
 
-Maker.file("$path/y.csv", "$path/x.csv") do
+@desc "Update y.csv"
+function update_y_csv(t)
     global COUNT += 1
-    y = readcsv("$path/x.csv") 
-    writecsv("$path/y.csv", 2 * y) 
+    y = readcsv(t.dependencies[1]) 
+    writecsv(t.name, 2 * y) 
 end
+Maker.file(update_y_csv, "$path/y.csv", "$path/x.csv")
+show(tasks("$path/y.csv"))
 
 Maker.task("default", "$path/y.csv")
 

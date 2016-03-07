@@ -89,6 +89,20 @@ target is a generic task that can be used for general processing and to
 connect dependencies (like the PHONY target in a Makefile). All dependencies
 (also called prerequisites) must be satisfied before running the action.
 
+`action` can be called with zero or one arguments. If the one-argument version
+is available, that version is called. The argument is the `AbstractTarget`
+defined. Here is an example of this use:
+
+```julia
+Maker.file("in.csv", "out.csv") do t
+    x = readcsv(t.dependencies[1])
+    writecsv(t.name, 3 * x)
+end
+```
+
+The following fields of an AbstractTarget are suitable for access: `t.name`,
+`t.dependencies`, `t.description`, and `t.action`.
+
 `directory`, `file`, `task`, and `variable` are all exported, but it is best
 to fully qualify these to help task definitions stand out.
 
@@ -98,7 +112,7 @@ and name wildcards.
 is an example of how globs can be used currently for traditional make-like 
 file operations.
 
-## Utilities
+#### Utilities
 
 A few utilities are provided to help with tasks:
 

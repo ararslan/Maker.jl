@@ -27,7 +27,7 @@ function updatecache!(f::JLD.JldFile, t::VariableTarget)
 end
 
 function execute(t::VariableTarget)
-    x = t.action()
+    x = has1arg(t) ? t.action(t) : t.action()
     eval(t.m, :($(symbol(t.name)) = $x))
     newhash = hash(x)
     if t.varhash != newhash
