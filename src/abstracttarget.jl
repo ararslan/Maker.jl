@@ -16,6 +16,21 @@ cached(t::AbstractTarget) = CachedTarget(t.funhash, t.timestamp)
 
 minorversion(v) = VersionNumber(v.major, v.minor, 0, (), ())
 
+"""
+```julia
+fixcache()
+```
+
+Update the `.maker-cache.jld` file with the present version information
+for the cache version number and the Julia version. This may be needed
+if the file format changes or the Julia version upgrades. Note that this
+may not solve all issues. 
+"""
+fixcache() = getjld() do f
+    delete!(f, "CACHEINFO")
+    write(f, "CACHEINFO", CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int)))
+end
+
 # Run `fun(f)` on the CACHEFILE with `f` as the opened file.
 # Not meant to be used externally.
 function getjld(fun::Function)
@@ -43,6 +58,8 @@ function fixh5name(name)
     end
 end
 
+# Store target `t` information in the cache file.
+# Not meant to be used externally.
 function updatecache!(f::JLD.JldFile, t::AbstractTarget)
     h5name = fixh5name(t.name)
     if h5name in names(f)
