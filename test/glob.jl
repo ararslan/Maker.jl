@@ -38,7 +38,7 @@ make("clean")
 @test !isfile(outputs[1])
 @test !isfile(outputs[2])
 
-make()
+make([]) # the [] are to test that call method
 
 @test isfile(outputs[1])
 @test isfile(outputs[2])

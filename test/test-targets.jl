@@ -50,6 +50,21 @@ make("e.csv")
 @test COUNT == 7
 end # module
 
+println("=== Partial Steps ===")
+Maker.rm("c.csv")
+Maker.rm("e.csv")
+module X
+using Maker
+using Base.Test
+COUNT = 0
+empty!(Maker.TARGETS)
+include("targets.jl")
+make(["a", "d"])
+@test COUNT == 2
+make("e")
+@test COUNT == 6
+end # module
+
 println("=== Redo ===")
 module X
 using Maker

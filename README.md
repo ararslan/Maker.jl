@@ -111,6 +111,20 @@ A few utilities are provided to help with tasks:
 * `tasks()` or `tasks(name)` -- Return (and show) all registered tasks or 
   task `name`. Exported.
 
+Although the API is geared towards use in scripts, you can use a standalone
+"makerfile.jl" to define tasks. See this
+[makerfile.jl](https://github.com/tshort/Maker.jl/blob/master/makerfile.jl)
+for an example. Run with `julia makerfile.jl cleancov`, `bin/maker cleancov`,
+or define an alias (using the bash shell in this example):
+
+```bash
+alias maker='julia makerfile.jl' 
+maker cleancov
+```
+
+By convention, a "makerfile.jl" should end with `make(ARGS)` to run make on
+all arguments.
+
 ## Under the hood
 
 `Maker` uses the global Dict `Maker.TARGETS` to store active tasks. Some state
