@@ -1,0 +1,6 @@
+#!/usr/bin/env julia
+
+using Maker
+
+include("makerfile.jl")
+
