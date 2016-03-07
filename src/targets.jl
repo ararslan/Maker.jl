@@ -50,7 +50,7 @@ end
 
 function funloc(f::Function)
     if isgeneric(f)
-        a = functionloc(f, ())
+        a = functionloc(f, has1arg(f) ? (AbstractTarget,) : ())
         return string(a[1], " line ", a[2])
     else
         return funloc(Base.uncompressed_ast(f.code))

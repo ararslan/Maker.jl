@@ -96,13 +96,29 @@ Return the dependencies of a target.
 """
 dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
 
+function has1arg{T<:AbstractTarget}(t::T) 
+    if isgeneric(t.action)
+        !isempty(methods(t.action, (T,)))
+    else
+        return length(Base.uncompressed_ast(t.action.code).args[1]) == 1
+    end
+end
+
+function has1arg(f::Function) 
+    if isgeneric(f)
+        !isempty(methods(f, (AbstractTarget,)))
+    else
+        return length(Base.uncompressed_ast(f.code).args[1]) == 1
+    end
+end
+
 """
 `execute(t::AbstractTarget)`
 
 Run the action for target `t`.
 """
 function execute(t::AbstractTarget) 
-    t.action()
+    has1arg(t) ? t.action(t) : t.action()
     t.timestamp = Dates.unix2datetime(time())
     t.isstale = false
     updatecache!(t)
