@@ -72,8 +72,9 @@ used.
 
 The main API here is rather basic:
 
-* `make(task="default")` -- Process the target `task` by evaluating dependencies
-  that need to be updated. "default" is the name of the default task.
+* `make(name="default")` -- Process the target `name` by evaluating dependencies
+  that need to be updated. "default" is the name of the default task. If `name`
+  is a Vector of names, each name is processed sequentially.
 
 * `Maker.directory`, `Maker.file`, `Maker.task`, and `Maker.variable` -- These
   methods all define tasks or targets to be updated. Each task has a name, zero
@@ -82,12 +83,12 @@ The main API here is rather basic:
 ```julia 
 Maker.task(action::Function, name::AbstractString, dependencies::Vector{AbstractString})
 ```
+
 Normally with the `file` task, the `action` will perform an operation to create
-or update the file of the given name. With the `variable` task, the result
-of the action is assigned to a variable with the specified name. The `task`
-target is a generic task that can be used for general processing and to 
-connect dependencies (like the PHONY target in a Makefile). All dependencies
-(also called prerequisites) must be satisfied before running the action.
+or update the file of the given name. With the `variable` task, the result of
+the action is assigned to a variable with the specified name. The `task` target
+is a generic task that can be used for general processing and to  connect
+dependencies. All dependencies must be satisfied before running the action.
 
 `action` can be called with zero or one arguments. If the one-argument version
 is available, that version is called. The argument is the `AbstractTarget`
@@ -111,6 +112,26 @@ and name wildcards.
 [Here](https://github.com/tshort/Maker.jl/blob/master/test/glob.jl)
 is an example of how globs can be used currently for traditional make-like 
 file operations.
+
+#### Terminology
+
+- **action** -- The method to be executed when a task is run.
+
+- **dependency** -- Tasks may have dependencies. If task "A" has dependencies
+  "B" and "C", `make("A")` will check "B" and "C" before executing "A". 
+  Dependencies are stored by name, so task "B" can be defined after task "A".
+  Circular dependencies are not currently checked.
+
+- **prerequisite** -- Another name for **dependency**.
+
+- **task** -- The basic unit of work. A task is an AbstractTarget. The
+  following AbstractTargets are provided:
+  - `Maker.directory` -> `DirectoryTarget`
+  - `Maker.file` -> `FileTarget`
+  - `Maker.task` -> `GenericTarget`
+  - `Maker.variable` -> `VariableTarget`
+
+- **target** -- Another name for a **task**.
 
 #### Utilities
 
