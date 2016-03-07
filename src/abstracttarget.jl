@@ -31,15 +31,20 @@ fixcache() = getjld() do f
     write(f, "CACHEINFO", CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int)))
 end
 
+compatible(x::CacheInfo) = x.fileversion == CACHEVERSION &&
+    x.juliaversion.major == VERSION.major &&
+    x.juliaversion.minor == VERSION.minor &&
+    x.hashsize == sizeof(Int)
+
 # Run `fun(f)` on the CACHEFILE with `f` as the opened file.
 # Not meant to be used externally.
 function getjld(fun::Function)
     if !isfile(CACHEFILE)    
         f = jldopen(CACHEFILE, "w")
-        write(f, "CACHEINFO", CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int)))
+        write(f, "CACHEINFO", CacheInfo(CACHEVERSION, VERSION, sizeof(Int)))
     else
         f = jldopen(CACHEFILE, "r+")
-        if read(f, "CACHEINFO") != CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int))
+        if !compatible(read(f, "CACHEINFO"))
             error("Cache version in .maker-cache differs from the active version")
         end
     end

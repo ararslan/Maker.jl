@@ -82,12 +82,12 @@ The main API here is rather basic:
 ```julia 
 Maker.task(action::Function, name::AbstractString, dependencies::Vector{AbstractString})
 ```
+
 Normally with the `file` task, the `action` will perform an operation to create
-or update the file of the given name. With the `variable` task, the result
-of the action is assigned to a variable with the specified name. The `task`
-target is a generic task that can be used for general processing and to 
-connect dependencies (like the PHONY target in a Makefile). All dependencies
-(also called prerequisites) must be satisfied before running the action.
+or update the file of the given name. With the `variable` task, the result of
+the action is assigned to a variable with the specified name. The `task` target
+is a generic task that can be used for general processing and to  connect
+dependencies. All dependencies must be satisfied before running the action.
 
 `action` can be called with zero or one arguments. If the one-argument version
 is available, that version is called. The argument is the `AbstractTarget`
