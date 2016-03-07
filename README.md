@@ -91,7 +91,7 @@ connect dependencies (like the PHONY target in a Makefile). All dependencies
 
 `action` can be called with zero or one arguments. If the one-argument version
 is available, that version is called. The argument is the `AbstractTarget`
-defined. Here is an example of the this use:
+defined. Here is an example of this use:
 
 ```julia
 Maker.file("in.csv", "out.csv") do t
