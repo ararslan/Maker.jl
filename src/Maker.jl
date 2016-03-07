@@ -11,6 +11,7 @@ export directory,
        @desc
 
 const CACHEFILE = ".maker-cache.jld"
+const CACHEVERSION = v"0.1"
 
 abstract AbstractTarget
 

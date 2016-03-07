@@ -4,17 +4,29 @@ immutable CachedTarget <: AbstractCached
     timestamp::DateTime
 end
 
+immutable CacheInfo
+    fileversion::VersionNumber
+    juliaversion::VersionNumber
+    hashsize::UInt
+end
+
 # Return the data to be cached for `t`.
 # Not meant to be used externally.
 cached(t::AbstractTarget) = CachedTarget(t.funhash, t.timestamp)
+
+minorversion(v) = VersionNumber(v.major, v.minor, 0, (), ())
 
 # Run `fun(f)` on the CACHEFILE with `f` as the opened file.
 # Not meant to be used externally.
 function getjld(fun::Function)
     if !isfile(CACHEFILE)    
         f = jldopen(CACHEFILE, "w")
+        write(f, "CACHEINFO", CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int)))
     else
         f = jldopen(CACHEFILE, "r+")
+        if read(f, "CACHEINFO") != CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int))
+            error("Cache version in .maker-cache differs from the active version")
+        end
     end
     try
         fun(f)
