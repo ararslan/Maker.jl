@@ -4,17 +4,44 @@ immutable CachedTarget <: AbstractCached
     timestamp::DateTime
 end
 
+immutable CacheInfo
+    fileversion::VersionNumber
+    juliaversion::VersionNumber
+    hashsize::UInt
+end
+
 # Return the data to be cached for `t`.
 # Not meant to be used externally.
 cached(t::AbstractTarget) = CachedTarget(t.funhash, t.timestamp)
+
+minorversion(v) = VersionNumber(v.major, v.minor, 0, (), ())
+
+"""
+```julia
+fixcache()
+```
+
+Update the `.maker-cache.jld` file with the present version information
+for the cache version number and the Julia version. This may be needed
+if the file format changes or the Julia version upgrades. Note that this
+may not solve all issues. 
+"""
+fixcache() = getjld() do f
+    delete!(f, "CACHEINFO")
+    write(f, "CACHEINFO", CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int)))
+end
 
 # Run `fun(f)` on the CACHEFILE with `f` as the opened file.
 # Not meant to be used externally.
 function getjld(fun::Function)
     if !isfile(CACHEFILE)    
         f = jldopen(CACHEFILE, "w")
+        write(f, "CACHEINFO", CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int)))
     else
         f = jldopen(CACHEFILE, "r+")
+        if read(f, "CACHEINFO") != CacheInfo(CACHEVERSION, minorversion(VERSION), sizeof(Int))
+            error("Cache version in .maker-cache differs from the active version")
+        end
     end
     try
         fun(f)
@@ -31,6 +58,8 @@ function fixh5name(name)
     end
 end
 
+# Store target `t` information in the cache file.
+# Not meant to be used externally.
 function updatecache!(f::JLD.JldFile, t::AbstractTarget)
     h5name = fixh5name(t.name)
     if h5name in names(f)
@@ -42,9 +71,9 @@ updatecache!(t::AbstractTarget) = getjld() do f
     updatecache!(f, t)
 end
 
-remove_linenums(x) = x
-remove_linenums(x::LineNumberNode) = LineNumberNode(x.file, 0)
-remove_linenums(e::Expr) = Expr(e.head, Any[remove_linenums(a) for a in e.args])
+remove_linenodes(x) = x
+remove_linenodes(x::Vector{Any}) = map(remove_linenodes, filter(a -> !isa(a, LineNumberNode), x))
+remove_linenodes(e::Expr) = Expr(e.head, remove_linenodes(e.args))
 
 # Find the hash of an anonymous or generic function. The global
 # is to have the same hash if the function code is the same. This
@@ -52,7 +81,7 @@ remove_linenums(e::Expr) = Expr(e.head, Any[remove_linenums(a) for a in e.args])
 # Not meant to be used externally.
 function funhash(f::Function)
     if isdefined(f, :code) # handles anonymous functions
-        hash(string(remove_linenums(Base.uncompressed_ast(f.code))))
+        hash(string(remove_linenodes(Base.uncompressed_ast(f.code))))
     else
         hash(code_lowered(f, ())) # handles generic functions
     end

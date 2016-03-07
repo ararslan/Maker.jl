@@ -48,4 +48,4 @@ make("clean")
 @test !isfile("tmpdir/tmp/x.csv")
 @test !isfile("tmpdir/tmp/y.csv")
 
-
+Maker.fixcache()

@@ -141,9 +141,7 @@ module. You cannot run all actions in `Main` that are defined in another module
 The hashing for functions and variables is not likely to stay the same between
 Julia versions. It's also different for 32- and 64-bit versions. It's still up
 in the air how to deal with this. Also, hashing for v0.4 anonymous functions 
-includes file information, so two actions with the same definition won't look
-the same. Line numbers are removed, so the same definitions or redefinitions 
-within one file will have the same hash.
+has file information removed.
 
 Timestamps are stored for all tasks, even file tasks. On some filesystems, 
 `mtime` only has an accuracy of one second, and this can cause inaccuracies 
