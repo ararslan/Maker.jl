@@ -157,6 +157,8 @@ Return the DateTime timestamp for a target.
 """
 timestamp(t::AbstractTarget) = t.timestamp
 
+originaltimestamp{T<:AbstractTarget}(::Type{T}, name::AbstractString) = DateTime()
+
 """
 `target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)`
 
@@ -178,6 +180,8 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
                     datetime = x.timestamp
                     isstale = false
                 end
+            else
+                datetime = originaltimestamp(T, name)
             end
         end      
     else
