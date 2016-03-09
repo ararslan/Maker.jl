@@ -1,5 +1,11 @@
 
-immutable Targets
+"""
+`Maker.Targets`
+
+An Associative type for storing `AbstractTargets`. A simple wrapper 
+of a Dict to allow more suitable display of the set of AbstractTargets.
+"""
+immutable Targets <: Associative
     dict::Dict{UTF8String, AbstractTarget}
 end
 
@@ -9,7 +15,15 @@ Base.getindex(x::Targets, key) = getindex(x.dict, key)
 Base.get(x::Targets, key, default) = get(x.dict, key, default)
 Base.setindex!(x::Targets, key, val) = setindex!(x.dict, key, val)
 Base.empty!(x::Targets) = empty!(x.dict)
+Base.start(x::Targets) = start(x.dict)
+Base.done(x::Targets, i) = done(x.dict, i)
+Base.next(x::Targets, i) = next(x.dict, i)
 
+"""
+`Maker.TARGETS`
+
+The global `Targets` dictionary for registered AbstractTargets.
+"""
 const TARGETS = Targets(Dict{UTF8String, AbstractTarget}()) 
 NEXTDOC = UTF8String[""]
 
@@ -18,7 +32,7 @@ NEXTDOC = UTF8String[""]
 @desc
 ```
 
-Define a docstring for the next Maker task.
+Define a description for the next Maker task.
 """
 macro desc(arg)
     :(Maker.NEXTDOC[1] = $arg)
@@ -31,7 +45,8 @@ tasks()
 tasks(name)
 ```
 
-Return the target `name` or return a Vector of all targets.
+Return the target `name` or return all targets. Can be
+used to display a target or all registered targets.
 """
 tasks() = TARGETS
 

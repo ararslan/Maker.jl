@@ -1,4 +1,14 @@
 
+"""
+`Maker.VariableTarget`
+
+The type created by `variable()`. Fields expected to be accessed publicly
+include:
+
+- `name::UTF8String`
+- `dependencies::Vector{UTF8String}`
+- `description::UTF8String`
+"""
 type VariableTarget <: AbstractTarget
     name::UTF8String
     dependencies::Vector{UTF8String}
@@ -54,6 +64,36 @@ end
 
 timestamp(t::VariableTarget) = t.timestamp
 
+"""
+```julia
+variable(action::Function, name::AbstractString, dependencies)
+```
+Define and register targets for Maker.jl.
+
+- `action` is the function that operates when the target is
+  executed. 
+
+- `name` refers to the name of the task or target. 
+
+- `dependencies` refers to the name (`AbstractString`) or names 
+  (`Vector{AbstractString}`) of targets that need to be satisfied
+  for this target before running the `action`. These are also referred
+  to as prerequisites.
+
+Targets are registered globally.
+
+`variable` targets define an action, and the result of the action will be
+assigned to a global variable (within the Module where the  definition is
+created) named by the argument `name`. A `variable` task keeps a timestamp 
+when the action runs. If the result of the action has the same hash as
+the cached version of the hash, the cached timestamp is used. Using the
+stored timestamp can reduce the number of unnecessary actions run.
+
+If the `action` or `dependencies` of a target are redefined, the target will be
+marked as stale, and the action will be updated at the next target check.  
+
+See also `make`, `file`, and `task`. `variable` registers a `VariableTarget` type.
+"""
 function variable(action::Function, name::AbstractString, dependencies::AbstractArray = UTF8String[])
     dependencies = UTF8String[dependencies...]
     t = resolve(name, nothing)
