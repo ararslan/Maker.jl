@@ -9,6 +9,14 @@ type GenericTarget <: AbstractTarget
     isstale::Bool
 end
 
+function isstale(t::GenericTarget)
+    if t.isstale
+        return true 
+    end
+    ds = dependencies(t)
+    isempty(ds) ? true : timestamp(t) < maximum([timestamp(d) for d in ds])
+end
+
 task(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
     target(GenericTarget, name, action, dependencies)
 task(name::AbstractString, dependencies=UTF8String[]) = 

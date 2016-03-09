@@ -224,11 +224,11 @@ make(names::AbstractVector;
      dryrun::Bool = false, verbose::Bool = false)
 ```
 
-Update target `name` after updating its dependencies. For multiple targets 
-specified in `names`, run `make` on each item sequentially.
+Check, and if needed, update target `name` after updating its dependencies. For
+multiple targets specified in `names`, run `make` on each item sequentially.
 
-If keyword argument `verbose` is set, the chain of targets and dependencies
-is shown.
+If keyword argument `verbose` is set, the chain of targets and dependencies is
+shown.
 
 If keyword argument `dryrun` is set, the chain of targets and actions
 is shown but not run.
@@ -240,7 +240,7 @@ function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
     for d in dependencies(t)
         make(d, level + 1, dryrun, verbose)
     end
-    if isstale(t) || level == 1
+    if isstale(t)
         if verbose || dryrun
             println(("*" ^ level) * " Execute \"$(t.name)\"")
         end

@@ -132,7 +132,7 @@ make("e.csv")
 @test COUNT == 7
 c = 27
 make("e.csv")
-@test COUNT == 9
+@test COUNT == 8
 @test c != 27
 end # module
 
@@ -144,10 +144,10 @@ COUNT = 0
 empty!(Maker.TARGETS)
 include("targets.jl")
 make("e.csv")
-@test COUNT == 6
+@test COUNT == 5
 include("targets.jl")
 make("e.csv")
-@test COUNT == 7
+@test COUNT == 5
 COUNT = 0
 Maker.variable("c", "c.csv") do # redefine action
     global COUNT += 1
@@ -168,7 +168,7 @@ Maker.variable("c", ["c.csv", "a"]) do # redefine to same (shouldn't rerun)
     -readcsv("c.csv")
 end
 make("e.csv")
-@test COUNT == 1
+@test COUNT == 0
 end # module
 
 Maker.rm("c.csv")

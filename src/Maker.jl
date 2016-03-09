@@ -54,11 +54,11 @@ updated. File paths are relative to the current working directory.
 No action can be specified. The path `name` is created with `mkpath` if 
 it doesn't exist. The path is relative to the current working directory.
 
-`task` targets are generic targets used to define actions and 
-dependencies. These are equivalent to PHONY targets in Makefiles.
-`task` targets do not have timestamps or other way to resolve 
-dependencies. `task` targets always update. So, if a `file` target
-depends on a `task` target, it will always update.
+`task` targets are generic targets used to define actions and dependencies. If a
+task does not have dependencies, it always runs. If a task has dependencies,
+the task will run if any of the dependencies has a timestamp newer than the
+last run of the task. If a file target depends on a task target without
+dependencies, it will always update.
 
 `variable` targets define an action, and the result of the action will be
 assigned to a global variable (within the Module where the  definition is
