@@ -1,8 +1,9 @@
 
 using Maker
 using Base.Test
-using DataFrames
 
+writecsv("in1.csv", rand(3,3))
+writecsv("in2.csv", rand(3,3))
 
 @desc "Input file 1"
 Maker.file("in1.csv")
@@ -11,68 +12,64 @@ Maker.file("in1.csv")
 Maker.file("in2.csv")
 
 @desc "Combine input files"
-Maker.file("df.csv", ["in1.csv", "in2.csv"]) do 
+Maker.file("x.csv", ["in1.csv", "in2.csv"]) do 
     println("Reading input data.")
-    df = readtable("in1.csv")
-    df = vcat(df, readtable("in2.csv"))
-    println("Writing 'df.csv'.")
-    writetable("df.csv", df) 
+    x = readcsv("in1.csv") + readcsv("in2.csv")
+    println("Writing 'x.csv'.")
+    writecsv("x.csv", x) 
 end
  
-@desc "Load variable `df`"
-Maker.variable("df", "df.csv") do 
-    println("Reading `df`.")
-    readtable("df.csv")
+@desc "Load variable `x`"
+Maker.variable("x", "x.csv") do 
+    println("Reading `x`.")
+    readcsv("x.csv")
 end
 
-function process_df2()
-    # global df = readtable("df.csv") 
-    println("Processing `df`.")
-    df2 = copy(df)
-    df2[:d] = 2 .* df[:a] + maximum(df[:b])
-    df2[:e] = rand(nrow(df))
-    println("Writing 'df2.csv'.")
-    writetable("df2.csv", df2)
+function process_x2()
+    println("Processing `x`.")
+    x2 = copy(x)
+    x2 = pi .* x
+    println("Writing 'x2.csv'.")
+    writecsv("x2.csv", x2)
 end
 
-@desc "Make df2 using second input file"
-Maker.file(process_df2, "df2.csv", "df")
+@desc "Make x2 using second input file"
+Maker.file(process_x2, "x2.csv", "x")
 
-show(tasks("df2.csv"))
+show(tasks("x2.csv"))
 
-@desc "Read `df2`"
-Maker.variable("df2", "df2.csv") do 
-    println("Reading `df2`.")
-    readtable("df2.csv")
+@desc "Read `x2`"
+Maker.variable("x2", "x2.csv") do 
+    println("Reading `x2`.")
+    readcsv("x2.csv")
 end
 
-# Maker.task("default", ["df.csv", "df2.csv"])
-Maker.task("default", "df2.csv")
+Maker.task("default", "x2.csv")
 
 @desc "Load all variables"
-Maker.task("vars", ["df", "df2"])
+Maker.task("vars", ["x", "x2"])
 
-# Maker.task("default", "outputs")
 
 @desc "Delete generated csv files"
 Maker.task("clean") do 
     println("Deleting generated csv files.")
-    Maker.rm("df.csv")
-    Maker.rm("df2.csv")
+    Maker.rm("in1.csv")
+    Maker.rm("in2.csv")
+    Maker.rm("x.csv")
+    Maker.rm("x2.csv")
 end
 
 make()
 
 make()
 
-@desc "Make df2 using second input file"
-Maker.file("df2.csv", "df") do 
-    println("Processing `df` after redefining the df2.csv task.")
-    df2 = copy(df)
-    df2[:d] = 2 .* df[:a] + maximum(df[:b])
-    df2[:e] = rand(nrow(df))
-    println("Writing 'df2.csv'.")
-    writetable("df2.csv", df2)
+@desc "Make x2 using second input file"
+Maker.file("x2.csv", "x") do 
+    println("Processing `x` after redefining the x2.csv task.")
+    x2 = copy(x)
+    x2 = pi .* x
+    println("Writing 'x2.csv'.")
+    writecsv("x2.csv", x2)
 end
 
 make()
@@ -83,17 +80,20 @@ run(`touch in1.csv`)
 
 make()
 
-println("== Changing df...")
+println("== Changing x...")
 
-df[1,:a] = 3
+tmp = x[1,1]
+x[1,1] = 3
 
-make()  # This should change `df` back to what it was.
+make()  # This should change `x` back to what it was.
+
+@test tmp == x[1,1]
 
 make("clean")
 
 @test length(tasks()) == 9
 @test tasks("clean").name == "clean"
 show(tasks())
-show(tasks("df.csv"))
+show(tasks("x.csv"))
 
 println("Done.")
