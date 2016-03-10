@@ -54,12 +54,12 @@ function execute(t::VariableTarget)
 end
 
 function isstale(t::VariableTarget)
-    if !isdefined(t.m, symbol(t.name)) || t.isstale || 
+    if !isdefined(t.m, symbol(t.name)) || t.isstale ||
        hash(eval(t.m, symbol(t.name))) != t.varhash
         return true 
     end
     ds = dependencies(t)
-    isempty(ds) ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
+    isempty(ds) ? true : timestamp(t) < maximum([timestamp(d) for d in ds])
 end
 
 timestamp(t::VariableTarget) = t.timestamp
@@ -94,7 +94,8 @@ marked as stale, and the action will be updated at the next target check.
 
 See also `make`, `file`, and `task`. `variable` registers a `VariableTarget` type.
 """
-function variable(action::Function, name::AbstractString, dependencies::AbstractArray = UTF8String[])
+function variable(action::Function, name::AbstractString, 
+                  dependencies::AbstractArray = UTF8String[])
     dependencies = UTF8String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
@@ -119,7 +120,8 @@ function variable(action::Function, name::AbstractString, dependencies::Abstract
         datetime = t.timestamp
         vh = t.varhash
     end
-    register(VariableTarget(name, dependencies, "", action, fh, isstale, datetime, vh, current_module()))
+    register(VariableTarget(name, dependencies, "", action, fh, isstale, 
+                            datetime, vh, current_module()))
 end
 variable(action::Function, name::AbstractString, dependencies::AbstractString) =
     variable(action, name, [utf8(dependencies)])

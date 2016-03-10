@@ -2,7 +2,9 @@
 using Maker
 using Base.Test
 
-Maker.variable("a") do
+Maker.phony("phony") 
+
+Maker.variable("a", "phony") do   # phony limits this to one run
     global COUNT += 1
     pi
 end
