@@ -87,10 +87,13 @@ remove_linenodes(e::Expr) = Expr(e.head, remove_linenodes(e.args))
 function funhash(f::Function)
     if isdefined(f, :code) # handles anonymous functions
         hash(string(remove_linenodes(Base.uncompressed_ast(f.code))))
+    elseif has1arg(f)
+        funhash(methods(f, (AbstractTarget,))[1])
     else
-        hash(code_lowered(f, ())) # handles generic functions
+        funhash(methods(f, ())[1])
     end
 end
+funhash(m::Method) = funhash(m.func)
 funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{UTF8String}, x)))
 
 

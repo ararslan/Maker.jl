@@ -15,10 +15,12 @@ f() = readcsv("in1.csv")
 
 Maker.file("in1.csv")
 
-Maker.variable("x", ["in1.csv", "ffun"]) do
+function genx(t) 
     global COUNT += 1
     f() 
 end
+Maker.variable(genx, "x", ["in1.csv", "ffun"])
+
 
 Maker.variable("ffun") do t
     Maker.funhash(f) 
@@ -34,9 +36,20 @@ make("y")
 make("y")
 @test COUNT == 2
 # redefine f
-f() = readcsv("in1.csv")
+f() = 3*readcsv("in1.csv")
 make("y")
 @test COUNT == 4
+
+# redefine genx to test funhash on generics
+function genx(t) 
+    global COUNT += 1
+    -f() 
+end
+Maker.variable(genx, "x", ["in1.csv", "ffun"])
+
+
+make("y")
+@test COUNT == 6
 
 
 rm("in1.csv")      
