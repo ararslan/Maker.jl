@@ -5,6 +5,7 @@ using JLD
 export directory,
        file,
        make,
+       phony,
        task,
        tasks,
        variable,
@@ -27,6 +28,7 @@ abstract AbstractCached
 include("targets.jl")
 include("abstracttarget.jl")
 include("task.jl")
+include("phony.jl")
 include("directory.jl")
 include("file.jl")
 include("variable.jl")

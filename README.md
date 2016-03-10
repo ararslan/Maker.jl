@@ -38,27 +38,27 @@ dependencies for data processing.
 Maker.file("in1.csv")    # These are the input files.
 Maker.file("in2.csv")
 
-# Two input files are processed to produce the file df.csv.
-# "df.csv" is the name of the file task and the name of the file
+# Two input files are processed to produce the file x.csv.
+# "x.csv" is the name of the file task and the name of the file
 # associated with the task. "in1.csv" and "in2.csv" are the 
-# dependencies for "df.csv". If either of the inputs are 
+# dependencies for "x.csv". If either of the inputs are 
 # changed (newer timestamp), this task will run.
-Maker.file("df.csv", ["in1.csv", "in2.csv"]) do 
-    df = readtable("in1.csv")
-    df = vcat(df, readtable("in2.csv"))
-    writetable("df.csv", df) 
+Maker.file("x.csv", ["in1.csv", "in2.csv"]) do 
+    x = readcsv("in1.csv") + readcsv("in2.csv")
+    println("Writing 'x.csv'.")
+    writecsv("x.csv", x) 
 end
 
 # This is a variable task. It creates a global variable
-# `df` based on the result of this calculation. 
-Maker.variable("df", "df.csv") do 
-    println("Reading `df`.")
-    readtable("df.csv")
+# `x` based on the result of this calculation. 
+Maker.variable("x", "x.csv") do 
+    println("Reading `x`.")
+    readcsv("x.csv")
 end
 
-# This simple task defines which dependencies to check
+# This simple task defines which target to check
 # when `make()` is run.
-Maker.task("default", "df.csv")
+Maker.task("default", "x.csv")
 
 make()  # Run the "default" task.
 ```
@@ -76,9 +76,9 @@ The main API here is rather basic:
   that need to be updated. "default" is the name of the default task. If `name`
   is a Vector of names, each name is processed sequentially.
 
-* `Maker.directory`, `Maker.file`, `Maker.task`, and `Maker.variable` -- These
-  methods all define tasks or targets to be updated. Each task has a name, zero
-  or more dependencies, and an action as follows:
+* `Maker.directory`, `Maker.file`, `Maker.phony`, `Maker.task`, and
+  `Maker.variable` -- These methods all define tasks or targets to be updated.
+  Each task has a name, zero or more dependencies, and an action as follows:
     
 ```julia 
 Maker.task(action::Function, name::AbstractString, dependencies::Vector{AbstractString})
@@ -88,11 +88,13 @@ Normally with the `file` task, the `action` will perform an operation to create
 or update the file of the given name. With the `variable` task, the result of
 the action is assigned to a variable with the specified name. The `task` target
 is a generic task that can be used for general processing and to  connect
-dependencies. All dependencies must be satisfied before running the action.
+dependencies. All dependencies must be satisfied before running the action. 
+`phony` is like `task`, but the timestamp always appears old, so it doesn't 
+trigger upstream actions.
 
-`action` can be called with zero or one arguments. If the one-argument version
-is available, that version is called. The argument is the `AbstractTarget`
-defined. Here is an example of this use:
+The `action` function can be called with zero or one arguments. If the
+one-argument version is available, that version is called. The argument is the
+`AbstractTarget` defined. Here is an example of this use:
 
 ```julia
 Maker.file("in.csv", "out.csv") do t
@@ -104,8 +106,8 @@ end
 The following fields of an AbstractTarget are suitable for access: `t.name`,
 `t.dependencies`, `t.description`, and `t.action`.
 
-`directory`, `file`, `task`, and `variable` are all exported, but it is best
-to fully qualify these to help task definitions stand out.
+`directory`, `file`, `phony`, `task`, and `variable` are all exported, but it is
+best to fully qualify these to help task definitions stand out.
 
 `Maker` works well with [Glob.jl](https://github.com/vtjnash/Glob.jl) for file
 and name wildcards. 
@@ -128,6 +130,7 @@ file operations.
   following AbstractTargets are provided:
   - `Maker.directory` -> `DirectoryTarget`
   - `Maker.file` -> `FileTarget`
+  - `Maker.phony` -> `PhonyTarget`
   - `Maker.task` -> `GenericTarget`
   - `Maker.variable` -> `VariableTarget`
 
