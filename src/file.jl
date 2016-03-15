@@ -25,7 +25,8 @@ end
 resolvedependency(s::AbstractString)
 ```
 
-Return the target registered under name `s`.
+Return the target registered under name `s`. If no target is registered and a
+file of name `s` exists, return a new `FileTarget` for that file.
 """
 function resolvedependency(s::AbstractString)
     if haskey(tasks(), utf8(s))
