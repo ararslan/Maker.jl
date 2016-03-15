@@ -37,4 +37,4 @@ pages:
   - Internals: internals.md
 - About:
   - Release notes: ../../NEWS.md
-  - License: ../../LICENSE
+  - License: ../../LICENSE.md
