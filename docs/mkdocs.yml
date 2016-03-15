@@ -1,0 +1,40 @@
+site_name:        Maker.jl
+repo_url:         https://github.com/tshort/Maker.jl
+site_description: A make-like system for data analysis
+site_author:      Tom Short
+
+theme: material
+
+extra:
+  palette:
+    primary: 'indigo'
+    accent:  'blue'
+
+extra_css:
+  - assets/Lapidary.css
+
+markdown_extensions:
+  - codehilite
+  - extra
+  - tables
+  - fenced_code
+
+extra_javascript:
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML
+  - assets/mathjaxhelper.js
+
+docs_dir: 'build'
+
+pages:
+- Home: index.md
+- Manual:
+  - Introduction: introduction.md
+  - API: api.md
+  - Targets: targets.md
+  - `make`: make.md
+  - Utilities: utilities.md
+  - Terminology: terminology.md
+  - Internals: internals.md
+- About:
+  - Release notes: ../NEWS.md
+  - License: ../LICENSE

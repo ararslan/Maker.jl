@@ -2,3 +2,5 @@
 *.jl.*.cov
 *.jl.mem
 .maker-cache.jld
+docs/build/
+docs/site/
