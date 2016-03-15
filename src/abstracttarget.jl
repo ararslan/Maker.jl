@@ -99,7 +99,7 @@ funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{UTF8String}, x)))
 
 Return the dependencies of a target.
 """
-dependencies(t::AbstractTarget) = [resolve(d) for d in t.dependencies]
+dependencies(t::AbstractTarget) = [resolvedependency(d) for d in t.dependencies]
 
 function has1arg{T<:AbstractTarget}(t::T) 
     if isgeneric(t.action)

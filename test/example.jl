@@ -5,12 +5,6 @@ using Base.Test
 writecsv("in1.csv", rand(3,3))
 writecsv("in2.csv", rand(3,3))
 
-@desc "Input file 1"
-Maker.file("in1.csv")
-
-@desc "Input file 1"
-Maker.file("in2.csv")
-
 @desc "Combine input files"
 Maker.file("x.csv", ["in1.csv", "in2.csv"]) do 
     println("Reading input data.")
@@ -91,7 +85,7 @@ make()  # This should change `x` back to what it was.
 
 make("clean")
 
-@test length(tasks()) == 9
+@test length(tasks()) == 7
 @test tasks("clean").name == "clean"
 show(tasks())
 show(tasks("x.csv"))

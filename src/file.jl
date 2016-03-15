@@ -20,6 +20,25 @@ type FileTarget <: AbstractTarget
     isstale::Bool
 end
 
+"""
+```julia
+resolvedependency(s::AbstractString)
+```
+
+Return the target registered under name `s`. If no target is registered and a
+file of name `s` exists, return a new `FileTarget` for that file.
+"""
+function resolvedependency(s::AbstractString)
+    if haskey(tasks(), utf8(s))
+        tasks()[utf8(s)]
+    elseif isfile(s)
+        FileTarget(s, UTF8String[], "", () -> nothing,
+                   Dates.unix2datetime(mtime(s)), 0, false)
+    else
+        error("no rule for target '$s'")
+    end
+end
+
 function isstale(t::FileTarget)
     if !isfile(t.name) || t.isstale  
         return true 
