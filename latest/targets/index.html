@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Targets - Maker.jl</title>
+      
+      
+      
+      
+        <meta name="author" content="Tom Short">
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Maker.jl">
+    <meta property="og:image" content="None/../">
+    <meta name="apple-mobile-web-app-title" content="Maker.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../assets/fonts/icon.eot?52m981');
+      	src: url('../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../assets/stylesheets/application-20d5debb47.css">
+    
+      <link rel="stylesheet" href="../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../assets/Lapidary.css">
+    
+    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Manual <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Targets
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/tshort/Maker.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>Maker.jl </strong>
+        
+          <br>
+          tshort/Maker.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/tshort/Maker.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/tshort/Maker.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Manual</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Introduction" href="../introduction/">
+      Introduction
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="API" href="../api/">
+      API
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Targets" href="./">
+      Targets
+    </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="AbstractTarget" href="#abstracttarget">
+                AbstractTarget
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="task" href="#task">
+                task
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="file" href="#file">
+                file
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="directory" href="#directory">
+                directory
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="variable" href="#variable">
+                variable
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="phony" href="#phony">
+                phony
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="make" href="../make/">
+      make
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Utilities" href="../utilities/">
+      Utilities
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Terminology" href="../terminology/">
+      Terminology
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Internals" href="../internals/">
+      Internals
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">About</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Release notes" href="../NEWS/">
+      Release notes
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="License" href="../LICENSE/">
+      License
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='targets'></a></p>
+<h1 id="targets">Targets</h1>
+<p><a id='abstracttarget'></a></p>
+<h2 id="abstracttarget"><code>AbstractTarget</code></h2>
+<p><a id='Maker.AbstractTarget' href='#Maker.AbstractTarget'>#</a><strong>Maker.AbstractTarget</strong> &mdash; <em>Type</em>.</p>
+<hr />
+<p><code>Maker.AbstractTarget</code></p>
+<p><code>AbstractTarget</code> is an abstract type covering various "targets" or "tasks". Each of these targets normally has an action and zero or more dependencies.</p>
+<p><a id='task'></a></p>
+<h2 id="task"><code>task</code></h2>
+<p><a id='Maker.GenericTarget' href='#Maker.GenericTarget'>#</a><strong>Maker.GenericTarget</strong> &mdash; <em>Type</em>.</p>
+<hr />
+<p><code>Maker.GenericTarget</code></p>
+<p>The type created by <code>task()</code>. Fields expected to be accessed publicly include:</p>
+<ul>
+<li><code>name::UTF8String</code></li>
+<li><code>dependencies::Vector{UTF8String}</code></li>
+<li><code>description::UTF8String</code></li>
+</ul>
+<p><a id='Maker.task' href='#Maker.task'>#</a><strong>Maker.task</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">task</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
+<span class="n">task</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span> 
+</pre></div>
+
+
+<p>Define and register a <code>task</code> target for Maker.jl.</p>
+<ul>
+<li>
+<p><code>action</code> is the function that operates when the target is   executed. </p>
+</li>
+<li>
+<p><code>name</code> refers to the name of the task. </p>
+</li>
+<li>
+<p><code>dependencies</code> refers to the name (<code>AbstractString</code>) or names    (<code>Vector{AbstractString}</code>) of targets that need to be satisfied   for this target before running the <code>action</code>. These are also referred   to as prerequisites.</p>
+</li>
+</ul>
+<p>Targets are registered globally.</p>
+<p><code>task</code> targets are generic targets used to define actions and dependencies. If a task does not have dependencies, it always runs. If a task has dependencies, the task will run if any of the dependencies has a timestamp newer than the last run of the task. If a file target depends on a task target without dependencies, it will always update.</p>
+<p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
+<p>See also <code>make</code>, <code>file</code>, and <code>variable</code>. <code>task</code> registers a <code>GenericTarget</code> type.</p>
+<p><a id='file'></a></p>
+<h2 id="file"><code>file</code></h2>
+<p><a id='Maker.FileTarget' href='#Maker.FileTarget'>#</a><strong>Maker.FileTarget</strong> &mdash; <em>Type</em>.</p>
+<hr />
+<p><code>Maker.FileTarget</code></p>
+<p>The type created by <code>file()</code>. Fields expected to be accessed publicly include:</p>
+<ul>
+<li><code>name::UTF8String</code></li>
+<li><code>dependencies::Vector{UTF8String}</code></li>
+<li><code>description::UTF8String</code></li>
+</ul>
+<p><a id='Maker.file' href='#Maker.file'>#</a><strong>Maker.file</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">file</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
+<span class="n">file</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
+</pre></div>
+
+
+<p>Define and register a <code>file</code> target for Maker.jl.</p>
+<ul>
+<li>
+<p><code>action</code> is the function that operates when the target is   executed. </p>
+</li>
+<li>
+<p><code>name</code> refers to the name of the task or target. </p>
+</li>
+<li>
+<p><code>dependencies</code> refers to the name (<code>AbstractString</code>) or names    (<code>Vector{AbstractString}</code>) of targets that need to be satisfied   for this target. </p>
+</li>
+</ul>
+<p>Targets are registered globally.</p>
+<p><code>file</code> targets use the name of the file as the name of the target. File targets use timestamps to determine when targets need to be updated. File paths are relative to the current working directory.</p>
+<p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
+<p>See also <code>make</code>, <code>directory</code>,, <code>task</code>, and <code>variable</code>. <code>file</code>  registers a <code>FileTarget</code> type.</p>
+<p><a id='directory'></a></p>
+<h2 id="directory"><code>directory</code></h2>
+<p><a id='Maker.DirectoryTarget' href='#Maker.DirectoryTarget'>#</a><strong>Maker.DirectoryTarget</strong> &mdash; <em>Type</em>.</p>
+<hr />
+<p><code>Maker.DirectoryTarget</code></p>
+<p>The type created by <code>directory()</code>. Fields expected to be accessed publicly include:</p>
+<ul>
+<li><code>name::UTF8String</code></li>
+<li><code>dependencies::Vector{UTF8String}</code></li>
+<li><code>description::UTF8String</code></li>
+</ul>
+<p><a id='Maker.directory' href='#Maker.directory'>#</a><strong>Maker.directory</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">directory</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
+</pre></div>
+
+
+<p>Define and register targets for Maker.jl.</p>
+<ul>
+<li>
+<p><code>name</code> refers to the name of the task or target. </p>
+</li>
+<li>
+<p><code>dependencies</code> refers to the name (<code>AbstractString</code>) or names    (<code>Vector{AbstractString}</code>) of targets that need to be satisfied   for this target. </p>
+</li>
+</ul>
+<p>Targets are registered globally.</p>
+<p><code>directory</code> targets use the name of the path as the name of the target. No action can be specified. The path <code>name</code> is created with <code>mkpath</code> if  it doesn't exist. The path is relative to the current working directory.</p>
+<p><code>directory</code> targets only have a builtin action that creates the  directory if it is missing. A timestamp is stored when the directory is created, but the return from <code>timestamp("directorytask")</code> returns the oldest time if the directory exists (it doesn't need to be recreated), and it returns the current time if the directory doesn't exist (it needs  to be created). </p>
+<p>See also <code>make</code>, <code>file</code>, and <code>task</code>. <code>directory</code> registers a  <code>DirectoryTarget</code> type.</p>
+<p><a id='variable'></a></p>
+<h2 id="variable"><code>variable</code></h2>
+<p><a id='Maker.VariableTarget' href='#Maker.VariableTarget'>#</a><strong>Maker.VariableTarget</strong> &mdash; <em>Type</em>.</p>
+<hr />
+<p><code>Maker.VariableTarget</code></p>
+<p>The type created by <code>variable()</code>. Fields expected to be accessed publicly include:</p>
+<ul>
+<li><code>name::UTF8String</code></li>
+<li><code>dependencies::Vector{UTF8String}</code></li>
+<li><code>description::UTF8String</code></li>
+</ul>
+<p><a id='Maker.variable' href='#Maker.variable'>#</a><strong>Maker.variable</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">variable</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Define and register targets for Maker.jl.</p>
+<ul>
+<li>
+<p><code>action</code> is the function that operates when the target is   executed. </p>
+</li>
+<li>
+<p><code>name</code> refers to the name of the task or target. </p>
+</li>
+<li>
+<p><code>dependencies</code> refers to the name (<code>AbstractString</code>) or names    (<code>Vector{AbstractString}</code>) of targets that need to be satisfied   for this target before running the <code>action</code>. These are also referred   to as prerequisites.</p>
+</li>
+</ul>
+<p>Targets are registered globally.</p>
+<p><code>variable</code> targets define an action, and the result of the action will be assigned to a global variable (within the Module where the  definition is created) named by the argument <code>name</code>. A <code>variable</code> task keeps a timestamp  when the action runs. If the result of the action has the same hash as the cached version of the hash, the cached timestamp is used. Using the stored timestamp can reduce the number of unnecessary actions run.</p>
+<p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
+<p>See also <code>make</code>, <code>file</code>, and <code>task</code>. <code>variable</code> registers a <code>VariableTarget</code> type.</p>
+<p><a id='phony'></a></p>
+<h2 id="phony"><code>phony</code></h2>
+<p><a id='Maker.PhonyTarget' href='#Maker.PhonyTarget'>#</a><strong>Maker.PhonyTarget</strong> &mdash; <em>Type</em>.</p>
+<hr />
+<p><code>Maker.PhonyTarget</code></p>
+<p>The type created by <code>phony()</code>. Fields expected to be accessed publicly include:</p>
+<ul>
+<li><code>name::UTF8String</code></li>
+<li><code>dependencies::Vector{UTF8String}</code></li>
+<li><code>description::UTF8String</code></li>
+</ul>
+<p><a id='Maker.phony' href='#Maker.phony'>#</a><strong>Maker.phony</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">phony</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
+<span class="n">phony</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span> 
+</pre></div>
+
+
+<p>Define and register a <code>phony</code> target for Maker.jl.</p>
+<ul>
+<li>
+<p><code>action</code> is the function that operates when the target is   executed. </p>
+</li>
+<li>
+<p><code>name</code> refers to the name of the task. </p>
+</li>
+<li>
+<p><code>dependencies</code> refers to the name (<code>AbstractString</code>) or names    (<code>Vector{AbstractString}</code>) of targets that need to be satisfied   for this target before running the <code>action</code>. These are also referred   to as prerequisites.</p>
+</li>
+</ul>
+<p>Targets are registered globally.</p>
+<p><code>phony</code> targets are generic targets that follow the same rules as a <code>task</code>, but <code>phony</code> always has an "ancient" timestamp meaning it won't trigger upstream changes. It does store a timestamp to  determine whether to execute its own  action based on changes to dependencies.</p>
+<p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
+<p>See also <code>make</code>, <code>file</code>, <code>task</code>, and <code>variable</code>. <code>phony</code> registers a  <code>PhonyTarget</code> type.</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../api/" title="API">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                API
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../make/" title="make">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                make
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '..';
+      var repo_id  = 'tshort/Maker.jl';
+    </script>
+    <script src="../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    
+      <script src="../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>

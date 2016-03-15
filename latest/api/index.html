@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>API - Maker.jl</title>
+      
+      
+      
+      
+        <meta name="author" content="Tom Short">
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="Maker.jl">
+    <meta property="og:image" content="None/../">
+    <meta name="apple-mobile-web-app-title" content="Maker.jl">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../assets/fonts/icon.eot?52m981');
+      	src: url('../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../assets/stylesheets/application-20d5debb47.css">
+    
+      <link rel="stylesheet" href="../assets/stylesheets/palettes-05ab2406df.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+      <link rel="stylesheet" href="../assets/Lapidary.css">
+    
+    <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class="palette-primary-indigo palette-accent-blue">
+    
+      
+      
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Manual <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        API
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="https://github.com/tshort/Maker.jl" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>Maker.jl </strong>
+        
+          <br>
+          tshort/Maker.jl
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+        <ul class="repo">
+          <li class="repo-download">
+            
+            <a href="https://github.com/tshort/Maker.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
+              <i class="icon icon-download"></i> Download
+            </a>
+          </li>
+          <li class="repo-stars">
+            <a href="https://github.com/tshort/Maker.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+              <i class="icon icon-star"></i> Stars
+              <span class="count">&ndash;</span>
+            </a>
+          </li>
+        </ul>
+        <hr>
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Home" href="..">
+      Home
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Manual</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Introduction" href="../introduction/">
+      Introduction
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="API" href="./">
+      API
+    </a>
+    
+      
+        
+      
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Targets" href="../targets/">
+      Targets
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="make" href="../make/">
+      make
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Utilities" href="../utilities/">
+      Utilities
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Terminology" href="../terminology/">
+      Terminology
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Internals" href="../internals/">
+      Internals
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+            
+  <li>
+    <span class="section">About</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Release notes" href="../NEWS/">
+      Release notes
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="License" href="../LICENSE/">
+      License
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+          <p><a id='api'></a></p>
+<h1 id="api">API</h1>
+<p>The main API here is rather basic:</p>
+<ul>
+<li>
+<p><code>make(name="default")</code> – Process the target <code>name</code> by evaluating dependencies   that need to be updated. "default" is the name of the default task. If <code>name</code>   is a Vector of names, each name is processed sequentially.</p>
+</li>
+<li>
+<p><a href="../targets/#Maker.directory"><code>Maker.directory</code></a>, <code>Maker.file</code>, <code>Maker.phony</code>, <code>Maker.task</code>, and   <code>Maker.variable</code> – These methods all define tasks or targets to be updated.   Each task has a name, zero or more dependencies, and an action as follows:      <code>julia  Maker.task(action::Function, name::AbstractString, dependencies::Vector{AbstractString})</code></p>
+</li>
+</ul>
+<p>Normally with the <code>file</code> task, the <code>action</code> will perform an operation to create or update the file of the given name. With the <code>variable</code> task, the result of the action is assigned to a variable with the specified name. The <code>task</code> target is a generic task that can be used for general processing and to  connect dependencies. All dependencies must be satisfied before running the action.  <code>phony</code> is like <code>task</code>, but the timestamp always appears old, so it doesn't  trigger upstream actions.</p>
+<p>The <code>action</code> function can be called with zero or one arguments. If the one-argument version is available, that version is called. The argument is the <code>AbstractTarget</code> defined. Here is an example of this use:</p>
+<div class="codehilite"><pre><span></span><span class="n">Maker</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;in.csv&quot;</span><span class="p">,</span> <span class="s">&quot;out.csv&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="n">t</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">readcsv</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">writecsv</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>The following fields of an AbstractTarget are suitable for access: <code>t.name</code>, <code>t.dependencies</code>, <code>t.description</code>, and <code>t.action</code>.</p>
+<p><code>directory</code>, <code>file</code>, <code>phony</code>, <code>task</code>, and <code>variable</code> are all exported, but it is best to fully qualify these to help task definitions stand out.</p>
+<p><code>Maker</code> works well with <a href="https://github.com/vtjnash/Glob.jl">Glob.jl</a> for file and name wildcards.  <a href="https://github.com/tshort/Maker.jl/blob/master/test/glob.jl">Here</a> is an example of how globs can be used currently for traditional make-like  file operations.</p>
+<p>Although the API is geared towards use in scripts, you can use a standalone "makerfile.jl" to define tasks. See this <a href="https://github.com/tshort/Maker.jl/blob/master/makerfile.jl">makerfile.jl</a> for an example. Run with <code>julia makerfile.jl cleancov</code>, <code>bin/maker cleancov</code>, or define an alias (using the bash shell in this example):</p>
+<div class="codehilite"><pre><span></span><span class="nb">alias</span> <span class="nv">maker</span><span class="o">=</span><span class="s1">&#39;julia makerfile.jl&#39;</span> 
+maker cleancov
+</pre></div>
+
+
+<p>By convention, a "makerfile.jl" should end with <code>make(ARGS)</code> to run make on all arguments.</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../introduction/" title="Introduction">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Introduction
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../targets/" title="Targets">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Targets
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '..';
+      var repo_id  = 'tshort/Maker.jl';
+    </script>
+    <script src="../assets/javascripts/application-997097ee0c.js"></script>
+    
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    
+      <script src="../assets/mathjaxhelper.js"></script>
+    
+    
+  </body>
+</html>
