@@ -31,7 +31,7 @@ pages:
   - Introduction: introduction.md
   - API: api.md
   - Targets: targets.md
-  - `make`: make.md
+  - make: make.md
   - Utilities: utilities.md
   - Terminology: terminology.md
   - Internals: internals.md
