@@ -7,8 +7,8 @@ theme: material
 
 extra:
   palette:
-    primary: 'indigo'
-    accent:  'blue'
+    primary: 'blue grey'
+    accent:  'indigo'
 
 extra_css:
   - assets/Lapidary.css
@@ -36,5 +36,5 @@ pages:
   - Terminology: terminology.md
   - Internals: internals.md
 - About:
-  - Release notes: ../../NEWS.md
-  - License: ../../LICENSE.md
+  - Release notes: NEWS.md
+  - License: LICENSE.md
