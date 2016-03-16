@@ -1,5 +1,5 @@
 
-#### Terminology
+# Terminology
 
 - **action** -- The method to be executed when a task is run.
 
@@ -16,11 +16,11 @@
   following AbstractTargets are provided:
   
 Registration method | AbstractTarget   
-------------------- | :----------------
-`Maker.directory`   | `DirectoryTarget`
-`Maker.directory`   | `DirectoryTarget`
-`Maker.file`        | `FileTarget`     
-`Maker.phony`       | `PhonyTarget`    
-`Maker.task`        | `GenericTarget`  
-`Maker.variable`    | `VariableTarget` 
+:------------------ | :----------------
+Maker.directory     | DirectoryTarget
+Maker.directory     | DirectoryTarget
+Maker.file          | FileTarget     
+Maker.phony         | PhonyTarget    
+Maker.task          | GenericTarget  
+Maker.variable      | VariableTarget 
 
