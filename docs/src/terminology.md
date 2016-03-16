@@ -12,10 +12,14 @@
 
 - **task** -- The basic unit of work. A task is an AbstractTarget. The
   following AbstractTargets are provided:
-  - `Maker.directory` -> `DirectoryTarget`
-  - `Maker.file` -> `FileTarget`
-  - `Maker.phony` -> `PhonyTarget`
-  - `Maker.task` -> `GenericTarget`
-  - `Maker.variable` -> `VariableTarget`
+  
+  | Registration method | AbstractTarget    |
+  |:--------------------|:------------------|
+  | `Maker.directory`   | `DirectoryTarget` |
+  | `Maker.directory`   | `DirectoryTarget` |
+  | `Maker.file`        | `FileTarget`      |
+  | `Maker.phony`       | `PhonyTarget`     |
+  | `Maker.task`        | `GenericTarget`   |
+  | `Maker.variable`    | `VariableTarget`  |
 
 - **target** -- Another name for a **task**.
