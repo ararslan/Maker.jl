@@ -16,7 +16,7 @@ build automation for code.
 
 ### Documentation
 
-* **[Current released package documentation](https://tshort.github.io/Maker.jl/release/)**
+* **[Current released package documentation](https://tshort.github.io/Maker.jl/stable/)**
 
 The documentation for the development version of this package is 
 [here](https://tshort.github.io/Maker.jl/latest/).
