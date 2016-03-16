@@ -52,7 +52,8 @@ file operations.
 Although the API is geared towards use in scripts, you can use a standalone
 "makerfile.jl" to define tasks. See this
 [makerfile.jl](https://github.com/tshort/Maker.jl/blob/master/makerfile.jl)
-for an example. Run with `julia makerfile.jl cleancov`, `bin/maker cleancov`,
+for an example. Run with `` `julia makerfile.jl cleancov` ``, 
+`` `bin/maker cleancov` ``,
 or define an alias (using the bash shell in this example):
 
 ```bash
