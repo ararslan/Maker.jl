@@ -28,7 +28,7 @@ docs_dir: 'build'
 pages:
 - Maker: index.md
 - Documentation:
-  - Introduction: introduction.md
+  - Example: introduction.md
   - API: api.md
   - make: make.md
   - Targets: targets.md
