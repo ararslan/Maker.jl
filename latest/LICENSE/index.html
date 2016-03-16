@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Internals - Maker.jl</title>
+        <title>License - Maker.jl</title>
       
       
       
@@ -95,12 +95,12 @@
           <span class="path">
             
               
-                Documentation <i class="icon icon-link"></i>
+                About <i class="icon icon-link"></i>
               
             
           </span>
         
-        Internals
+        License
       </div>
     </div>
     
@@ -233,14 +233,9 @@
       
         
   <li>
-    <a class="current" title="Internals" href="./">
+    <a class="" title="Internals" href="../internals/">
       Internals
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
@@ -265,9 +260,12 @@
       
         
   <li>
-    <a class="" title="License" href="../LICENSE/">
+    <a class="current" title="License" href="./">
       License
     </a>
+    
+      
+      
     
   </li>
 
@@ -286,13 +284,12 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='internals'></a></p>
-<h1 id="internals">Internals</h1>
-<p><code>Maker</code> uses the global Dict <code>Maker.TARGETS</code> to store active tasks. Some state is also stored in a <a href="https://github.com/JuliaLang/JLD.jl">JLD</a> file ".maker-cache.jld" in the active directory. This stores hashes for functions and variables along with timestamps. This allows <code>Maker</code> to be used between sessions. </p>
-<p>Note that tasks are defined globally, so they may be defined in modules or in the <code>Main</code> module. <code>make</code> works fine in a module for tasks defined in that module. You cannot run all actions in <code>Main</code> that are defined in another module (particularly for variable tasks).</p>
-<p>The hashing for functions and variables is not likely to stay the same between Julia versions. It's also different for 32- and 64-bit versions. It's still up in the air how to deal with this. Also, hashing for v0.4 anonymous functions  has file information removed.</p>
-<p>Timestamps are stored for all tasks, even file tasks. On some filesystems,  <code>mtime</code> only has an accuracy of one second, and this can cause inaccuracies  with variable timestamps.</p>
-<p>Note that parallel operation may be tricky. One may have to be careful using  <code>@everywhere</code> and friends with <code>Maker</code>. Each process might try to update  dependencies at the same time, leading to race conditions. Another topic to think about is how to take advantage of parallel operations (or threads when  they come to Julia). </p>
+            <h1>License</h1>
+          
+          <p>The MIT License (MIT) Copyright (c) 2013 Mike Nolta <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#105;&#107;&#101;&#64;&#110;&#111;&#108;&#116;&#97;&#46;&#110;&#101;&#116;">&#109;&#105;&#107;&#101;&#64;&#110;&#111;&#108;&#116;&#97;&#46;&#110;&#101;&#116;</a> and Copyright (c) 2016 Tom Short</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -309,7 +306,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../terminology/" title="Terminology">
+        <a href="../NEWS/" title="Release notes">
           <span class="direction">
             Previous
           </span>
@@ -319,7 +316,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Terminology
+                Release notes
               </div>
             </div>
           </div>
@@ -327,22 +324,6 @@
       
     </div>
     <div class="next">
-      
-        <a href="../NEWS/" title="Release notes">
-          <span class="direction">
-            Next
-          </span>
-          <div class="page">
-            <div class="stretch">
-              <div class="title">
-                Release notes
-              </div>
-            </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
-            </div>
-          </div>
-        </a>
       
     </div>
   </nav>
