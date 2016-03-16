@@ -302,9 +302,40 @@
 <p><strong>target</strong> – Another name for a <strong>task</strong>.</p>
 </li>
 <li>
-<p><strong>task</strong> – The basic unit of work. A task is an AbstractTarget. The   following AbstractTargets are provided:        Registration method | AbstractTarget        –––––––––- | –––––––-     Maker.directory     | DirectoryTarget     Maker.directory     | DirectoryTarget     Maker.file          | FileTarget          Maker.phony         | PhonyTarget         Maker.task          | GenericTarget       Maker.variable      | VariableTarget </p>
+<p><strong>task</strong> – The basic unit of work. A task is an AbstractTarget. The   following AbstractTargets are provided:</p>
 </li>
 </ul>
+<p>&nbsp;</p>
+<table>
+<thead>
+<tr>
+<th>Registration method</th>
+<th align="right">AbstractTarget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Maker.directory</code></td>
+<td align="right"><code>DirectoryTarget</code></td>
+</tr>
+<tr>
+<td><code>Maker.file</code></td>
+<td align="right"><code>FileTarget</code></td>
+</tr>
+<tr>
+<td><code>Maker.phony</code></td>
+<td align="right"><code>PhonyTarget</code></td>
+</tr>
+<tr>
+<td><code>Maker.task</code></td>
+<td align="right"><code>GenericTarget</code></td>
+</tr>
+<tr>
+<td><code>Maker.variable</code></td>
+<td align="right"><code>VariableTarget</code></td>
+</tr>
+</tbody>
+</table>
           <aside class="copyright" role="note">
             
             Documentation built with
