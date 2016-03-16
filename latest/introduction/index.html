@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Introduction - Maker.jl</title>
+        <title>Example - Maker.jl</title>
       
       
       
@@ -95,12 +95,12 @@
           <span class="path">
             
               
-                Manual <i class="icon icon-link"></i>
+                Documentation <i class="icon icon-link"></i>
               
             
           </span>
         
-        Introduction
+        Example
       </div>
     </div>
     
@@ -165,8 +165,8 @@
           
             
   <li>
-    <a class="" title="Home" href="..">
-      Home
+    <a class="" title="Maker" href="..">
+      Maker
     </a>
     
   </li>
@@ -174,28 +174,18 @@
           
             
   <li>
-    <span class="section">Manual</span>
+    <span class="section">Documentation</span>
     <ul>
       
         
   <li>
-    <a class="current" title="Introduction" href="./">
-      Introduction
+    <a class="current" title="Example" href="./">
+      Example
     </a>
     
       
         
       
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Example" href="#example">
-                Example
-              </a>
-            </li>
-          
-        </ul>
       
     
   </li>
@@ -212,8 +202,8 @@
       
         
   <li>
-    <a class="" title="Targets" href="../targets/">
-      Targets
+    <a class="" title="make" href="../make/">
+      make
     </a>
     
   </li>
@@ -221,8 +211,8 @@
       
         
   <li>
-    <a class="" title="make" href="../make/">
-      make
+    <a class="" title="Targets" href="../targets/">
+      Targets
     </a>
     
   </li>
@@ -296,18 +286,8 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='introduction'></a></p>
-<h1 id="introduction">Introduction</h1>
-<p><a href="http://pkg.julialang.org/?pkg=Maker&amp;ver=0.4"><img alt="Maker" src="http://pkg.julialang.org/badges/Maker_0.4.svg" /></a></p>
-<p><a href="https://travis-ci.org/tshort/Maker.jl"><img alt="Build Status" src="https://travis-ci.org/tshort/Maker.jl.svg?branch=master" /></a> <a href="https://ci.appveyor.com/project/tshort/maker-jl"><img alt="Build status" src="https://ci.appveyor.com/api/projects/status/otj9pnwsq32to211?svg=true" /></a> <a href="https://coveralls.io/r/tshort/Maker.jl?branch=master"><img alt="Coverage Status" src="https://coveralls.io/repos/tshort/Maker.jl/badge.svg?branch=master" /></a></p>
-<p><code>Maker</code> is a <a href="http://julialang.org/">Julia</a> package to set up tasks and  dependencies in a similar fashion to <a href="https://en.wikipedia.org/wiki/Makefile">make</a> or <a href="http://docs.seattlerb.org/rake/">Rake</a>. Like make, <code>Maker</code> evaluates file and code dependencies to update processing. The focus here is on data analysis, not build automation for code. Key features for data analysis include:</p>
-<ul>
-<li><em>Detection of code changes</em>–If part of the code changes, downstream    dependencies are updated during processing.</li>
-<li><em>Variable tasks</em>–Most make-like tools rely mainly on files for    dependency analysis. In <code>Maker</code>, Julia variables can also be used   in this role. That allows more fine-grained control of code and dependencies.    <code>Maker</code> was derived from <a href="https://github.com/nolta/Jake.jl">Jake.jl</a> by Mike Nolta. <a href="https://github.com/kshramt/Juke.jl">Juke.jl</a> is another make-like tool written in Julia. </li>
-</ul>
-<p>Most build tools like make use a Makefile or other build-instruction file. In <code>Maker</code>, a separate build-script can be used, but the API here focuses on use within Julia script files. The API in <code>Maker</code> is most similar to Ruby's <a href="http://docs.seattlerb.org/rake/">Rake</a>.</p>
-<p><a id='example'></a></p>
-<h2 id="example">Example</h2>
+          <p><a id='example'></a></p>
+<h1 id="example">Example</h1>
 <p>The following shows a brief example of how to define file and variable  dependencies for data processing.</p>
 <div class="codehilite"><pre><span></span><span class="n">Maker</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;in1.csv&quot;</span><span class="p">)</span>    <span class="c"># These are the input files.</span>
 <span class="n">Maker</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;in2.csv&quot;</span><span class="p">)</span>
@@ -355,7 +335,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href=".." title="Home">
+        <a href=".." title="Maker">
           <span class="direction">
             Previous
           </span>
@@ -365,7 +345,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Home
+                Maker
               </div>
             </div>
           </div>

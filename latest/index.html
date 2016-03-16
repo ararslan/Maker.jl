@@ -163,8 +163,8 @@
           
             
   <li>
-    <a class="current" title="Home" href=".">
-      Home
+    <a class="current" title="Maker" href=".">
+      Maker
     </a>
     
       
@@ -174,8 +174,8 @@
         <ul>
           
             <li class="anchor">
-              <a title="Package Manual" href="#package-manual">
-                Package Manual
+              <a title="Documentation" href="#documentation">
+                Documentation
               </a>
             </li>
           
@@ -193,13 +193,13 @@
           
             
   <li>
-    <span class="section">Manual</span>
+    <span class="section">Documentation</span>
     <ul>
       
         
   <li>
-    <a class="" title="Introduction" href="introduction/">
-      Introduction
+    <a class="" title="Example" href="introduction/">
+      Example
     </a>
     
   </li>
@@ -216,8 +216,8 @@
       
         
   <li>
-    <a class="" title="Targets" href="targets/">
-      Targets
+    <a class="" title="make" href="make/">
+      make
     </a>
     
   </li>
@@ -225,8 +225,8 @@
       
         
   <li>
-    <a class="" title="make" href="make/">
-      make
+    <a class="" title="Targets" href="targets/">
+      Targets
     </a>
     
   </li>
@@ -300,15 +300,18 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='lapidary-documentation-outline'></a></p>
-<h1 id="lapidary-documentation-outline">Lapidary Documentation Outline</h1>
-<p><a id='package-manual'></a></p>
-<h2 id="package-manual">Package Manual</h2>
+          <p><a id='makerjl'></a></p>
+<h1 id="makerjl">Maker.jl</h1>
+<p><code>Maker</code> is a <a href="http://julialang.org/">Julia</a> package to set up tasks and  dependencies in a similar fashion to <a href="https://en.wikipedia.org/wiki/Makefile">make</a> or <a href="http://docs.seattlerb.org/rake/">Rake</a>. Like make, <code>Maker</code> evaluates file and code dependencies to update processing. The focus here is on data analysis, not build automation for code. Key features for data analysis include:</p>
 <ul>
-<li><a href="introduction/#introduction">Introduction</a><ul>
-<li><a href="introduction/#example">Example</a></li>
+<li><em>Detection of code changes</em>–If part of the code changes, downstream    dependencies are updated during processing.</li>
+<li><em>Variable tasks</em>–Most make-like tools rely mainly on files for    dependency analysis. In <code>Maker</code>, Julia variables can also be used   in this role. That allows more fine-grained control of code and dependencies.    <code>Maker</code> was derived from <a href="https://github.com/nolta/Jake.jl">Jake.jl</a> by Mike Nolta. <a href="https://github.com/kshramt/Juke.jl">Juke.jl</a> is another make-like tool written in Julia. </li>
 </ul>
-</li>
+<p>Most build tools like make use a Makefile or other build-instruction file. In <code>Maker</code>, a separate build-script can be used, but the API here focuses on use within Julia script files. The API in <code>Maker</code> is most similar to Ruby's <a href="http://docs.seattlerb.org/rake/">Rake</a>.</p>
+<p><a id='documentation'></a></p>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li><a href="introduction/#example">Example</a></li>
 <li><a href="api/#api">API</a></li>
 <li><a href="make/#make"><code>make</code></a></li>
 <li><a href="targets/#targets">Targets</a><ul>
@@ -361,14 +364,14 @@
     </div>
     <div class="next">
       
-        <a href="introduction/" title="Introduction">
+        <a href="introduction/" title="Example">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Introduction
+                Example
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
