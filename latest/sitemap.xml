@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,43 +13,43 @@
         
     <url>
      <loc>None/introduction/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/api/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/make/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/targets/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/utilities/</loc>
-     <lastmod>2016-03-16</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/terminology/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/internals/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/terminology/</loc>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -59,13 +59,13 @@
         
     <url>
      <loc>None/NEWS/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/LICENSE/</loc>
-     <lastmod>2016-03-16</lastmod>
+     <lastmod>2016-03-19</lastmod>
      <changefreq>daily</changefreq>
     </url>
         

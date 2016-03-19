@@ -105,6 +105,11 @@
     </div>
     
     
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/tshort" title="@tshort on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
+    
     <div class="button button-search" role="button" aria-label="Search">
       <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
     </div>
@@ -127,39 +132,63 @@
     <main class="main">
       
       <div class="drawer">
-        <nav aria-label="Navigation">
+        <!-- Navigation -->
+<nav aria-label="Navigation">
   
+
+  <!-- Project information -->
   <a href="https://github.com/tshort/Maker.jl" class="project">
+
+    <!-- Name and logo -->
     <div class="banner">
+
+      <!-- Version -->
       
+
+      <!-- Project name and verison -->
       <div class="name">
-        <strong>Maker.jl </strong>
+        <strong>
+          Maker.jl
+          <span class="version">
+            v0.3.1dev
+          </span>
+        </strong>
+
+        <!-- Project repository name -->
         
-          <br>
+          <br />
           tshort/Maker.jl
         
       </div>
     </div>
   </a>
+
+  <!-- Repository and table of contents -->
   <div class="scrollable">
     <div class="wrapper">
+
+      <!-- Repository -->
       
         <ul class="repo">
           <li class="repo-download">
             
-            <a href="https://github.com/tshort/Maker.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
-              <i class="icon icon-download"></i> Download
+            <a href="https://github.com/tshort/Maker.jl" target="_blank"
+              title="GitHub" data-action="GitHub">
+              <i class="icon icon-github"></i> GitHub
             </a>
           </li>
           <li class="repo-stars">
-            <a href="https://github.com/tshort/Maker.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+            <a href="https://github.com/tshort/Maker.jl/stargazers" target="_blank"
+              title="Stargazers" data-action="star">
               <i class="icon icon-star"></i> Stars
               <span class="count">&ndash;</span>
             </a>
           </li>
         </ul>
-        <hr>
+        <hr />
       
+
+      <!-- Table of contents -->
       <div class="toc">
         <ul>
           
@@ -229,8 +258,8 @@
       
         
   <li>
-    <a class="" title="Terminology" href="../terminology/">
-      Terminology
+    <a class="" title="Core" href="../internals/">
+      Core
     </a>
     
   </li>
@@ -238,8 +267,8 @@
       
         
   <li>
-    <a class="" title="Internals" href="../internals/">
-      Internals
+    <a class="" title="Terminology" href="../terminology/">
+      Terminology
     </a>
     
   </li>
@@ -277,6 +306,27 @@
 
           
         </ul>
+
+        <!-- Author-related links -->
+        
+          <hr />
+          <span class="section">The author</span>
+          <ul>
+
+            <!-- Twitter -->
+            
+
+            <!-- GitHub -->
+            
+              
+              <li>
+                <a href="https://github.com/tshort" target="_blank"
+                  title="@tshort on GitHub">
+                  @tshort on GitHub
+                </a>
+              </li>
+            
+          </ul>
         
       </div>
     </div>
@@ -289,6 +339,21 @@
           <p><a id='utilities'></a></p>
 <h1 id="utilities">Utilities</h1>
 <p>A few utilities are provided to help with tasks:</p>
+<p><a id='Maker.tasks' href='#Maker.tasks'>#</a><strong>Maker.tasks</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">tasks</span><span class="p">()</span>
+<span class="n">tasks</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Return the target <code>name</code> or return all targets. Often used to show summaries of all registered targets or a specific target.</p>
+<p><a id='Maker.@desc' href='#Maker.@desc'>#</a><strong>Maker.@desc</strong> &mdash; <em>Macro</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="p">@</span><span class="n">desc</span>
+</pre></div>
+
+
+<p>Define a description for the next Maker task.</p>
 <p><a id='Maker.rm' href='#Maker.rm'>#</a><strong>Maker.rm</strong> &mdash; <em>Function</em>.</p>
 <hr />
 <div class="codehilite"><pre><span></span><span class="n">rm</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">)</span>
@@ -304,14 +369,6 @@
 
 
 <p>Create a task <code>name</code> (defaults to "clean") that will delete files given in <code>filelist</code>.</p>
-<p><a id='Maker.tasks' href='#Maker.tasks'>#</a><strong>Maker.tasks</strong> &mdash; <em>Function</em>.</p>
-<hr />
-<div class="codehilite"><pre><span></span><span class="n">tasks</span><span class="p">()</span>
-<span class="n">tasks</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</pre></div>
-
-
-<p>Return the target <code>name</code> or return all targets. Can be used to display a target or all registered targets.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -347,14 +404,14 @@
     </div>
     <div class="next">
       
-        <a href="../terminology/" title="Terminology">
+        <a href="../internals/" title="Core">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Terminology
+                Core
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

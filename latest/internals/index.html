@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Internals - Maker.jl</title>
+        <title>Core - Maker.jl</title>
       
       
       
@@ -100,10 +100,15 @@
             
           </span>
         
-        Internals
+        Core
       </div>
     </div>
     
+    
+      
+      <div class="button button-github" role="button" aria-label="GitHub">
+        <a href="https://github.com/tshort" title="@tshort on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+      </div>
     
     <div class="button button-search" role="button" aria-label="Search">
       <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
@@ -127,39 +132,63 @@
     <main class="main">
       
       <div class="drawer">
-        <nav aria-label="Navigation">
+        <!-- Navigation -->
+<nav aria-label="Navigation">
   
+
+  <!-- Project information -->
   <a href="https://github.com/tshort/Maker.jl" class="project">
+
+    <!-- Name and logo -->
     <div class="banner">
+
+      <!-- Version -->
       
+
+      <!-- Project name and verison -->
       <div class="name">
-        <strong>Maker.jl </strong>
+        <strong>
+          Maker.jl
+          <span class="version">
+            v0.3.1dev
+          </span>
+        </strong>
+
+        <!-- Project repository name -->
         
-          <br>
+          <br />
           tshort/Maker.jl
         
       </div>
     </div>
   </a>
+
+  <!-- Repository and table of contents -->
   <div class="scrollable">
     <div class="wrapper">
+
+      <!-- Repository -->
       
         <ul class="repo">
           <li class="repo-download">
             
-            <a href="https://github.com/tshort/Maker.jl/archive/master.zip" target="_blank" title="Download" data-action="download">
-              <i class="icon icon-download"></i> Download
+            <a href="https://github.com/tshort/Maker.jl" target="_blank"
+              title="GitHub" data-action="GitHub">
+              <i class="icon icon-github"></i> GitHub
             </a>
           </li>
           <li class="repo-stars">
-            <a href="https://github.com/tshort/Maker.jl/stargazers" target="_blank" title="Stargazers" data-action="star">
+            <a href="https://github.com/tshort/Maker.jl/stargazers" target="_blank"
+              title="Stargazers" data-action="star">
               <i class="icon icon-star"></i> Stars
               <span class="count">&ndash;</span>
             </a>
           </li>
         </ul>
-        <hr>
+        <hr />
       
+
+      <!-- Table of contents -->
       <div class="toc">
         <ul>
           
@@ -224,23 +253,33 @@
       
         
   <li>
-    <a class="" title="Terminology" href="../terminology/">
-      Terminology
+    <a class="current" title="Core" href="./">
+      Core
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Internals" href="#internals">
+                Internals
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
       
         
   <li>
-    <a class="current" title="Internals" href="./">
-      Internals
+    <a class="" title="Terminology" href="../terminology/">
+      Terminology
     </a>
-    
-      
-        
-      
-      
     
   </li>
 
@@ -277,6 +316,27 @@
 
           
         </ul>
+
+        <!-- Author-related links -->
+        
+          <hr />
+          <span class="section">The author</span>
+          <ul>
+
+            <!-- Twitter -->
+            
+
+            <!-- GitHub -->
+            
+              
+              <li>
+                <a href="https://github.com/tshort" target="_blank"
+                  title="@tshort on GitHub">
+                  @tshort on GitHub
+                </a>
+              </li>
+            
+          </ul>
         
       </div>
     </div>
@@ -286,8 +346,94 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='internals'></a></p>
-<h1 id="internals">Internals</h1>
+          <p><a id='core-methods'></a></p>
+<h1 id="core-methods">Core methods</h1>
+<p>The following methods are used internally but may be used externally, too. None are exported.</p>
+<ul>
+<li><a href="./#Maker.TARGETS"><code>TARGETS</code></a></li>
+<li><a href="./#Maker.dependencies"><code>dependencies</code></a></li>
+<li><a href="./#Maker.execute"><code>execute</code></a></li>
+<li><a href="./#Maker.fixcache"><code>fixcache</code></a></li>
+<li><a href="./#Maker.isstale"><code>isstale</code></a></li>
+<li><a href="./#Maker.register"><code>register</code></a></li>
+<li><a href="./#Maker.resolve"><code>resolve</code></a></li>
+<li><a href="./#Maker.resolvedependency"><code>resolvedependency</code></a></li>
+<li><a href="./#Maker.tasks!"><code>tasks!</code></a></li>
+<li><a href="./#Maker.timestamp"><code>timestamp</code></a></li>
+</ul>
+<p>...</p>
+<p><a id='Maker.dependencies' href='#Maker.dependencies'>#</a><strong>Maker.dependencies</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">dependencies</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Return the dependencies of a target.</p>
+<p><a id='Maker.execute' href='#Maker.execute'>#</a><strong>Maker.execute</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Run the action for target <code>t</code>.</p>
+<p><a id='Maker.fixcache' href='#Maker.fixcache'>#</a><strong>Maker.fixcache</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">fixcache</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Update the <code>.maker-cache.jld</code> file with the present version information for the cache version number and the Julia version. This may be needed if the file format changes or the Julia version upgrades. Note that this may not solve all issues. </p>
+<p><a id='Maker.isstale' href='#Maker.isstale'>#</a><strong>Maker.isstale</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">isstale</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Return <code>true</code> if target <code>t</code> is stale and should be updated.</p>
+<p><a id='Maker.register' href='#Maker.register'>#</a><strong>Maker.register</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">register</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Register target <code>t</code>. <code>make</code> only looks for registered targets.</p>
+<p><a id='Maker.resolve' href='#Maker.resolve'>#</a><strong>Maker.resolve</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">resolve</span><span class="p">(</span><span class="n">s</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Return the target registered under name <code>s</code>.</p>
+<p><a id='Maker.resolvedependency' href='#Maker.resolvedependency'>#</a><strong>Maker.resolvedependency</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">resolvedependency</span><span class="p">(</span><span class="n">s</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Return the target registered under name <code>s</code>. If no target is registered and a file of name <code>s</code> exists, return a new <code>FileTarget</code> for that file.</p>
+<p><a id='Maker.tasks!' href='#Maker.tasks!'>#</a><strong>Maker.tasks!</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">tasks!</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Add the <code>target</code> task with name <code>name</code> to the global database of targets.</p>
+<p><a id='Maker.timestamp' href='#Maker.timestamp'>#</a><strong>Maker.timestamp</strong> &mdash; <em>Function</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">timestamp</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Return the DateTime timestamp for a target.</p>
+<p><a id='Maker.TARGETS' href='#Maker.TARGETS'>#</a><strong>Maker.TARGETS</strong> &mdash; <em>Constant</em>.</p>
+<hr />
+<div class="codehilite"><pre><span></span><span class="n">Maker</span><span class="o">.</span><span class="n">TARGETS</span>
+</pre></div>
+
+
+<p>The global <code>Targets</code> dictionary for registered AbstractTargets.</p>
+<p><a id='internals'></a></p>
+<h2 id="internals">Internals</h2>
 <p><code>Maker</code> uses the global Dict <code>Maker.TARGETS</code> to store active tasks. Some state is also stored in a <a href="https://github.com/JuliaLang/JLD.jl">JLD</a> file ".maker-cache.jld" in the active directory. This stores hashes for functions and variables along with timestamps. This allows <code>Maker</code> to be used between sessions. </p>
 <p>Note that tasks are defined globally, so they may be defined in modules or in the <code>Main</code> module. <code>make</code> works fine in a module for tasks defined in that module. You cannot run all actions in <code>Main</code> that are defined in another module (particularly for variable tasks).</p>
 <p>The hashing for functions and variables is not likely to stay the same between Julia versions. It's also different for 32- and 64-bit versions. It's still up in the air how to deal with this. Also, hashing for v0.4 anonymous functions  has file information removed.</p>
@@ -309,7 +455,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../terminology/" title="Terminology">
+        <a href="../utilities/" title="Utilities">
           <span class="direction">
             Previous
           </span>
@@ -319,7 +465,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Terminology
+                Utilities
               </div>
             </div>
           </div>
@@ -328,14 +474,14 @@
     </div>
     <div class="next">
       
-        <a href="../NEWS/" title="Release notes">
+        <a href="../terminology/" title="Terminology">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Release notes
+                Terminology
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
