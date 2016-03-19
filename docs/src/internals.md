@@ -1,5 +1,31 @@
 
-# Internals
+    {meta}
+    CurrentModule = Maker
+
+# Core methods
+
+The following methods are used internally but may be used externally, too. None
+are exported.
+    
+    {index}
+    Pages = ["internals.md"]
+    
+...
+    
+    {docs}
+    dependencies
+    execute
+    fixcache
+    isstale
+    register
+    resolve
+    resolvedependency
+    tasks!
+    timestamp
+    TARGETS
+
+
+## Internals
 
 `Maker` uses the global Dict `Maker.TARGETS` to store active tasks. Some state
 is also stored in a [JLD](https://github.com/JuliaLang/JLD.jl) file

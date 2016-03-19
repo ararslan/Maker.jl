@@ -32,12 +32,12 @@ use within Julia script files. The API in `Maker` is most similar to Ruby's
         "make.md",
         "targets.md",
         "utilities.md",
-        "terminology.md",
-        "internals.md"
+        "internals.md",
+        "terminology.md"
     ]
     Depth = 2
 
 ## Documentation Index
 
     {index}
-    Pages = ["make.md", "targets.md", "utilities.md"]
+    Pages = ["make.md", "targets.md", "utilities.md", "internals.md"]

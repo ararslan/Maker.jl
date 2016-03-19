@@ -20,7 +20,9 @@ Base.done(x::Targets, i) = done(x.dict, i)
 Base.next(x::Targets, i) = next(x.dict, i)
 
 """
-`Maker.TARGETS`
+```julia
+Maker.TARGETS
+```
 
 The global `Targets` dictionary for registered AbstractTargets.
 """
@@ -45,8 +47,8 @@ tasks()
 tasks(name)
 ```
 
-Return the target `name` or return all targets. Can be
-used to display a target or all registered targets.
+Return the target `name` or return all targets. Often used to show summaries of
+all registered targets or a specific target.
 """
 tasks() = TARGETS
 
