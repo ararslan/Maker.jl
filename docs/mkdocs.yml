@@ -15,7 +15,7 @@ extra:
     github: 'tshort'  
     
 extra_css:
-  - assets/Lapidary.css
+  - assets/Documenter.css
 
 markdown_extensions:
   - codehilite

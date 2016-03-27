@@ -1,4 +1,4 @@
-using Lapidary, Maker
+using Documenter, Maker
 
 # Build documentation.
 # ====================
