@@ -25,8 +25,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../None">
+    <link rel="icon" type="image/x-icon" href="../None">
     <style>
       @font-face {
       	font-family: 'Icon';
@@ -43,7 +43,7 @@
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="../assets/stylesheets/application-20d5debb47.css">
+    <link rel="stylesheet" href="../assets/stylesheets/application-54f87043f3.css">
     
       <link rel="stylesheet" href="../assets/stylesheets/palettes-05ab2406df.css">
     
@@ -62,7 +62,7 @@
       </style>
     
     
-      <link rel="stylesheet" href="../assets/Lapidary.css">
+      <link rel="stylesheet" href="../assets/Documenter.css">
     
     <script src="../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
@@ -376,17 +376,19 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='targets'></a></p>
+          <p><a id='Targets-1'></a></p>
 <h1 id="targets">Targets</h1>
-<p><a id='abstracttarget'></a></p>
+<p><a id='AbstractTarget-1'></a></p>
 <h2 id="abstracttarget"><code>AbstractTarget</code></h2>
-<p><a id='Maker.AbstractTarget' href='#Maker.AbstractTarget'>#</a><strong>Maker.AbstractTarget</strong> &mdash; <em>Type</em>.</p>
+<p><a id='Maker.AbstractTarget' href='#Maker.AbstractTarget'>#</a>
+<strong><code>Maker.AbstractTarget</code></strong> &mdash; <em>Type</em>.</p>
 <hr />
 <p><code>Maker.AbstractTarget</code></p>
 <p><code>AbstractTarget</code> is an abstract type covering various "targets" or "tasks". Each of these targets normally has an action and zero or more dependencies.</p>
-<p><a id='task'></a></p>
+<p><a id='task-1'></a></p>
 <h2 id="task"><code>task</code></h2>
-<p><a id='Maker.GenericTarget' href='#Maker.GenericTarget'>#</a><strong>Maker.GenericTarget</strong> &mdash; <em>Type</em>.</p>
+<p><a id='Maker.GenericTarget' href='#Maker.GenericTarget'>#</a>
+<strong><code>Maker.GenericTarget</code></strong> &mdash; <em>Type</em>.</p>
 <hr />
 <p><code>Maker.GenericTarget</code></p>
 <p>The type created by <code>task()</code>. Fields expected to be accessed publicly include:</p>
@@ -395,7 +397,8 @@
 <li><code>dependencies::Vector{UTF8String}</code></li>
 <li><code>description::UTF8String</code></li>
 </ul>
-<p><a id='Maker.task' href='#Maker.task'>#</a><strong>Maker.task</strong> &mdash; <em>Function</em>.</p>
+<p><a id='Maker.task' href='#Maker.task'>#</a>
+<strong><code>Maker.task</code></strong> &mdash; <em>Function</em>.</p>
 <hr />
 <div class="codehilite"><pre><span></span><span class="n">task</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 <span class="n">task</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span> 
@@ -418,9 +421,10 @@
 <p><code>task</code> targets are generic targets used to define actions and dependencies. If a task does not have dependencies, it always runs. If a task has dependencies, the task will run if any of the dependencies has a timestamp newer than the last run of the task. If a file target depends on a task target without dependencies, it will always update.</p>
 <p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
 <p>See also <code>make</code>, <code>file</code>, and <code>variable</code>. <code>task</code> registers a <code>GenericTarget</code> type.</p>
-<p><a id='file'></a></p>
+<p><a id='file-1'></a></p>
 <h2 id="file"><code>file</code></h2>
-<p><a id='Maker.FileTarget' href='#Maker.FileTarget'>#</a><strong>Maker.FileTarget</strong> &mdash; <em>Type</em>.</p>
+<p><a id='Maker.FileTarget' href='#Maker.FileTarget'>#</a>
+<strong><code>Maker.FileTarget</code></strong> &mdash; <em>Type</em>.</p>
 <hr />
 <p><code>Maker.FileTarget</code></p>
 <p>The type created by <code>file()</code>. Fields expected to be accessed publicly include:</p>
@@ -429,7 +433,8 @@
 <li><code>dependencies::Vector{UTF8String}</code></li>
 <li><code>description::UTF8String</code></li>
 </ul>
-<p><a id='Maker.file' href='#Maker.file'>#</a><strong>Maker.file</strong> &mdash; <em>Function</em>.</p>
+<p><a id='Maker.file' href='#Maker.file'>#</a>
+<strong><code>Maker.file</code></strong> &mdash; <em>Function</em>.</p>
 <hr />
 <div class="codehilite"><pre><span></span><span class="n">file</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 <span class="n">file</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
@@ -452,9 +457,10 @@
 <p><code>file</code> targets use the name of the file as the name of the target. File targets use timestamps to determine when targets need to be updated. File paths are relative to the current working directory.</p>
 <p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
 <p>See also <code>make</code>, <code>directory</code>,, <code>task</code>, and <code>variable</code>. <code>file</code>  registers a <code>FileTarget</code> type.</p>
-<p><a id='directory'></a></p>
+<p><a id='directory-1'></a></p>
 <h2 id="directory"><code>directory</code></h2>
-<p><a id='Maker.DirectoryTarget' href='#Maker.DirectoryTarget'>#</a><strong>Maker.DirectoryTarget</strong> &mdash; <em>Type</em>.</p>
+<p><a id='Maker.DirectoryTarget' href='#Maker.DirectoryTarget'>#</a>
+<strong><code>Maker.DirectoryTarget</code></strong> &mdash; <em>Type</em>.</p>
 <hr />
 <p><code>Maker.DirectoryTarget</code></p>
 <p>The type created by <code>directory()</code>. Fields expected to be accessed publicly include:</p>
@@ -463,7 +469,8 @@
 <li><code>dependencies::Vector{UTF8String}</code></li>
 <li><code>description::UTF8String</code></li>
 </ul>
-<p><a id='Maker.directory' href='#Maker.directory'>#</a><strong>Maker.directory</strong> &mdash; <em>Function</em>.</p>
+<p><a id='Maker.directory' href='#Maker.directory'>#</a>
+<strong><code>Maker.directory</code></strong> &mdash; <em>Function</em>.</p>
 <hr />
 <div class="codehilite"><pre><span></span><span class="n">directory</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 </pre></div>
@@ -482,9 +489,10 @@
 <p><code>directory</code> targets use the name of the path as the name of the target. No action can be specified. The path <code>name</code> is created with <code>mkpath</code> if  it doesn't exist. The path is relative to the current working directory.</p>
 <p><code>directory</code> targets only have a builtin action that creates the  directory if it is missing. A timestamp is stored when the directory is created, but the return from <code>timestamp("directorytask")</code> returns the oldest time if the directory exists (it doesn't need to be recreated), and it returns the current time if the directory doesn't exist (it needs  to be created). </p>
 <p>See also <code>make</code>, <code>file</code>, and <code>task</code>. <code>directory</code> registers a  <code>DirectoryTarget</code> type.</p>
-<p><a id='variable'></a></p>
+<p><a id='variable-1'></a></p>
 <h2 id="variable"><code>variable</code></h2>
-<p><a id='Maker.VariableTarget' href='#Maker.VariableTarget'>#</a><strong>Maker.VariableTarget</strong> &mdash; <em>Type</em>.</p>
+<p><a id='Maker.VariableTarget' href='#Maker.VariableTarget'>#</a>
+<strong><code>Maker.VariableTarget</code></strong> &mdash; <em>Type</em>.</p>
 <hr />
 <p><code>Maker.VariableTarget</code></p>
 <p>The type created by <code>variable()</code>. Fields expected to be accessed publicly include:</p>
@@ -493,7 +501,8 @@
 <li><code>dependencies::Vector{UTF8String}</code></li>
 <li><code>description::UTF8String</code></li>
 </ul>
-<p><a id='Maker.variable' href='#Maker.variable'>#</a><strong>Maker.variable</strong> &mdash; <em>Function</em>.</p>
+<p><a id='Maker.variable' href='#Maker.variable'>#</a>
+<strong><code>Maker.variable</code></strong> &mdash; <em>Function</em>.</p>
 <hr />
 <div class="codehilite"><pre><span></span><span class="n">variable</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
 </pre></div>
@@ -515,9 +524,10 @@
 <p><code>variable</code> targets define an action, and the result of the action will be assigned to a global variable (within the Module where the  definition is created) named by the argument <code>name</code>. A <code>variable</code> task keeps a timestamp  when the action runs. If the result of the action has the same hash as the cached version of the hash, the cached timestamp is used. Using the stored timestamp can reduce the number of unnecessary actions run.</p>
 <p>If the <code>action</code> or <code>dependencies</code> of a target are redefined, the target will be marked as stale, and the action will be updated at the next target check.  </p>
 <p>See also <code>make</code>, <code>file</code>, and <code>task</code>. <code>variable</code> registers a <code>VariableTarget</code> type.</p>
-<p><a id='phony'></a></p>
+<p><a id='phony-1'></a></p>
 <h2 id="phony"><code>phony</code></h2>
-<p><a id='Maker.PhonyTarget' href='#Maker.PhonyTarget'>#</a><strong>Maker.PhonyTarget</strong> &mdash; <em>Type</em>.</p>
+<p><a id='Maker.PhonyTarget' href='#Maker.PhonyTarget'>#</a>
+<strong><code>Maker.PhonyTarget</code></strong> &mdash; <em>Type</em>.</p>
 <hr />
 <p><code>Maker.PhonyTarget</code></p>
 <p>The type created by <code>phony()</code>. Fields expected to be accessed publicly include:</p>
@@ -526,7 +536,8 @@
 <li><code>dependencies::Vector{UTF8String}</code></li>
 <li><code>description::UTF8String</code></li>
 </ul>
-<p><a id='Maker.phony' href='#Maker.phony'>#</a><strong>Maker.phony</strong> &mdash; <em>Function</em>.</p>
+<p><a id='Maker.phony' href='#Maker.phony'>#</a>
+<strong><code>Maker.phony</code></strong> &mdash; <em>Function</em>.</p>
 <hr />
 <div class="codehilite"><pre><span></span><span class="n">phony</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 <span class="n">phony</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span> 

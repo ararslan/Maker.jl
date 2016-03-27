@@ -27,8 +27,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./None">
+    <link rel="icon" type="image/x-icon" href="./None">
     <style>
       @font-face {
       	font-family: 'Icon';
@@ -45,7 +45,7 @@
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="./assets/stylesheets/application-20d5debb47.css">
+    <link rel="stylesheet" href="./assets/stylesheets/application-54f87043f3.css">
     
       <link rel="stylesheet" href="./assets/stylesheets/palettes-05ab2406df.css">
     
@@ -64,7 +64,7 @@
       </style>
     
     
-      <link rel="stylesheet" href="./assets/Lapidary.css">
+      <link rel="stylesheet" href="./assets/Documenter.css">
     
     <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
@@ -350,7 +350,7 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='makerjl'></a></p>
+          <p><a id='Maker.jl-1'></a></p>
 <h1 id="makerjl">Maker.jl</h1>
 <p><code>Maker</code> is a <a href="http://julialang.org/">Julia</a> package to set up tasks and  dependencies in a similar fashion to <a href="https://en.wikipedia.org/wiki/Makefile">make</a> or <a href="http://docs.seattlerb.org/rake/">Rake</a>. Like make, <code>Maker</code> evaluates file and code dependencies to update processing. The focus here is on data analysis, not build automation for code. Key features for data analysis include:</p>
 <ul>
@@ -358,57 +358,57 @@
 <li><em>Variable tasks</em>–Most make-like tools rely mainly on files for    dependency analysis. In <code>Maker</code>, Julia variables can also be used   in this role. That allows more fine-grained control of code and dependencies.    <code>Maker</code> was derived from <a href="https://github.com/nolta/Jake.jl">Jake.jl</a> by Mike Nolta. <a href="https://github.com/kshramt/Juke.jl">Juke.jl</a> is another make-like tool written in Julia. </li>
 </ul>
 <p>Most build tools like make use a Makefile or other build-instruction file. In <code>Maker</code>, a separate build-script can be used, but the API here focuses on use within Julia script files. The API in <code>Maker</code> is most similar to Ruby's <a href="http://docs.seattlerb.org/rake/">Rake</a>.</p>
-<p><a id='documentation'></a></p>
+<p><a id='Documentation-1'></a></p>
 <h2 id="documentation">Documentation</h2>
 <ul>
-<li><a href="introduction/#example">Example</a></li>
-<li><a href="api/#api">API</a></li>
-<li><a href="make/#make"><code>make</code></a></li>
-<li><a href="targets/#targets">Targets</a><ul>
-<li><a href="targets/#abstracttarget"><code>AbstractTarget</code></a></li>
-<li><a href="targets/#task"><code>task</code></a></li>
-<li><a href="targets/#file"><code>file</code></a></li>
-<li><a href="targets/#directory"><code>directory</code></a></li>
-<li><a href="targets/#variable"><code>variable</code></a></li>
-<li><a href="targets/#phony"><code>phony</code></a></li>
+<li><a href="introduction/#Example-1">Example</a></li>
+<li><a href="api/#API-1">API</a></li>
+<li><a href="make/#make-1"><code>make</code></a></li>
+<li><a href="targets/#Targets-1">Targets</a><ul>
+<li><a href="targets/#AbstractTarget-1"><code>AbstractTarget</code></a></li>
+<li><a href="targets/#task-1"><code>task</code></a></li>
+<li><a href="targets/#file-1"><code>file</code></a></li>
+<li><a href="targets/#directory-1"><code>directory</code></a></li>
+<li><a href="targets/#variable-1"><code>variable</code></a></li>
+<li><a href="targets/#phony-1"><code>phony</code></a></li>
 </ul>
 </li>
-<li><a href="utilities/#utilities">Utilities</a></li>
-<li><a href="internals/#core-methods">Core methods</a><ul>
-<li><a href="internals/#internals">Internals</a></li>
+<li><a href="utilities/#Utilities-1">Utilities</a></li>
+<li><a href="internals/#Core-methods-1">Core methods</a><ul>
+<li><a href="internals/#Internals-1">Internals</a></li>
 </ul>
 </li>
-<li><a href="terminology/#terminology">Terminology</a></li>
+<li><a href="terminology/#Terminology-1">Terminology</a></li>
 </ul>
-<p><a id='documentation-index'></a></p>
+<p><a id='Documentation-Index-1'></a></p>
 <h2 id="documentation-index">Documentation Index</h2>
 <ul>
-<li><a href="make/#Maker.make"><code>make</code></a></li>
-<li><a href="targets/#Maker.AbstractTarget"><code>AbstractTarget</code></a></li>
-<li><a href="targets/#Maker.DirectoryTarget"><code>DirectoryTarget</code></a></li>
-<li><a href="targets/#Maker.FileTarget"><code>FileTarget</code></a></li>
-<li><a href="targets/#Maker.GenericTarget"><code>GenericTarget</code></a></li>
-<li><a href="targets/#Maker.PhonyTarget"><code>PhonyTarget</code></a></li>
-<li><a href="targets/#Maker.VariableTarget"><code>VariableTarget</code></a></li>
-<li><a href="targets/#Maker.directory"><code>directory</code></a></li>
-<li><a href="targets/#Maker.file"><code>file</code></a></li>
-<li><a href="targets/#Maker.phony"><code>phony</code></a></li>
-<li><a href="targets/#Maker.task"><code>task</code></a></li>
-<li><a href="targets/#Maker.variable"><code>variable</code></a></li>
-<li><a href="utilities/#Maker.@desc"><code>@desc</code></a></li>
-<li><a href="utilities/#Maker.clean"><code>clean</code></a></li>
-<li><a href="utilities/#Maker.rm"><code>rm</code></a></li>
-<li><a href="utilities/#Maker.tasks"><code>tasks</code></a></li>
-<li><a href="internals/#Maker.TARGETS"><code>TARGETS</code></a></li>
-<li><a href="internals/#Maker.dependencies"><code>dependencies</code></a></li>
-<li><a href="internals/#Maker.execute"><code>execute</code></a></li>
-<li><a href="internals/#Maker.fixcache"><code>fixcache</code></a></li>
-<li><a href="internals/#Maker.isstale"><code>isstale</code></a></li>
-<li><a href="internals/#Maker.register"><code>register</code></a></li>
-<li><a href="internals/#Maker.resolve"><code>resolve</code></a></li>
-<li><a href="internals/#Maker.resolvedependency"><code>resolvedependency</code></a></li>
-<li><a href="internals/#Maker.tasks!"><code>tasks!</code></a></li>
-<li><a href="internals/#Maker.timestamp"><code>timestamp</code></a></li>
+<li><a href="make/#Maker.make"><code>Maker.make</code></a></li>
+<li><a href="targets/#Maker.AbstractTarget"><code>Maker.AbstractTarget</code></a></li>
+<li><a href="targets/#Maker.DirectoryTarget"><code>Maker.DirectoryTarget</code></a></li>
+<li><a href="targets/#Maker.FileTarget"><code>Maker.FileTarget</code></a></li>
+<li><a href="targets/#Maker.GenericTarget"><code>Maker.GenericTarget</code></a></li>
+<li><a href="targets/#Maker.PhonyTarget"><code>Maker.PhonyTarget</code></a></li>
+<li><a href="targets/#Maker.VariableTarget"><code>Maker.VariableTarget</code></a></li>
+<li><a href="targets/#Maker.directory"><code>Maker.directory</code></a></li>
+<li><a href="targets/#Maker.file"><code>Maker.file</code></a></li>
+<li><a href="targets/#Maker.phony"><code>Maker.phony</code></a></li>
+<li><a href="targets/#Maker.task"><code>Maker.task</code></a></li>
+<li><a href="targets/#Maker.variable"><code>Maker.variable</code></a></li>
+<li><a href="utilities/#Maker.@desc"><code>Maker.@desc</code></a></li>
+<li><a href="utilities/#Maker.clean"><code>Maker.clean</code></a></li>
+<li><a href="utilities/#Maker.rm"><code>Maker.rm</code></a></li>
+<li><a href="utilities/#Maker.tasks"><code>Maker.tasks</code></a></li>
+<li><a href="internals/#Maker.TARGETS"><code>Maker.TARGETS</code></a></li>
+<li><a href="internals/#Maker.dependencies"><code>Maker.dependencies</code></a></li>
+<li><a href="internals/#Maker.execute"><code>Maker.execute</code></a></li>
+<li><a href="internals/#Maker.fixcache"><code>Maker.fixcache</code></a></li>
+<li><a href="internals/#Maker.isstale"><code>Maker.isstale</code></a></li>
+<li><a href="internals/#Maker.register"><code>Maker.register</code></a></li>
+<li><a href="internals/#Maker.resolve"><code>Maker.resolve</code></a></li>
+<li><a href="internals/#Maker.resolvedependency"><code>Maker.resolvedependency</code></a></li>
+<li><a href="internals/#Maker.tasks!"><code>Maker.tasks!</code></a></li>
+<li><a href="internals/#Maker.timestamp"><code>Maker.timestamp</code></a></li>
 </ul>
           <aside class="copyright" role="note">
             
