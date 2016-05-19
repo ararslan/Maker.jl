@@ -43,7 +43,7 @@
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="../assets/stylesheets/application-54f87043f3.css">
+    <link rel="stylesheet" href="../assets/stylesheets/application-0dac3e5884.css">
     
       <link rel="stylesheet" href="../assets/stylesheets/palettes-05ab2406df.css">
     
@@ -359,12 +359,10 @@
 <li><a href="./#Maker.resolve"><code>Maker.resolve</code></a></li>
 <li><a href="./#Maker.resolvedependency"><code>Maker.resolvedependency</code></a></li>
 <li><a href="./#Maker.tasks!"><code>Maker.tasks!</code></a></li>
-<li><a href="./#Maker.timestamp"><code>Maker.timestamp</code></a></li>
+<li><a href="./#Maker.timestamp"><code>Maker.timestamp</code></a>
+<a id='Maker.dependencies' href='#Maker.dependencies'>#</a>
+<strong><code>Maker.dependencies</code></strong> &mdash; <em>Function</em>.</li>
 </ul>
-<p>...</p>
-<p><a id='Maker.dependencies' href='#Maker.dependencies'>#</a>
-<strong><code>Maker.dependencies</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">dependencies</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
 </pre></div>
 
@@ -372,7 +370,6 @@
 <p>Return the dependencies of a target.</p>
 <p><a id='Maker.execute' href='#Maker.execute'>#</a>
 <strong><code>Maker.execute</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">execute</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
 </pre></div>
 
@@ -380,7 +377,6 @@
 <p>Run the action for target <code>t</code>.</p>
 <p><a id='Maker.fixcache' href='#Maker.fixcache'>#</a>
 <strong><code>Maker.fixcache</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">fixcache</span><span class="p">()</span>
 </pre></div>
 
@@ -388,7 +384,6 @@
 <p>Update the <code>.maker-cache.jld</code> file with the present version information for the cache version number and the Julia version. This may be needed if the file format changes or the Julia version upgrades. Note that this may not solve all issues. </p>
 <p><a id='Maker.isstale' href='#Maker.isstale'>#</a>
 <strong><code>Maker.isstale</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">isstale</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
 </pre></div>
 
@@ -396,7 +391,6 @@
 <p>Return <code>true</code> if target <code>t</code> is stale and should be updated.</p>
 <p><a id='Maker.register' href='#Maker.register'>#</a>
 <strong><code>Maker.register</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">register</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
 </pre></div>
 
@@ -404,7 +398,6 @@
 <p>Register target <code>t</code>. <code>make</code> only looks for registered targets.</p>
 <p><a id='Maker.resolve' href='#Maker.resolve'>#</a>
 <strong><code>Maker.resolve</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">resolve</span><span class="p">(</span><span class="n">s</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">)</span>
 </pre></div>
 
@@ -412,7 +405,6 @@
 <p>Return the target registered under name <code>s</code>.</p>
 <p><a id='Maker.resolvedependency' href='#Maker.resolvedependency'>#</a>
 <strong><code>Maker.resolvedependency</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">resolvedependency</span><span class="p">(</span><span class="n">s</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">)</span>
 </pre></div>
 
@@ -420,7 +412,6 @@
 <p>Return the target registered under name <code>s</code>. If no target is registered and a file of name <code>s</code> exists, return a new <code>FileTarget</code> for that file.</p>
 <p><a id='Maker.tasks!' href='#Maker.tasks!'>#</a>
 <strong><code>Maker.tasks!</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">tasks!</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 </pre></div>
 
@@ -428,7 +419,6 @@
 <p>Add the <code>target</code> task with name <code>name</code> to the global database of targets.</p>
 <p><a id='Maker.timestamp' href='#Maker.timestamp'>#</a>
 <strong><code>Maker.timestamp</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">timestamp</span><span class="p">(</span><span class="n">t</span><span class="p">::</span><span class="n">AbstractTarget</span><span class="p">)</span>
 </pre></div>
 
@@ -436,7 +426,6 @@
 <p>Return the DateTime timestamp for a target.</p>
 <p><a id='Maker.TARGETS' href='#Maker.TARGETS'>#</a>
 <strong><code>Maker.TARGETS</code></strong> &mdash; <em>Constant</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">Maker</span><span class="o">.</span><span class="n">TARGETS</span>
 </pre></div>
 
@@ -444,11 +433,11 @@
 <p>The global <code>Targets</code> dictionary for registered AbstractTargets.</p>
 <p><a id='Internals-1'></a></p>
 <h2 id="internals">Internals</h2>
-<p><code>Maker</code> uses the global Dict <code>Maker.TARGETS</code> to store active tasks. Some state is also stored in a <a href="https://github.com/JuliaLang/JLD.jl">JLD</a> file ".maker-cache.jld" in the active directory. This stores hashes for functions and variables along with timestamps. This allows <code>Maker</code> to be used between sessions. </p>
+<p><code>Maker</code> uses the global Dict <code>Maker.TARGETS</code> to store active tasks. Some state is also stored in a <a href="https://github.com/JuliaLang/JLD.jl">JLD</a> file ".maker-cache.jld" in the active directory. This stores hashes for functions and variables along with timestamps. This allows <code>Maker</code> to be used between sessions.</p>
 <p>Note that tasks are defined globally, so they may be defined in modules or in the <code>Main</code> module. <code>make</code> works fine in a module for tasks defined in that module. You cannot run all actions in <code>Main</code> that are defined in another module (particularly for variable tasks).</p>
-<p>The hashing for functions and variables is not likely to stay the same between Julia versions. It's also different for 32- and 64-bit versions. It's still up in the air how to deal with this. Also, hashing for v0.4 anonymous functions  has file information removed.</p>
-<p>Timestamps are stored for all tasks, even file tasks. On some filesystems,  <code>mtime</code> only has an accuracy of one second, and this can cause inaccuracies  with variable timestamps.</p>
-<p>Note that parallel operation may be tricky. One may have to be careful using  <code>@everywhere</code> and friends with <code>Maker</code>. Each process might try to update  dependencies at the same time, leading to race conditions. Another topic to think about is how to take advantage of parallel operations (or threads when  they come to Julia). </p>
+<p>The hashing for functions and variables is not likely to stay the same between Julia versions. It's also different for 32- and 64-bit versions. It's still up in the air how to deal with this. Also, hashing for v0.4 anonymous functions has file information removed.</p>
+<p>Timestamps are stored for all tasks, even file tasks. On some filesystems, <code>mtime</code> only has an accuracy of one second, and this can cause inaccuracies with variable timestamps.</p>
+<p>Note that parallel operation may be tricky. One may have to be careful using <code>@everywhere</code> and friends with <code>Maker</code>. Each process might try to update dependencies at the same time, leading to race conditions. Another topic to think about is how to take advantage of parallel operations (or threads when they come to Julia).</p>
           <aside class="copyright" role="note">
             
             Documentation built with

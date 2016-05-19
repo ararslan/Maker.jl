@@ -43,7 +43,7 @@
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="../assets/stylesheets/application-54f87043f3.css">
+    <link rel="stylesheet" href="../assets/stylesheets/application-0dac3e5884.css">
     
       <link rel="stylesheet" href="../assets/stylesheets/palettes-05ab2406df.css">
     
@@ -382,14 +382,12 @@
 <h2 id="abstracttarget"><code>AbstractTarget</code></h2>
 <p><a id='Maker.AbstractTarget' href='#Maker.AbstractTarget'>#</a>
 <strong><code>Maker.AbstractTarget</code></strong> &mdash; <em>Type</em>.</p>
-<hr />
 <p><code>Maker.AbstractTarget</code></p>
 <p><code>AbstractTarget</code> is an abstract type covering various "targets" or "tasks". Each of these targets normally has an action and zero or more dependencies.</p>
 <p><a id='task-1'></a></p>
 <h2 id="task"><code>task</code></h2>
 <p><a id='Maker.GenericTarget' href='#Maker.GenericTarget'>#</a>
 <strong><code>Maker.GenericTarget</code></strong> &mdash; <em>Type</em>.</p>
-<hr />
 <p><code>Maker.GenericTarget</code></p>
 <p>The type created by <code>task()</code>. Fields expected to be accessed publicly include:</p>
 <ul>
@@ -399,7 +397,6 @@
 </ul>
 <p><a id='Maker.task' href='#Maker.task'>#</a>
 <strong><code>Maker.task</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">task</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 <span class="n">task</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span> 
 </pre></div>
@@ -425,7 +422,6 @@
 <h2 id="file"><code>file</code></h2>
 <p><a id='Maker.FileTarget' href='#Maker.FileTarget'>#</a>
 <strong><code>Maker.FileTarget</code></strong> &mdash; <em>Type</em>.</p>
-<hr />
 <p><code>Maker.FileTarget</code></p>
 <p>The type created by <code>file()</code>. Fields expected to be accessed publicly include:</p>
 <ul>
@@ -435,7 +431,6 @@
 </ul>
 <p><a id='Maker.file' href='#Maker.file'>#</a>
 <strong><code>Maker.file</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">file</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 <span class="n">file</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 </pre></div>
@@ -461,7 +456,6 @@
 <h2 id="directory"><code>directory</code></h2>
 <p><a id='Maker.DirectoryTarget' href='#Maker.DirectoryTarget'>#</a>
 <strong><code>Maker.DirectoryTarget</code></strong> &mdash; <em>Type</em>.</p>
-<hr />
 <p><code>Maker.DirectoryTarget</code></p>
 <p>The type created by <code>directory()</code>. Fields expected to be accessed publicly include:</p>
 <ul>
@@ -471,7 +465,6 @@
 </ul>
 <p><a id='Maker.directory' href='#Maker.directory'>#</a>
 <strong><code>Maker.directory</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">directory</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 </pre></div>
 
@@ -493,7 +486,6 @@
 <h2 id="variable"><code>variable</code></h2>
 <p><a id='Maker.VariableTarget' href='#Maker.VariableTarget'>#</a>
 <strong><code>Maker.VariableTarget</code></strong> &mdash; <em>Type</em>.</p>
-<hr />
 <p><code>Maker.VariableTarget</code></p>
 <p>The type created by <code>variable()</code>. Fields expected to be accessed publicly include:</p>
 <ul>
@@ -503,7 +495,6 @@
 </ul>
 <p><a id='Maker.variable' href='#Maker.variable'>#</a>
 <strong><code>Maker.variable</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">variable</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">)</span>
 </pre></div>
 
@@ -528,7 +519,6 @@
 <h2 id="phony"><code>phony</code></h2>
 <p><a id='Maker.PhonyTarget' href='#Maker.PhonyTarget'>#</a>
 <strong><code>Maker.PhonyTarget</code></strong> &mdash; <em>Type</em>.</p>
-<hr />
 <p><code>Maker.PhonyTarget</code></p>
 <p>The type created by <code>phony()</code>. Fields expected to be accessed publicly include:</p>
 <ul>
@@ -538,7 +528,6 @@
 </ul>
 <p><a id='Maker.phony' href='#Maker.phony'>#</a>
 <strong><code>Maker.phony</code></strong> &mdash; <em>Function</em>.</p>
-<hr />
 <div class="codehilite"><pre><span></span><span class="n">phony</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span>
 <span class="n">phony</span><span class="p">(</span><span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="o">=</span><span class="p">[])</span> 
 </pre></div>

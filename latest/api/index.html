@@ -43,7 +43,7 @@
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="../assets/stylesheets/application-54f87043f3.css">
+    <link rel="stylesheet" href="../assets/stylesheets/application-0dac3e5884.css">
     
       <link rel="stylesheet" href="../assets/stylesheets/palettes-05ab2406df.css">
     
@@ -344,10 +344,14 @@
 <p><code>make(name="default")</code> – Process the target <code>name</code> by evaluating dependencies   that need to be updated. "default" is the name of the default task. If <code>name</code>   is a Vector of names, each name is processed sequentially.</p>
 </li>
 <li>
-<p><a href="../targets/#Maker.directory"><code>Maker.directory</code></a>, <code>Maker.file</code>, <code>Maker.phony</code>, <code>Maker.task</code>, and   <code>Maker.variable</code> – These methods all define tasks or targets to be updated.   Each task has a name, zero or more dependencies, and an action as follows:      <code>julia  Maker.task(action::Function, name::AbstractString, dependencies::Vector{AbstractString})</code></p>
+<p><a href="../targets/#Maker.directory"><code>Maker.directory</code></a>, <code>Maker.file</code>, <code>Maker.phony</code>, <code>Maker.task</code>, and   <code>Maker.variable</code> – These methods all define tasks or targets to be updated.   Each task has a name, zero or more dependencies, and an action as follows:</p>
 </li>
 </ul>
-<p>Normally with the <code>file</code> task, the <code>action</code> will perform an operation to create or update the file of the given name. With the <code>variable</code> task, the result of the action is assigned to a variable with the specified name. The <code>task</code> target is a generic task that can be used for general processing and to  connect dependencies. All dependencies must be satisfied before running the action.  <code>phony</code> is like <code>task</code>, but the timestamp always appears old, so it doesn't  trigger upstream actions.</p>
+<div class="codehilite"><pre><span></span><span class="n">Maker</span><span class="o">.</span><span class="n">task</span><span class="p">(</span><span class="n">action</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">name</span><span class="p">::</span><span class="n">AbstractString</span><span class="p">,</span> <span class="n">dependencies</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">AbstractString</span><span class="p">})</span>
+</pre></div>
+
+
+<p>Normally with the <code>file</code> task, the <code>action</code> will perform an operation to create or update the file of the given name. With the <code>variable</code> task, the result of the action is assigned to a variable with the specified name. The <code>task</code> target is a generic task that can be used for general processing and to  connect dependencies. All dependencies must be satisfied before running the action. <code>phony</code> is like <code>task</code>, but the timestamp always appears old, so it doesn't trigger upstream actions.</p>
 <p>The <code>action</code> function can be called with zero or one arguments. If the one-argument version is available, that version is called. The argument is the <code>AbstractTarget</code> defined. Here is an example of this use:</p>
 <div class="codehilite"><pre><span></span><span class="n">Maker</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="s">&quot;in.csv&quot;</span><span class="p">,</span> <span class="s">&quot;out.csv&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="n">t</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">readcsv</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -358,9 +362,9 @@
 
 <p>The following fields of an AbstractTarget are suitable for access: <code>t.name</code>, <code>t.dependencies</code>, <code>t.description</code>, and <code>t.action</code>.</p>
 <p><code>directory</code>, <code>file</code>, <code>phony</code>, <code>task</code>, and <code>variable</code> are all exported, but it is best to fully qualify these to help task definitions stand out.</p>
-<p><code>Maker</code> works well with <a href="https://github.com/vtjnash/Glob.jl">Glob.jl</a> for file and name wildcards.  <a href="https://github.com/tshort/Maker.jl/blob/master/test/glob.jl">Here</a> is an example of how globs can be used currently for traditional make-like  file operations.</p>
-<p>Although the API is geared towards use in scripts, you can use a standalone "makerfile.jl" to define tasks. See this <a href="https://github.com/tshort/Maker.jl/blob/master/makerfile.jl">makerfile.jl</a> for an example. Run with <code>`julia makerfile.jl cleancov`</code>,  <code>`bin/maker cleancov`</code>, or define an alias (using the bash shell in this example):</p>
-<div class="codehilite"><pre><span></span><span class="nb">alias</span> <span class="nv">maker</span><span class="o">=</span><span class="s1">&#39;julia makerfile.jl&#39;</span> 
+<p><code>Maker</code> works well with <a href="https://github.com/vtjnash/Glob.jl">Glob.jl</a> for file and name wildcards. <a href="https://github.com/tshort/Maker.jl/blob/master/test/glob.jl">Here</a> is an example of how globs can be used currently for traditional make-like file operations.</p>
+<p>Although the API is geared towards use in scripts, you can use a standalone "makerfile.jl" to define tasks. See this <a href="https://github.com/tshort/Maker.jl/blob/master/makerfile.jl">makerfile.jl</a> for an example. Run with <code>`julia makerfile.jl cleancov`</code>, <code>`bin/maker cleancov`</code>, or define an alias (using the bash shell in this example):</p>
+<div class="codehilite"><pre><span></span><span class="nb">alias</span> <span class="nv">maker</span><span class="o">=</span><span class="s1">&#39;julia makerfile.jl&#39;</span>
 maker cleancov
 </pre></div>
 
