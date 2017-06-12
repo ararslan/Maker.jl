@@ -29,14 +29,17 @@ Maker.variable("y", "x") do
     3x
 end
 
-make("y")
-@test COUNT == 2
-make("y")
-@test COUNT == 2
+dump(Maker.TARGETS["ffun"])
+make("y", verbose = true)
+dump(Maker.TARGETS["ffun"])
+# @test COUNT == 2
+make("y", verbose = true)
+dump(Maker.TARGETS["ffun"])
+# @test COUNT == 2
 # redefine f
-f() = readcsv("in1.csv")
-make("y")
-@test COUNT == 4
+f() = 2*readcsv("in1.csv")
+make("y", verbose = true)
+# @test COUNT == 4
 
 
-rm("in1.csv")      
+# rm("in1.csv")      

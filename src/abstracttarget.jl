@@ -85,7 +85,7 @@ remove_linenodes(e::Expr) = Expr(e.head, remove_linenodes(e.args))
 # is different than the standard `hash(f::Function)`.
 # Not meant to be used externally.
 function funhash(f::Function)
-    hash(code_lowered(f, ()))
+    hash(string(code_lowered(f, ())))
 end
 funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{String}, x)))
 
