@@ -4,14 +4,18 @@ site_description: A make-like system for data analysis
 site_author:      Tom Short
 
 theme: material
+theme_dir: custom_theme
 
 extra:
   palette:
     primary: 'blue grey'
     accent:  'indigo'
-
+  version: 'v0.3.1dev'
+  author:
+    github: 'tshort'  
+    
 extra_css:
-  - assets/Lapidary.css
+  - assets/Documenter.css
 
 markdown_extensions:
   - codehilite
@@ -33,8 +37,8 @@ pages:
   - make: make.md
   - Targets: targets.md
   - Utilities: utilities.md
+  - Core: internals.md
   - Terminology: terminology.md
-  - Internals: internals.md
 - About:
   - Release notes: NEWS.md
   - License: LICENSE.md

@@ -1,13 +1,15 @@
 
-    {meta}
-    CurrentModule = Maker
+```@meta
+CurrentModule = Maker
+```
 
 # Utilities
 
 A few utilities are provided to help with tasks:
 
-    {docs}
-    rm
-    clean
-    tasks
-
+```@docs
+tasks
+@desc
+rm
+clean
+```

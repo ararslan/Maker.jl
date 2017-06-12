@@ -1,8 +1,10 @@
 
-    {meta}
-    CurrentModule = Maker
+```@meta
+CurrentModule = Maker
+```
 
 # `make`
 
-    {docs}
-    make
+```@docs
+make
+```

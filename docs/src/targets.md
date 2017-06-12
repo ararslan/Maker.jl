@@ -1,41 +1,47 @@
 
-    {meta}
-    CurrentModule = Maker
+```@meta
+CurrentModule = Maker
+```
 
 # Targets
 
 ## `AbstractTarget`
 
-    {docs}
-    AbstractTarget
-    
+```@docs
+AbstractTarget
+```
+
 ## `task`
 
-    {docs}
-    GenericTarget
-    task
-    
+```@docs
+GenericTarget
+task
+```
+
 ## `file`
 
-    {docs}
-    FileTarget
-    file
+```@docs
+FileTarget
+file
+```
 
 ## `directory`
 
-    {docs}
-    DirectoryTarget
-    directory
+```@docs
+DirectoryTarget
+directory
+```
 
 ## `variable`
 
-    {docs}
-    VariableTarget
-    variable
+```@docs
+VariableTarget
+variable
+```
 
 ## `phony`
 
-    {docs}
-    PhonyTarget
-    phony
-
+```@docs
+PhonyTarget
+phony
+```

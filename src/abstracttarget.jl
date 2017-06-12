@@ -91,7 +91,9 @@ funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{String}, x)))
 
 
 """
-`dependencies(t::AbstractTarget)`
+```julia
+dependencies(t::AbstractTarget)
+```
 
 Return the dependencies of a target.
 """
@@ -106,7 +108,9 @@ function has1arg(f::Function)
 end
 
 """
-`execute(t::AbstractTarget)`
+```julia
+execute(t::AbstractTarget)
+```
 
 Run the action for target `t`.
 """
@@ -119,7 +123,9 @@ end
 
 
 """
-`isstale(t::AbstractTarget)`
+```julia
+isstale(t::AbstractTarget)
+```
 
 Return `true` if target `t` is stale and should be updated.
 """
@@ -133,7 +139,9 @@ end
 
 
 """
-`register(t::AbstractTarget)`
+```julia
+register(t::AbstractTarget)
+```
 
 Register target `t`. `make` only looks for registered targets.
 """
@@ -160,7 +168,9 @@ end
 
 
 """
-`timestamp(t::AbstractTarget)`
+```julia
+timestamp(t::AbstractTarget)
+```
 
 Return the DateTime timestamp for a target.
 """
@@ -169,7 +179,7 @@ timestamp(t::AbstractTarget) = t.timestamp
 originaltimestamp{T<:AbstractTarget}(::Type{T}, name::AbstractString) = DateTime()
 
 """
-`target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)`
+    target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
 
 Define and register a target of type `T`.
 """
