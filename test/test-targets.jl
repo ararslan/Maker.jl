@@ -90,7 +90,7 @@ using Base.Test
 COUNT = 0
 empty!(Maker.TARGETS)
 include("targets.jl")
-make("e.csv")
+make("e.csv", verbose = true)
 @test COUNT == 6
 end # module
 
