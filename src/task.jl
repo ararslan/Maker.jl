@@ -5,14 +5,14 @@
 The type created by `task()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 """
 type GenericTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     timestamp::DateTime
     funhash::UInt64
@@ -59,7 +59,7 @@ at the next target check.
 
 See also `make`, `file`, and `variable`. `task` registers a `GenericTarget` type.
 """
-task(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
+task(action::Function, name::AbstractString, dependencies=String[]) = 
     target(GenericTarget, name, action, dependencies)
-task(name::AbstractString, dependencies=UTF8String[]) = 
+task(name::AbstractString, dependencies=String[]) = 
     target(GenericTarget, name, ()->nothing, dependencies)

@@ -5,8 +5,8 @@
 An Associative type for storing `AbstractTargets`. A simple wrapper 
 of a Dict to allow more suitable display of the set of AbstractTargets.
 """
-immutable Targets <: Associative
-    dict::Dict{UTF8String, AbstractTarget}
+immutable Targets <: Associative{String, AbstractTarget}
+    dict::Dict{String, AbstractTarget}
 end
 
 Base.length(x::Targets) = length(x.dict)
@@ -24,8 +24,8 @@ Base.next(x::Targets, i) = next(x.dict, i)
 
 The global `Targets` dictionary for registered AbstractTargets.
 """
-const TARGETS = Targets(Dict{UTF8String, AbstractTarget}()) 
-NEXTDOC = UTF8String[""]
+const TARGETS = Targets(Dict{String, AbstractTarget}()) 
+NEXTDOC = String[""]
 
 """
 ```julia
@@ -64,12 +64,8 @@ function tasks!{T <: AbstractTarget}(name, val::T)
 end
 
 function funloc(f::Function)
-    if isgeneric(f)
-        a = functionloc(f, has1arg(f) ? (AbstractTarget,) : ())
-        return string(a[1], " line ", a[2])
-    else
-        return funloc(Base.uncompressed_ast(f.code))
-    end
+    a = functionloc(f, has1arg(f) ? (AbstractTarget,) : ())
+    return string(a[1], " line ", a[2])
 end
     
 function funloc(e::Expr)
@@ -83,7 +79,7 @@ end
     
 function Base.show{T <: AbstractTarget}(io::IO, t::T)
     print(io, "\"", t.name, "\"")
-    println(io, " => ", replace(string(t.dependencies), "UTF8String", ""))
+    println(io, " => ", replace(string(t.dependencies), "String", ""))
     println(io, T)
     !isempty(t.description) && println(io, t.description)
     println(io, "Timestamp: ", t.timestamp, " UTC")
@@ -100,18 +96,14 @@ function markdown(X::Targets)
     for k in sort(ks)
         t = X[k]
         md *= "\"" * t.name * "\" | " *
-              replace(string(t.dependencies), "UTF8String", "") * 
+              replace(string(t.dependencies), "String", "") * 
               " | " * t.description * "\n"
     end
     Base.Markdown.parse(md)
 end
 
 function Base.show(io::IO, X::Targets)
-    writemime(io, MIME"text/plain"(), markdown(X))
-end
-
-function Base.writemime(io::IO, T::MIME"text/plain", X::Targets)
-    writemime(io, T, markdown(X))
+    show(io, MIME"text/plain"(), markdown(X))
 end
 
 function Base.display(d::Base.REPL.REPLDisplay, X::Targets)

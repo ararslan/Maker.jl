@@ -5,14 +5,14 @@
 The type created by `phony()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 """
 type PhonyTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     timestamp::DateTime
     funhash::UInt64
@@ -60,7 +60,7 @@ marked as stale, and the action will be updated at the next target check.
 See also `make`, `file`, `task`, and `variable`. `phony` registers a 
 `PhonyTarget` type.
 """
-phony(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
+phony(action::Function, name::AbstractString, dependencies=String[]) = 
     target(PhonyTarget, name, action, dependencies)
-phony(name::AbstractString, dependencies=UTF8String[]) = 
+phony(name::AbstractString, dependencies=String[]) = 
     target(PhonyTarget, name, ()->nothing, dependencies)

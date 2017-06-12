@@ -85,13 +85,9 @@ remove_linenodes(e::Expr) = Expr(e.head, remove_linenodes(e.args))
 # is different than the standard `hash(f::Function)`.
 # Not meant to be used externally.
 function funhash(f::Function)
-    if isdefined(f, :code) # handles anonymous functions
-        hash(string(remove_linenodes(Base.uncompressed_ast(f.code))))
-    else
-        hash(code_lowered(f, ())) # handles generic functions
-    end
+    hash(code_lowered(f, ()))
 end
-funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{UTF8String}, x)))
+funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{String}, x)))
 
 
 """
@@ -102,19 +98,11 @@ Return the dependencies of a target.
 dependencies(t::AbstractTarget) = [resolvedependency(d) for d in t.dependencies]
 
 function has1arg{T<:AbstractTarget}(t::T) 
-    if isgeneric(t.action)
-        !isempty(methods(t.action, (T,)))
-    else
-        return length(Base.uncompressed_ast(t.action.code).args[1]) == 1
-    end
+    !isempty(methods(t.action, (T,)))
 end
 
 function has1arg(f::Function) 
-    if isgeneric(f)
-        !isempty(methods(f, (AbstractTarget,)))
-    else
-        return length(Base.uncompressed_ast(f.code).args[1]) == 1
-    end
+    !isempty(methods(f, (AbstractTarget,)))
 end
 
 """
@@ -163,7 +151,7 @@ resolve(s::AbstractString)
 
 Return the target registered under name `s`.
 """
-resolve(s::AbstractString, default) = get(tasks(), utf8(s), default)
+resolve(s::AbstractString, default) = get(tasks(), String(s), default)
 function resolve(s::AbstractString = "default")
     t = resolve(s, nothing)
     t === nothing && error("no rule for target '$s'")
@@ -186,7 +174,7 @@ originaltimestamp{T<:AbstractTarget}(::Type{T}, name::AbstractString) = DateTime
 Define and register a target of type `T`.
 """
 function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
-    dependencies = UTF8String[dependencies...]
+    dependencies = String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
     datetime = DateTime()

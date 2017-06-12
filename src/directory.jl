@@ -5,15 +5,15 @@
 The type created by `directory()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 
 """
 type DirectoryTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     timestamp::DateTime
     funhash::UInt64
@@ -68,6 +68,6 @@ and it returns the current time if the directory doesn't exist (it needs
 See also `make`, `file`, and `task`. `directory` registers a 
 `DirectoryTarget` type.
 """
-directory(name::AbstractString, dependencies=UTF8String[]) = 
+directory(name::AbstractString, dependencies=String[]) = 
     target(DirectoryTarget, name, () -> nothing, dependencies)
     

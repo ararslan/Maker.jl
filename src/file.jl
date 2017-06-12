@@ -5,15 +5,15 @@
 The type created by `file()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 
 """
 type FileTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     timestamp::DateTime
     funhash::UInt64
@@ -29,10 +29,10 @@ Return the target registered under name `s`. If no target is registered and a
 file of name `s` exists, return a new `FileTarget` for that file.
 """
 function resolvedependency(s::AbstractString)
-    if haskey(tasks(), utf8(s))
-        tasks()[utf8(s)]
+    if haskey(tasks(), String(s))
+        tasks()[String(s)]
     elseif isfile(s)
-        FileTarget(s, UTF8String[], "", () -> nothing,
+        FileTarget(s, String[], "", () -> nothing,
                    Dates.unix2datetime(mtime(s)), 0, false)
     else
         error("no rule for target '$s'")
@@ -84,7 +84,7 @@ at the next target check.
 See also `make`, `directory`,, `task`, and `variable`. `file` 
 registers a `FileTarget` type.
 """
-file(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
+file(action::Function, name::AbstractString, dependencies=String[]) = 
     target(FileTarget, name, action, dependencies)
-file(name::AbstractString, dependencies=UTF8String[]) = 
+file(name::AbstractString, dependencies=String[]) = 
     target(FileTarget, name, () -> nothing, dependencies)

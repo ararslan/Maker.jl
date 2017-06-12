@@ -5,14 +5,14 @@
 The type created by `variable()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 """
 type VariableTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     funhash::UInt64
     isstale::Bool
@@ -38,7 +38,7 @@ end
 
 function execute(t::VariableTarget)
     x = has1arg(t) ? t.action(t) : t.action()
-    eval(t.m, :($(symbol(t.name)) = $x))
+    eval(t.m, :($(Symbol(t.name)) = $x))
     newhash = hash(x)
     if t.varhash != newhash
         t.timestamp = Dates.unix2datetime(time())
@@ -54,8 +54,8 @@ function execute(t::VariableTarget)
 end
 
 function isstale(t::VariableTarget)
-    if !isdefined(t.m, symbol(t.name)) || t.isstale ||
-       hash(eval(t.m, symbol(t.name))) != t.varhash
+    if !isdefined(t.m, Symbol(t.name)) || t.isstale ||
+       hash(eval(t.m, Symbol(t.name))) != t.varhash
         return true 
     end
     ds = dependencies(t)
@@ -95,8 +95,8 @@ marked as stale, and the action will be updated at the next target check.
 See also `make`, `file`, and `task`. `variable` registers a `VariableTarget` type.
 """
 function variable(action::Function, name::AbstractString, 
-                  dependencies::AbstractArray = UTF8String[])
-    dependencies = UTF8String[dependencies...]
+                  dependencies::AbstractArray = String[])
+    dependencies = String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
     vh = 0
@@ -106,7 +106,7 @@ function variable(action::Function, name::AbstractString,
         # check the cache
         getjld() do f
             if name in names(f)
-                x = read(f[utf8(name)])
+                x = read(f[String(name)])
                 if fh == x.funhash
                     datetime = x.timestamp
                     vh = x.varhash 
@@ -124,5 +124,5 @@ function variable(action::Function, name::AbstractString,
                             datetime, vh, current_module()))
 end
 variable(action::Function, name::AbstractString, dependencies::AbstractString) =
-    variable(action, name, [utf8(dependencies)])
+    variable(action, name, [String(dependencies)])
     
