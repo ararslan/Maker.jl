@@ -106,11 +106,11 @@ function markdown(X::Targets)
 end
 
 function Base.show(io::IO, X::Targets)
-    writemime(io, MIME"text/plain"(), markdown(X))
+    show(io, MIME"text/plain"(), markdown(X))
 end
 
 function Base.writemime(io::IO, T::MIME"text/plain", X::Targets)
-    writemime(io, T, markdown(X))
+    show(io, T, markdown(X))
 end
 
 function Base.display(d::Base.REPL.REPLDisplay, X::Targets)
