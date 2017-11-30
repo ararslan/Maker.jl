@@ -1,6 +1,8 @@
 module Maker
 
-using JLD
+using Compat
+using Compat.Dates
+using JLD2
 
 export directory,
        file,
@@ -11,7 +13,7 @@ export directory,
        variable,
        @desc
 
-const CACHEFILE = ".maker-cache.jld"
+const CACHEFILE = ".maker-cache.jld2"
 const CACHEVERSION = v"0.1"
 
 
@@ -21,9 +23,9 @@ const CACHEVERSION = v"0.1"
 `AbstractTarget` is an abstract type covering various "targets" or "tasks".
 Each of these targets normally has an action and zero or more dependencies.
 """
-abstract AbstractTarget
+abstract type AbstractTarget end
 
-abstract AbstractCached
+abstract type AbstractCached end
 
 include("targets.jl")
 include("abstracttarget.jl")

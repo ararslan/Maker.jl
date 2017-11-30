@@ -3,7 +3,7 @@
 using Maker
 using Glob
 
-Maker.task("cleancov") do 
+Maker.task("cleancov") do
     for fn in glob("*/*.cov")
         rm(fn)
     end
@@ -14,9 +14,9 @@ Maker.task("coverage", "cleancov") do
         run(`julia --code-coverage=user --inline=no runtests.jl`)
     end
     # coverage = Coverage.process_folder("src")
-    # @show Coverage.get_summary(coverage)       
+    # @show Coverage.get_summary(coverage)
 end
-       
+
 Maker.task("tests") do
     Pkg.test("Maker")
 end
@@ -34,11 +34,11 @@ end
 Maker.task("tagminor") do
     Pkg.tag("Maker", :minor)
 end
- 
+
 Maker.task("tagpatch") do
     Pkg.tag("Maker", :patch)
 end
- 
+
 Maker.task("publish") do
     Pkg.publish()
 end

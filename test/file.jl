@@ -1,7 +1,3 @@
-
-using Maker
-using Base.Test
-
 COUNT = 0
 
 path = "tmpdir/tmp"
@@ -16,8 +12,8 @@ end
 @desc "Update y.csv"
 function update_y_csv(t)
     global COUNT += 1
-    y = readcsv(t.dependencies[1]) 
-    writecsv(t.name, 2 * y) 
+    y = readcsv(t.dependencies[1])
+    writecsv(t.name, 2 * y)
 end
 Maker.file(update_y_csv, "$path/y.csv", "$path/x.csv")
 show(tasks("$path/y.csv"))
@@ -35,7 +31,7 @@ make()
 @test isdir("tmpdir/tmp")
 @test isfile("tmpdir/tmp/x.csv")
 @test isfile("tmpdir/tmp/y.csv")
-    
+
 make()
 make()
 @test COUNT == 2

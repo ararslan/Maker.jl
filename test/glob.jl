@@ -1,13 +1,10 @@
-
-using Maker
-using Base.Test
 using Glob
 
 x = [ 3.14159   6.28319   9.42478
       12.5664   15.708    18.8496
       21.9911   25.1327   28.2743 ]
-writecsv("in1.csv", x)      
-writecsv("in2.csv", 3x)      
+writecsv("in1.csv", x)
+writecsv("in2.csv", 3x)
 
 inputs = glob("in*.csv")
 outputs = ["$(splitext(f)[1])-out.csv" for f in inputs]
@@ -44,7 +41,7 @@ make()
 @test isfile(outputs[1])
 @test isfile(outputs[2])
 
-make("clean") 
+make("clean")
 
 @test !isfile(outputs[1])
 @test !isfile(outputs[2])
@@ -54,9 +51,9 @@ make([]) # the [] are to test this call method
 @test isfile(outputs[1])
 @test isfile(outputs[2])
 
-make("clean2") 
+make("clean2")
 
 @test !isfile(outputs[1])
 @test !isfile(outputs[2])
 
-make("cleanall") 
+make("cleanall")

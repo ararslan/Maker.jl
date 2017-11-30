@@ -2,11 +2,11 @@
 """
 `Maker.Targets`
 
-An Associative type for storing `AbstractTargets`. A simple wrapper 
+An Associative type for storing `AbstractTargets`. A simple wrapper
 of a Dict to allow more suitable display of the set of AbstractTargets.
 """
-immutable Targets <: Associative
-    dict::Dict{UTF8String, AbstractTarget}
+struct Targets <: Associative
+    dict::Dict{String, AbstractTarget}
 end
 
 Base.length(x::Targets) = length(x.dict)
@@ -26,8 +26,8 @@ Maker.TARGETS
 
 The global `Targets` dictionary for registered AbstractTargets.
 """
-const TARGETS = Targets(Dict{UTF8String, AbstractTarget}()) 
-NEXTDOC = UTF8String[""]
+const TARGETS = Targets(Dict{String, AbstractTarget}())
+NEXTDOC = String[""]
 
 """
 ```julia
@@ -61,36 +61,33 @@ tasks!(name, target)
 
 Add the `target` task with name `name` to the global database of targets.
 """
-function tasks!{T <: AbstractTarget}(name, val::T)
+function tasks!(name, val::T) where T <: AbstractTarget
     TARGETS[name] = val
 end
 
 function funloc(f::Function)
-    if isgeneric(f)
-        a = functionloc(f, has1arg(f) ? (AbstractTarget,) : ())
-        return string(a[1], " line ", a[2])
-    else
-        return funloc(Base.uncompressed_ast(f.code))
-    end
+    a = functionloc(f, has1arg(f) ? (AbstractTarget,) : ())
+    return string(a[1], " line ", a[2])
 end
-    
+
 function funloc(e::Expr)
     for a in e.args[3].args
-         if isa(a, LineNumberNode)
-             return string(a.file, " line ", a.line)
-         end
-   end
-   return ""
+        if isa(a, LineNumberNode)
+            return string(a.file, " line ", a.line)
+        end
+    end
+    return ""
 end
-    
-function Base.show{T <: AbstractTarget}(io::IO, t::T)
+
+function Base.show(io::IO, t::T) where T <: AbstractTarget
     print(io, "\"", t.name, "\"")
-    println(io, " => ", replace(string(t.dependencies), "UTF8String", ""))
+    println(io, " => ", replace(string(t.dependencies), "String", ""))
     println(io, T)
     !isempty(t.description) && println(io, t.description)
     println(io, "Timestamp: ", t.timestamp, " UTC")
     println(io, "Action defined at: ", funloc(t.action))
     t.isstale && println(io, "STALE task")
+    nothing
 end
 
 function markdown(X::Targets)
@@ -102,7 +99,7 @@ function markdown(X::Targets)
     for k in sort(ks)
         t = X[k]
         md *= "\"" * t.name * "\" | " *
-              replace(string(t.dependencies), "UTF8String", "") * 
+              replace(string(t.dependencies), "String", "") *
               " | " * t.description * "\n"
     end
     Base.Markdown.parse(md)

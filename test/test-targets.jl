@@ -1,7 +1,3 @@
-
-using Maker
-using Base.Test
-
 ## Scenarios to test
 ##  - basic
 ##  - run make(), mimic restart (kill TARGETS), run make()
@@ -12,12 +8,12 @@ using Base.Test
 
 Maker.rm("c.csv")
 Maker.rm("e.csv")
-Maker.rm(".maker-cache.jld")
+Maker.rm(".maker-cache.jld2")
 x = [ 3.14159   6.28319   9.42478
       12.5664   15.708    18.8496
       21.9911   25.1327   28.2743 ]
-writecsv("in1.csv", x)      
-writecsv("in2.csv", 3x)      
+writecsv("in1.csv", x)
+writecsv("in2.csv", 3x)
 
 
 println("=== Base ===")

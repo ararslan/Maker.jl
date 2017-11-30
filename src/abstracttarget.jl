@@ -1,10 +1,10 @@
 
-immutable CachedTarget <: AbstractCached
+struct CachedTarget <: AbstractCached
     funhash::UInt64
     timestamp::DateTime
 end
 
-immutable CacheInfo
+struct CacheInfo
     fileversion::VersionNumber
     juliaversion::VersionNumber
     hashsize::UInt
@@ -21,10 +21,10 @@ minorversion(v) = VersionNumber(v.major, v.minor, 0, (), ())
 fixcache()
 ```
 
-Update the `.maker-cache.jld` file with the present version information
+Update the `.maker-cache.jld2` file with the present version information
 for the cache version number and the Julia version. This may be needed
 if the file format changes or the Julia version upgrades. Note that this
-may not solve all issues. 
+may not solve all issues.
 """
 fixcache() = getjld() do f
     delete!(f, "CACHEINFO")
@@ -39,7 +39,7 @@ compatible(x::CacheInfo) = x.fileversion == CACHEVERSION &&
 # Run `fun(f)` on the CACHEFILE with `f` as the opened file.
 # Not meant to be used externally.
 function getjld(fun::Function)
-    if !isfile(CACHEFILE)    
+    if !isfile(CACHEFILE)
         f = jldopen(CACHEFILE, "w")
         write(f, "CACHEINFO", CacheInfo(CACHEVERSION, VERSION, sizeof(Int)))
     else
@@ -56,9 +56,9 @@ function getjld(fun::Function)
 end
 
 function fixh5name(name)
-    if contains(name, "/")   
+    if contains(name, "/")
         return string("M", hash(name))
-    else 
+    else
         return name
     end
 end
@@ -91,7 +91,7 @@ function funhash(f::Function)
         hash(code_lowered(f, ())) # handles generic functions
     end
 end
-funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{UTF8String}, x)))
+funhash(f::Function, x) = hash(funhash(f), hash(convert(Vector{String}, x)))
 
 
 """
@@ -103,21 +103,8 @@ Return the dependencies of a target.
 """
 dependencies(t::AbstractTarget) = [resolvedependency(d) for d in t.dependencies]
 
-function has1arg{T<:AbstractTarget}(t::T) 
-    if isgeneric(t.action)
-        !isempty(methods(t.action, (T,)))
-    else
-        return length(Base.uncompressed_ast(t.action.code).args[1]) == 1
-    end
-end
-
-function has1arg(f::Function) 
-    if isgeneric(f)
-        !isempty(methods(f, (AbstractTarget,)))
-    else
-        return length(Base.uncompressed_ast(f.code).args[1]) == 1
-    end
-end
+has1arg(t::T) where {T<:AbstractTarget} = !isempty(methods(t.action, (T,)))
+has1arg(f::Function) = !isempty(methods(f, (AbstractTarget,)))
 
 """
 ```julia
@@ -126,7 +113,7 @@ execute(t::AbstractTarget)
 
 Run the action for target `t`.
 """
-function execute(t::AbstractTarget) 
+function execute(t::AbstractTarget)
     has1arg(t) ? t.action(t) : t.action()
     t.timestamp = Dates.unix2datetime(time())
     t.isstale = false
@@ -143,10 +130,10 @@ Return `true` if target `t` is stale and should be updated.
 """
 function isstale(t::AbstractTarget)
     if t.isstale
-        return true 
+        return true
     end
     ds = dependencies(t)
-    isempty(ds) ? false : timestamp(t) < maximum([timestamp(d) for d in ds])
+    isempty(ds) ? false : timestamp(t) < maximum(timestamp, ds)
 end
 
 
@@ -171,7 +158,7 @@ resolve(s::AbstractString)
 
 Return the target registered under name `s`.
 """
-resolve(s::AbstractString, default) = get(tasks(), utf8(s), default)
+resolve(s::AbstractString, default) = get(tasks(), s, default)
 function resolve(s::AbstractString = "default")
     t = resolve(s, nothing)
     t === nothing && error("no rule for target '$s'")
@@ -188,19 +175,19 @@ Return the DateTime timestamp for a target.
 """
 timestamp(t::AbstractTarget) = t.timestamp
 
-originaltimestamp{T<:AbstractTarget}(::Type{T}, name::AbstractString) = DateTime()
+originaltimestamp(::Type{T}, name::AbstractString) where {T<:AbstractTarget} = DateTime()
 
 """
     target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
 
 Define and register a target of type `T`.
 """
-function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray)
-    dependencies = UTF8String[dependencies...]
+function target(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractArray) where T<:AbstractTarget
+    dependencies = String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
     datetime = DateTime()
-    if t === nothing 
+    if t === nothing
         isstale = true
         # check the cache
         getjld() do f
@@ -214,23 +201,23 @@ function target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Func
             else
                 datetime = originaltimestamp(T, name)
             end
-        end      
+        end
     else
-        isstale = fh != t.funhash  
-    end      
+        isstale = fh != t.funhash
+    end
     if t === nothing || fh != t.funhash || isstale
         register(T(name, dependencies, "", action, datetime, fh, isstale))
     end
 end
-target{T<:AbstractTarget}(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) =
+target(::Type{T}, name::AbstractString, action::Function, dependencies::AbstractString) where {T<:AbstractTarget} =
     target(T, name, action, [dependencies])
 
 
 """
 ```julia
-make(name::AbstractString = "default"; 
+make(name::AbstractString = "default";
      dryrun::Bool = false, verbose::Bool = false)
-make(names::AbstractVector; 
+make(names::AbstractVector;
      dryrun::Bool = false, verbose::Bool = false)
 ```
 
@@ -260,7 +247,7 @@ function make(t::AbstractTarget, level::Int, dryrun::Bool, verbose::Bool)
     end
     nothing
 end
-make(s::AbstractString = "default"; dryrun = false, verbose = false) = 
+make(s::AbstractString = "default"; dryrun = false, verbose = false) =
     make(resolve(s), 1, dryrun, verbose)
 function make(x::AbstractVector; dryrun = false, verbose = false)
     if isempty(x)

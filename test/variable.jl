@@ -1,11 +1,8 @@
-using Maker
-using Base.Test
-
 x = [ 3.14159   6.28319   9.42478
       12.5664   15.708    18.8496
       21.9911   25.1327   28.2743 ]
 
-writecsv("b.csv", x)      
+writecsv("b.csv", x)
 
 Maker.variable("a") do
     println("Generating `a`.")
@@ -29,8 +26,8 @@ make("b")
 make("c")
 
 @test a ≈ pi
-@test b ≈ x 
-@test c ≈ pi * x 
+@test b ≈ x
+@test c ≈ pi * x
 
 # redefine `a`
 Maker.variable("a") do
@@ -41,8 +38,8 @@ end
 make("c", verbose = true)
 
 @test a ≈ 2pi
-@test b ≈ x 
-@test c ≈ 2pi * x 
+@test b ≈ x
+@test c ≈ 2pi * x
 
 # redefine `a` again:
 
@@ -54,12 +51,12 @@ end
 make("a", verbose=true)
 
 @test a ≈ pi
-@test c ≈ 2pi * x 
+@test c ≈ 2pi * x
 
 make("c", verbose=true)
 
 @test a ≈ pi
-@test c ≈ pi * x 
+@test c ≈ pi * x
 
 # change `a`
 
@@ -68,7 +65,7 @@ a = -pi
 make("c")
 
 @test a ≈ pi
-@test c ≈ pi * x 
+@test c ≈ pi * x
 
 
 rm("b.csv")

@@ -5,14 +5,14 @@
 The type created by `task()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 """
-type GenericTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+mutable struct GenericTarget <: AbstractTarget
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     timestamp::DateTime
     funhash::UInt64
@@ -21,7 +21,7 @@ end
 
 function isstale(t::GenericTarget)
     if t.isstale
-        return true 
+        return true
     end
     ds = dependencies(t)
     isempty(ds) ? true : timestamp(t) < maximum([timestamp(d) for d in ds])
@@ -31,16 +31,16 @@ end
 """
 ```julia
 task(action::Function, name::AbstractString, dependencies=[])
-task(name::AbstractString, dependencies=[]) 
+task(name::AbstractString, dependencies=[])
 ```
 Define and register a `task` target for Maker.jl.
 
 - `action` is the function that operates when the target is
-  executed. 
+  executed.
 
-- `name` refers to the name of the task. 
+- `name` refers to the name of the task.
 
-- `dependencies` refers to the name (`AbstractString`) or names 
+- `dependencies` refers to the name (`AbstractString`) or names
   (`Vector{AbstractString}`) of targets that need to be satisfied
   for this target before running the `action`. These are also referred
   to as prerequisites.
@@ -55,11 +55,11 @@ dependencies, it will always update.
 
 If the `action` or `dependencies` of a target are redefined, the
 target will be marked as stale, and the action will be updated
-at the next target check.  
+at the next target check.
 
 See also `make`, `file`, and `variable`. `task` registers a `GenericTarget` type.
 """
-task(action::Function, name::AbstractString, dependencies=UTF8String[]) = 
+task(action::Function, name::AbstractString, dependencies=String[]) =
     target(GenericTarget, name, action, dependencies)
-task(name::AbstractString, dependencies=UTF8String[]) = 
+task(name::AbstractString, dependencies=String[]) =
     target(GenericTarget, name, ()->nothing, dependencies)

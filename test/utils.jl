@@ -1,7 +1,3 @@
-
-using Maker
-using Base.Test
-
 fname = "t.txt"
 open(fname, "w") do f
     println(f, "hello")
@@ -14,12 +10,12 @@ Maker.rm(fname)
 
 Maker.file("t.txt")
 
-Maker.file("t1.txt") do 
+Maker.file("t1.txt") do
     open("t1.txt", "w") do f
         println(f, "hello")
     end
 end
-Maker.file("t2.txt") do 
+Maker.file("t2.txt") do
     open("t2.txt", "w") do f
         println(f, "hello")
     end

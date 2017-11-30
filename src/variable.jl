@@ -5,14 +5,14 @@
 The type created by `variable()`. Fields expected to be accessed publicly
 include:
 
-- `name::UTF8String`
-- `dependencies::Vector{UTF8String}`
-- `description::UTF8String`
+- `name::String`
+- `dependencies::Vector{String}`
+- `description::String`
 """
-type VariableTarget <: AbstractTarget
-    name::UTF8String
-    dependencies::Vector{UTF8String}
-    description::UTF8String
+mutable struct VariableTarget <: AbstractTarget
+    name::String
+    dependencies::Vector{String}
+    description::String
     action::Function
     funhash::UInt64
     isstale::Bool
@@ -21,14 +21,14 @@ type VariableTarget <: AbstractTarget
     m::Module
 end
 
-immutable CachedVariable <: AbstractCached
+struct CachedVariable <: AbstractCached
     funhash::UInt64
     timestamp::DateTime
     varhash::UInt64
 end
 
 cached(t::VariableTarget) = CachedVariable(t.funhash, t.timestamp, t.varhash)
-    
+
 function updatecache!(f::JLD.JldFile, t::VariableTarget)
     if t.name in names(f)
         delete!(f, t.name)
@@ -56,7 +56,7 @@ end
 function isstale(t::VariableTarget)
     if !isdefined(t.m, symbol(t.name)) || t.isstale ||
        hash(eval(t.m, symbol(t.name))) != t.varhash
-        return true 
+        return true
     end
     ds = dependencies(t)
     isempty(ds) ? true : timestamp(t) < maximum([timestamp(d) for d in ds])
@@ -71,11 +71,11 @@ variable(action::Function, name::AbstractString, dependencies)
 Define and register targets for Maker.jl.
 
 - `action` is the function that operates when the target is
-  executed. 
+  executed.
 
-- `name` refers to the name of the task or target. 
+- `name` refers to the name of the task or target.
 
-- `dependencies` refers to the name (`AbstractString`) or names 
+- `dependencies` refers to the name (`AbstractString`) or names
   (`Vector{AbstractString}`) of targets that need to be satisfied
   for this target before running the `action`. These are also referred
   to as prerequisites.
@@ -84,45 +84,45 @@ Targets are registered globally.
 
 `variable` targets define an action, and the result of the action will be
 assigned to a global variable (within the Module where the  definition is
-created) named by the argument `name`. A `variable` task keeps a timestamp 
+created) named by the argument `name`. A `variable` task keeps a timestamp
 when the action runs. If the result of the action has the same hash as
 the cached version of the hash, the cached timestamp is used. Using the
 stored timestamp can reduce the number of unnecessary actions run.
 
 If the `action` or `dependencies` of a target are redefined, the target will be
-marked as stale, and the action will be updated at the next target check.  
+marked as stale, and the action will be updated at the next target check.
 
 See also `make`, `file`, and `task`. `variable` registers a `VariableTarget` type.
 """
-function variable(action::Function, name::AbstractString, 
-                  dependencies::AbstractArray = UTF8String[])
-    dependencies = UTF8String[dependencies...]
+function variable(action::Function, name::AbstractString,
+                  dependencies::AbstractArray = String[])
+    dependencies = String[dependencies...]
     t = resolve(name, nothing)
     fh = funhash(action, dependencies)
     vh = 0
     isstale = true
     datetime = DateTime()
-    if t === nothing 
+    if t === nothing
         # check the cache
         getjld() do f
             if name in names(f)
-                x = read(f[utf8(name)])
+                x = read(f[name])
                 if fh == x.funhash
                     datetime = x.timestamp
-                    vh = x.varhash 
+                    vh = x.varhash
                     isstale = false
                 end
             end
-        end      
+        end
     elseif fh != t.funhash || dependencies != t.dependencies
     else
         isstale = false
         datetime = t.timestamp
         vh = t.varhash
     end
-    register(VariableTarget(name, dependencies, "", action, fh, isstale, 
+    register(VariableTarget(name, dependencies, "", action, fh, isstale,
                             datetime, vh, current_module()))
 end
 variable(action::Function, name::AbstractString, dependencies::AbstractString) =
-    variable(action, name, [utf8(dependencies)])
-    
+    variable(action, name, [dependencies])
+
