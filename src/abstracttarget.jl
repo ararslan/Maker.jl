@@ -67,7 +67,7 @@ end
 # Not meant to be used externally.
 function updatecache!(f::JLD2.JLDFile, t::AbstractTarget)
     h5name = fixh5name(t.name)
-    if h5name in names(f)
+    if h5name in keys(f)
         delete!(f, h5name)
     end
     write(f, h5name, cached(t))
@@ -192,7 +192,7 @@ function target(::Type{T}, name::AbstractString, action::Function, dependencies:
         # check the cache
         getjld() do f
             h5name = fixh5name(name)
-            if h5name in names(f)
+            if h5name in keys(f)
                 x = read(f[h5name])
                 if fh == x.funhash
                     datetime = x.timestamp

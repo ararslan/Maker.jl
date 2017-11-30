@@ -30,7 +30,7 @@ end
 cached(t::VariableTarget) = CachedVariable(t.funhash, t.timestamp, t.varhash)
 
 function updatecache!(f::JLD2.JLDFile, t::VariableTarget)
-    if t.name in names(f)
+    if t.name in keys(f)
         delete!(f, t.name)
     end
     write(f, t.name, cached(t))
@@ -105,7 +105,7 @@ function variable(action::Function, name::AbstractString,
     if t === nothing
         # check the cache
         getjld() do f
-            if name in names(f)
+            if name in keys(f)
                 x = read(f[name])
                 if fh == x.funhash
                     datetime = x.timestamp
