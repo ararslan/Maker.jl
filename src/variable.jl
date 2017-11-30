@@ -38,7 +38,7 @@ end
 
 function execute(t::VariableTarget)
     x = has1arg(t) ? t.action(t) : t.action()
-    eval(t.m, :($(symbol(t.name)) = $x))
+    eval(t.m, :($(Symbol(t.name)) = $x))
     newhash = hash(x)
     if t.varhash != newhash
         t.timestamp = Dates.unix2datetime(time())
@@ -54,8 +54,8 @@ function execute(t::VariableTarget)
 end
 
 function isstale(t::VariableTarget)
-    if !isdefined(t.m, symbol(t.name)) || t.isstale ||
-       hash(eval(t.m, symbol(t.name))) != t.varhash
+    if !isdefined(t.m, Symbol(t.name)) || t.isstale ||
+       hash(eval(t.m, Symbol(t.name))) != t.varhash
         return true
     end
     ds = dependencies(t)
