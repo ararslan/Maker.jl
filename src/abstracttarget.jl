@@ -65,7 +65,7 @@ end
 
 # Store target `t` information in the cache file.
 # Not meant to be used externally.
-function updatecache!(f::JLD2.JldFile, t::AbstractTarget)
+function updatecache!(f::JLD2.JLDFile, t::AbstractTarget)
     h5name = fixh5name(t.name)
     if h5name in names(f)
         delete!(f, h5name)

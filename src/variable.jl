@@ -29,7 +29,7 @@ end
 
 cached(t::VariableTarget) = CachedVariable(t.funhash, t.timestamp, t.varhash)
 
-function updatecache!(f::JLD2.JldFile, t::VariableTarget)
+function updatecache!(f::JLD2.JLDFile, t::VariableTarget)
     if t.name in names(f)
         delete!(f, t.name)
     end
