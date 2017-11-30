@@ -5,7 +5,7 @@
 An Associative type for storing `AbstractTargets`. A simple wrapper
 of a Dict to allow more suitable display of the set of AbstractTargets.
 """
-struct Targets <: Associative
+struct Targets <: Associative{String, AbstractTarget}
     dict::Dict{String, AbstractTarget}
 end
 
