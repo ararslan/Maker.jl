@@ -109,7 +109,7 @@ function Base.show(io::IO, X::Targets)
     show(io, MIME"text/plain"(), markdown(X))
 end
 
-function Base.writemime(io::IO, T::MIME"text/plain", X::Targets)
+function Base.show(io::IO, T::MIME"text/plain", X::Targets)
     show(io, T, markdown(X))
 end
 
